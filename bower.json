@@ -20,5 +20,23 @@
   },
   "resolutions": {
     "polymer": "^2.0.0"
-  }
+  },
+  "homepage": "https://github.com/HealthHub-Project/hh-reading-template",
+  "authors": [
+    "BohyunJang <bohyunjang@radnet.kr>"
+  ],
+  "keywords": [
+    "healthhub",
+    "polymer",
+    "reading-template"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
 }

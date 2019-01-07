@@ -12,8 +12,9 @@
         <style>
             :host {
                 display: block;
-                height: 500px;
-                width: 555px;
+                background-color: ;
+                height: 100%;
+                width: 100%;
             }
             ag-grid-polymer{
                 width: 100%;
@@ -32,23 +33,21 @@
 
             .template-configure {
                 display: flex;
-                height: 20%;
+                height: 25%;
             }
 
             .template-configure-sensitive {
-                width: 60%;
+                width: 68%;
+                /*height: 40%;*/
             }
 
             .template-configure-setting-btn {
-                width: 40%;
+                width: 32%;
             }
 
             .template-list {
                 height: 75%;
                 border: 1px solid #4c5667;
-                margin: 10px;
-                margin-top: 0px;
-                padding: 5px;
             }
         </style>
         <div class="container">
@@ -140,10 +139,10 @@
 
                     this.columnDefs = [
                         {headerName: "idx", field: "seqNo", width: 33},
+                        {headerName: "Title of reading template", field: "title"},
                         {headerName: "Modality", field: "modality", width: 100},
                         {headerName: "Bodypart", field: "bodypart", width: 100},
                         {headerName: "Study description", field: "studyDescription"},
-                        {headerName: "Title of reading template", field: "title"},
                         {headerName: "Finding", field: "finding"},
                         {headerName: "Conclusion", field: "conclusion"},
                         {headerName: "Recommendation", field: "recommendation"},
