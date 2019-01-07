@@ -1,0 +1,82 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<dom-module id="hh-reading-template-report">
+    <template>
+        <style>
+            :host {
+                display: block;
+                height: 500px;
+                width: 555px;
+            }
+            .container {
+                height: 100%;
+                width: 100%;
+            }
+
+            iron-autogrow-textarea {
+                resize: none;
+                width: 100%;
+                height: 35px;
+            }
+
+        </style>
+        <div class="container">
+            REPORT TEMPLATE
+            <div class="class-shortcut">
+            </div>
+
+            <div class="class-report">
+                <input type="hidden" id="seqNo" value="{{seqNo}}">
+                <input type="hidden" id="displayOrder" value="{{displayOrder}}">
+                <input type="hidden" id="hotKey1" value="{{hotKey1}}">
+                <div class="wrap-context">
+                    <div class="wrap">
+                        <div class="text-title"><p class="text-font">Title</p></div>
+                        <iron-autogrow-textarea class="textarea-title" id="title" maxlength="50"
+                                                value="{{title}}"></iron-autogrow-textarea>
+                    </div>
+                    <div class="wrap">
+                        <div class="text-shortcut"><p class="text-font">Shortcut</p></div>
+                        <iron-autogrow-textarea class="context-textarea" id="shortcut" value="{{shortcut}}"
+                                                require="true"></iron-autogrow-textarea>
+                    </div>
+                    <div class="wrap">
+                        <div class="text-finding"><p class="text-font">Finding</p></div>
+                        <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}"
+                                                require="true"></iron-autogrow-textarea>
+                    </div>
+                    <div class="wrap">
+                        <div class="text-conclusion"><p class="text-font">Conclusion</p></div>
+                        <iron-autogrow-textarea class="context-textarea" id="conclusion"
+                                                value="{{conclusion}}"></iron-autogrow-textarea>
+                    </div>
+                    <div class="wrap">
+                        <div class="text-recommendation"><p class="text-font">Recommendation</p></div>
+                        <iron-autogrow-textarea class="context-textarea" id="recommendation"
+                                                value="{{recommendation}}"></iron-autogrow-textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function () {
+            let _this;
+            class HhReadingTemplateReportTemplate extends Polymer.Element {
+                static get is() {
+                    return 'hh-reading-template-report';
+                }
+
+                ready() {
+                    super.ready();
+                }
+
+                constructor() {
+                    super();
+                    _this = this;
+                }
+            }
+
+            window.customElements.define(HhReadingTemplateReportTemplate.is, HhReadingTemplateReportTemplate);
+        })();
+    </script>
+</dom-module>

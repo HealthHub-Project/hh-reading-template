@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>hh-reading-template configure</title>
+</head>
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox-group.html">
+<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox.html">
+<link rel="import" href="../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="./hh-reading-template-modality.html">
+<link rel="import" href="./hh-reading-template-bodypart.html">
+<link rel="import" href="./hh-reading-template-studydesc.html">
+<link rel="import" href="./hh-reading-template-report.html">
+
+<style>
+    html, body{ height: 100%; width: 100%; margin: 0; padding: 0; position: fixed}
+    .container{
+        height: 100%;
+        width: 100%;
+        background-color: hotpink;
+    }
+    .class-paper-tabs{
+        height: 6%;
+        width: 100%;
+    }
+    .class-ironPage{
+        height: 84%;
+        width: 100%;
+    }
+
+    .class-btn1{
+        height: 5%;
+        width: 100%;
+        background-color: #ff646b;
+
+        text-align: right;
+        /*padding: 5px;*/
+        /*margin: 5px;*/
+    }
+    .class-btn2{
+        height: 5%;
+        width: 100%;
+        text-align: center;
+        background-color: purple;
+    }
+
+    .btn {
+        width: 100px;
+        height: 30px;
+        border: 0;
+        font-size: 10pt;
+        color: #fff;
+        cursor: pointer;
+        border-radius: 2px;
+        margin: 5px;
+    }
+    .class-tabPage{
+        height: 100%;
+        width: 100%;
+    }
+    #saveBtn {
+        background: #0087cb;
+    }
+
+    #clearBtn {
+        background: #4c5667;
+    }
+    #prevBtn {
+        background: #ff646b;
+    }
+    #nextBtn {
+        background: #4c7d35;
+    }
+    #closeBtn {
+        background: #4c5667;
+    }
+
+    iron-pages {
+        height: 633px;
+        background-color: white;
+        width: 100%;
+    }
+
+    iron-pages div {
+        /*height: calc(100% - 100px);*/
+        height: 100%;
+        width: 100%;
+        /*background-color: #00B4F0;*/
+    }
+
+    setting-btnGroups{
+
+        display: flex;
+        flex-direction: row;
+        flex: 1;
+        text-align: center;
+        padding: 15px;
+    }
+</style>
+<body style="background-color: deepskyblue">
+<div class="container">
+    <div class="class-btn1">
+        <button id="saveBtn" class="btn">Save</button>
+        <button id="clearBtn" class="btn">Clear</button>
+    </div>
+    <div class="class-paper-tabs">
+        <paper-tabs id="reportTempalteConfigTab" selected="0" noink>
+            <paper-tab value="modalityTab">Modality</paper-tab>
+            <paper-tab value="bodypartTab">Bodypart</paper-tab>
+            <paper-tab value="studyDescriptionTab">Study Description</paper-tab>
+            <paper-tab value="reportTemplateTab">Report Template</paper-tab>
+        </paper-tabs>
+    </div>
+    <div class="class-ironPage">
+        <iron-pages id="tabPage" class="class-tabPage" selected="0">
+            <div><hh-reading-template-modality id="modalityTemplate"></hh-reading-template-modality></div>
+            <div><hh-reading-template-badypart id="bodypartTemplate"></hh-reading-template-badypart></div>
+            <div><hh-reading-template-studydesc id="studyDescTemplate"></hh-reading-template-studydesc></div>
+            <div><hh-reading-template-report id="reportTemplate"></hh-reading-template-report></div>
+        </iron-pages>
+    </div>
+    <div class="class-btn2">
+        <button id="prevBtn" class="btn">Prev</button>
+        <button id="nextBtn" class="btn">Next</button>
+        <button id="closeBtn" class="btn">Closed</button>
+    </div>
+</div>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        document.getElementById("closeBtn").addEventListener('click',function () {
+            window.close();
+        });
+
+        document.getElementById("reportTempalteConfigTab").addEventListener('selected-changed', function(e) {
+            let pageIndex = e.detail.value;
+            document.getElementById("tabPage").selectIndex(pageIndex);
+        });
+
+        document.getElementById("tabPage").addEventListener('selected-changed', function(e) {
+            let tabIndex = e.detail.value;
+            document.getElementById("reportTempalteConfigTab").selectIndex(tabIndex);
+        });
+
+        document.getElementById("nextBtn").addEventListener('click', function(e) {
+            document.getElementById("tabPage").selectNext();
+        });
+        document.getElementById("prevBtn").addEventListener('click', function(e) {
+            document.getElementById("tabPage").selectPrevious();
+        });
+        document.getElementById("prevBtn").addEventListener('selected-changed', function(e) {
+            console.log(e);
+        });
+
+        document.getElementById('modalityTemplate').addEventListener('nextTabEvent',function(){
+            nextTabEvent();
+        })
+    });
+
+    function nextTabEvent(){
+        document.getElementById("tabPage").selectNext();
+    }
+
+    function prevTabEvent(){
+        console.log("prev");
+    }
+
+</script>
+</html>

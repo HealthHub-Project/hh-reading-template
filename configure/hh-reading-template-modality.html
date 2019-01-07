@@ -1,0 +1,165 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox-group.html">
+<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox.html">
+<dom-module id="hh-reading-template-modality">
+    <template>
+        <style>
+            :host {
+                height: 100%;
+                width: 100%;
+            }
+
+            .container {
+                height: 100%;
+                width: 100%;
+            }
+
+            .class-md {
+                display: flex;
+                height: 93%;
+            }
+
+            .class-md-field {
+                height: 100%;
+                width: 11%;
+                background-color: #59c88e;
+
+            }
+
+            .class-md-selected {
+                /*height: 100%;*/
+                width: 97%;
+                background-color: yellow;
+            }
+
+            .class-md-btn {
+                height: 7%;
+                background-color: deepskyblue;
+                text-align: right;
+            }
+
+            .btn {
+                width: 100px;
+                height: 30px;
+                border: 0;
+                font-size: 10pt;
+                color: #fff;
+                cursor: pointer;
+                border-radius: 2px;
+                margin: 5px;
+            }
+
+            #prevBtn {
+                background: #ff646b;
+            }
+            #nextBtn {
+                background: #4c7d35;
+            }
+
+        </style>
+        <div class="container">
+            <div class="class-md">
+                <div class="class-md-field">
+                    <h2>MODALITY</h2>
+                    <vaadin-checkbox id="modalityFieldAll">All</vaadin-checkbox>
+                    <vaadin-checkbox-group id="modalityField">
+                        <vaadin-checkbox value="radiology">Radiology</vaadin-checkbox>
+                        <vaadin-checkbox value="opthalmology">Opthalmology</vaadin-checkbox>
+                        <vaadin-checkbox value="nuclearMedicine">Nuclear Medicine</vaadin-checkbox>
+                        <vaadin-checkbox value="dental">Dental</vaadin-checkbox>
+                        <vaadin-checkbox value="waveform">Waveform</vaadin-checkbox>
+                        <vaadin-checkbox value="pathology">Pathology</vaadin-checkbox>
+                        <vaadin-checkbox value="other">Other</vaadin-checkbox>
+                    </vaadin-checkbox-group>
+                </div>
+                <div class="class-md-selected">
+                    <div>Radiology</div>
+                    <vaadin-checkbox id="mdSelected1All">All</vaadin-checkbox>
+                    <vaadin-checkbox-group id="mdSelected1">
+                        <vaadin-checkbox value="xr">XR (X-ray, Simple radiography)</vaadin-checkbox>
+                        <vaadin-checkbox value="xr&rf">XR & RF (X-ray and F)</vaadin-checkbox>
+                        <vaadin-checkbox value="rf">RF (Radio-Fluoroscopy)</vaadin-checkbox>
+                        <vaadin-checkbox value="mg">MG ( Mammography)</vaadin-checkbox>
+                        <vaadin-checkbox value="us">US (Ultrasound)</vaadin-checkbox>
+                        <vaadin-checkbox value="us&rf">US & RF (Ultrasound and Fluoroscopy)</vaadin-checkbox>
+                        <vaadin-checkbox value="ct">CT (Computed Tomography)</vaadin-checkbox>
+                        <vaadin-checkbox value="mr">MR (Magnetic Resonance Imaging)</vaadin-checkbox>
+                        <vaadin-checkbox value="xa">XA (X-ray Angiography)</vaadin-checkbox>
+                        <vaadin-checkbox value="rp">RP (Radiology Procedure)</vaadin-checkbox>
+                        <vaadin-checkbox value="ir">IR (Interventional Radiology)</vaadin-checkbox>
+                        <vaadin-checkbox value="sr">SR (Structured Repoting Document)</vaadin-checkbox>
+                        <vaadin-checkbox value="ot">OT (Other)</vaadin-checkbox>
+                        <vaadin-checkbox value="ivus">IVUS (Intravascular Ultrasound)</vaadin-checkbox>
+                    </vaadin-checkbox-group>
+                    <div>Nuclear Medicine</div>
+                    <vaadin-checkbox value="mdSelected2All">All</vaadin-checkbox>
+                    <vaadin-checkbox-group id="mdSelected2">
+                        <vaadin-checkbox value="NM">NM (Neclear Medicine)</vaadin-checkbox>
+                        <vaadin-checkbox value="NM&CT">NM & CT (Neclear Medicine and CT)</vaadin-checkbox>
+                        <vaadin-checkbox value="PT">PT (Positron Emission Tomography)</vaadin-checkbox>
+                        <vaadin-checkbox value="PT&CT">PT & CT (Positron Emission Tomography and CT)</vaadin-checkbox>
+                        <vaadin-checkbox value="PT&MR">PT-MR (Positron Emission Tomography and MR)</vaadin-checkbox>
+                    </vaadin-checkbox-group>
+                </div>
+            </div>
+            <div class="class-md-btn">
+                <vaadin-checkbox id="modalityChecked">All Selected Checked</vaadin-checkbox>
+                <!--<button id="prevBtn" class="btn">Prev</button>-->
+                <button id="nextBtn" class="btn">Next</button>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function () {
+            let _this;
+            let _checkFinished = false
+
+            class HhReadingTemplateModality extends Polymer.Element {
+                static get is() {
+                    return 'hh-reading-template-modality';
+                }
+
+                constructor() {
+                    super();
+                    _this = this;
+                }
+
+                ready() {
+                    super.ready();
+
+                    this.$.modalityChecked.addEventListener('change', function (e) {
+                        if (e.target.checked) {
+                            _checkFinished = true;
+                            console.log("MODALITY CHECKED FINISHED");
+                        }else{
+                            _checkFinished = false;
+                        }
+                    });
+
+                    this.$.modalityFieldAll.addEventListener('change',function(e){
+                        for(let i=0; i<_this.$.modalityField.childElementCount; i++){
+                            _this.$.modalityField.children[i].checked = e.target.checked;
+                        }
+                    });
+
+                    this.$.mdSelected1All.addEventListener('change',function(e){
+                        for(let i=0; i<_this.$.mdSelected1.childElementCount; i++){
+                            _this.$.mdSelected1.children[i].checked = e.target.checked;
+                        }
+                    });
+
+                    this.$.nextBtn.addEventListener('click',function(){
+                        if(_checkFinished){
+                            _this.dispatchEvent(new CustomEvent('nextTabEvent'));
+                        }else{
+                            console.log('check All Selected Checked');
+                        }
+                    });
+
+                }
+            }
+
+            window.customElements.define(HhReadingTemplateModality.is, HhReadingTemplateModality);
+        })();
+    </script>
+</dom-module>

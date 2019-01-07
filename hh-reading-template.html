@@ -1,0 +1,186 @@
+<script src="../ag-grid/dist/ag-grid.js"></script>
+<link rel="import" href="../polymer/polymer-element.html">
+<link rel="import" href="../vaadin-checkbox/vaadin-checkbox-group.html">
+<link rel="import" href="../vaadin-icons/vaadin-icons.html">
+<link rel="import" href="../paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../ag-grid-polymer/ag-grid-polymer.html">
+
+<dom-module id="hh-reading-template">
+    <template>
+        <link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-grid.css">
+        <link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-theme-balham-dark.css">
+        <style>
+            :host {
+                display: block;
+                height: 500px;
+                width: 555px;
+            }
+            ag-grid-polymer{
+                width: 100%;
+                height: 100%;
+            }
+
+            .container {
+                height: 100%;
+                width: 100%;
+            }
+
+            .context {
+                height: 100%;
+                width: 100%;
+            }
+
+            .template-configure {
+                display: flex;
+                height: 20%;
+            }
+
+            .template-configure-sensitive {
+                width: 60%;
+            }
+
+            .template-configure-setting-btn {
+                width: 40%;
+            }
+
+            .template-list {
+                height: 75%;
+                border: 1px solid #4c5667;
+                margin: 10px;
+                margin-top: 0px;
+                padding: 5px;
+            }
+        </style>
+        <div class="container">
+            <div class="context">
+                <div class="template-configure">
+                    <div class="template-configure-sensitive">
+                        <vaadin-checkbox-group id="sensitiveCheckbox">
+                            <vaadin-checkbox value="modality">Modality Sensitive</vaadin-checkbox>
+                            <vaadin-checkbox value="bodypart">Bodypart Sensitive</vaadin-checkbox>
+                            <vaadin-checkbox value="studyDescription">Study description Sensitive</vaadin-checkbox>
+                        </vaadin-checkbox-group>
+                    </div>
+                    <div class="template-configure-setting-btn">
+                        <paper-icon-button id="importBtn" icon="vaadin:cloud-upload">
+                        </paper-icon-button>
+                        <paper-icon-button id="exportBtn" icon="vaadin:cloud-download">
+                        </paper-icon-button>
+                        <iron-icon icon="vaadin:line-v"></iron-icon>
+                        <paper-icon-button id="newTemplateBtn" icon="vaadin:plus-circle">
+                        </paper-icon-button>
+                        <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog">
+                        </paper-icon-button>
+                    </div>
+                </div>
+                <div class="template-list">
+                    <ag-grid-polymer
+                                     class="ag-theme-balham-dark"
+                                     rowData="{{rowData}}",
+                                     columnDefs="{{columnDefs}}"
+                                     on-first-data-rendered="{{firstDataRendered}}"
+                    ></ag-grid-polymer>
+                </div>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function () {
+            let _this;
+            let popup;
+
+            class HhReadingTemplate extends Polymer.Element {
+                static get is() {
+                    return 'hh-reading-template';
+                }
+
+                ready() {
+                    super.ready();
+
+                    this.$.sensitiveCheckbox.addEventListener('value-changed',function (event) {
+                        console.log(event.detail.value);
+                    });
+                    this.$.importBtn.addEventListener('click',function (event) {
+                        console.log("import");
+                    })
+                    this.$.exportBtn.addEventListener('click',function (event) {
+                        console.log("export");
+                    })
+                    this.$.newTemplateBtn.addEventListener('click',function (event) {
+                        // console.log("new template")
+                        let popup = window.open("/configure/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        popup.struct = "popup test";
+                    })
+                    this.$.settingBtn.addEventListener('click',function (event) {
+                        console.log("setting");
+                    })
+                }
+
+                constructor() {
+                    super();
+                    _this = this;
+
+                    this.gridOptions = {
+                        defaultColDef: {
+                            suppressMenu: true // 메뉴 막기
+                        },
+                        enableSorting: true,
+                        enableColResize: true,
+                        rowSelection: "single",
+                        overlayNoRowsTemplate: '<span class="ag-overlay-no-rows-center">No records Found</span>',
+                        toolPanelSuppressSideButtons: true,
+                        toolPanelSuppressRowGroups: true,
+                        toolPanelSuppressValues: true,
+                        toolPanelSuppressColumnSelectAll: true,
+                        toolPanelSuppressColumnExpandAll: true,
+                        toolPanelSuppressColumnFilter: true,
+                        toolPanelSuppressPivots: true,
+                        toolPanelSuppressPivotMode: true
+                    };
+
+                    this.columnDefs = [
+                        {headerName: "idx", field: "seqNo", width: 33},
+                        {headerName: "Modality", field: "modality", width: 100},
+                        {headerName: "Bodypart", field: "bodypart", width: 100},
+                        {headerName: "Study description", field: "studyDescription"},
+                        {headerName: "Title of reading template", field: "title"},
+                        {headerName: "Finding", field: "finding"},
+                        {headerName: "Conclusion", field: "conclusion"},
+                        {headerName: "Recommendation", field: "recommendation"},
+                        {headerName: "Shortcut", field: "shortcut", width: 90},
+                    ];
+
+                    this.rowData = [
+                        {seqNo:"0", modality: "CT", bodypart: "CHEST", studyDescription: "TEST1", title: "TEST1 title", finding: "finding1", conclusion: "conclusion1", recommendation: "recommendation1", shortcut: "test1"},
+                        {seqNo:"1", modality: "MR", bodypart: "CHEST", studyDescription: "TEST2", title: "TEST2 title", finding: "finding2", conclusion: "conclusion2", recommendation: "recommendation2", shortcut: "test2"},
+                        {seqNo:"2", modality: "CR", bodypart: "CHEST", studyDescription: "TEST3", title: "TEST3 title", finding: "finding3", conclusion: "conclusion3", recommendation: "recommendation3", shortcut: "test3"},
+                    ];
+
+                    this.gridOptions.onGridReady = (params) => {
+                        params.api.sizeColumnsToFit();
+                        console.log("test");
+                    }
+
+                    // this.gridOptions.onRowDoubleClicked = (event) => {
+                    //     console.log(event);
+                    // }
+                    //
+                    // this.gridOptions.onRowSelected = (e) => {
+                    //     console.log(e);
+                    // };
+
+                }
+
+                createRowData(){
+                    return[
+                        {make: "Toyota", model: "Celica", price: 35000},
+                        {make: "Ford", model: "Mondeo", price: 32000},
+                        {make: "Porsche", model: "Boxter", price: 72000}
+                    ]
+                }
+            }
+
+            window.customElements.define(HhReadingTemplate.is, HhReadingTemplate);
+        })();
+    </script>
+</dom-module>
