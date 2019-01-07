@@ -37,12 +37,12 @@
             }
 
             .template-configure-sensitive {
-                width: 80%;
+                width: 68%;
                 /*height: 40%;*/
             }
 
             .template-configure-setting-btn {
-                width: 20%;
+                width: 32%;
             }
 
             .template-list {
@@ -61,7 +61,13 @@
                         </vaadin-checkbox-group>
                     </div>
                     <div class="template-configure-setting-btn">
+                        <paper-icon-button id="importBtn" icon="vaadin:cloud-upload">
+                        </paper-icon-button>
+                        <paper-icon-button id="exportBtn" icon="vaadin:cloud-download">
+                        </paper-icon-button>
                         <iron-icon icon="vaadin:line-v"></iron-icon>
+                        <paper-icon-button id="newTemplateBtn" icon="vaadin:plus-circle">
+                        </paper-icon-button>
                         <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog">
                         </paper-icon-button>
                     </div>
@@ -93,7 +99,13 @@
                     this.$.sensitiveCheckbox.addEventListener('value-changed',function (event) {
                         console.log(event.detail.value);
                     });
-                    this.$.settingBtn.addEventListener('click',function (event) {
+                    this.$.importBtn.addEventListener('click',function (event) {
+                        console.log("import");
+                    })
+                    this.$.exportBtn.addEventListener('click',function (event) {
+                        console.log("export");
+                    })
+                    this.$.newTemplateBtn.addEventListener('click',function (event) {
                         // console.log("new template")
                         let popup = window.open("/configure/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         popup.struct = "popup test";
@@ -126,18 +138,21 @@
                     };
 
                     this.columnDefs = [
-                        // {headerName: "idx", field: "seqNo", width: 33},
+                        {headerName: "idx", field: "seqNo", width: 33},
                         {headerName: "Title of reading template", field: "title"},
                         {headerName: "Modality", field: "modality", width: 100},
                         {headerName: "Bodypart", field: "bodypart", width: 100},
                         {headerName: "Study description", field: "studyDescription"},
+                        {headerName: "Finding", field: "finding"},
+                        {headerName: "Conclusion", field: "conclusion"},
+                        {headerName: "Recommendation", field: "recommendation"},
                         {headerName: "Shortcut", field: "shortcut", width: 90},
                     ];
 
                     this.rowData = [
-                        {seqNo:"0", modality: "CT", bodypart: "CHEST", studyDescription: "TEST1", title: "TEST1 title", shortcut: "test1"},
-                        {seqNo:"1", modality: "MR", bodypart: "CHEST", studyDescription: "TEST2", title: "TEST2 title", shortcut: "test2"},
-                        {seqNo:"2", modality: "CR", bodypart: "CHEST", studyDescription: "TEST3", title: "TEST3 title", shortcut: "test3"},
+                        {seqNo:"0", modality: "CT", bodypart: "CHEST", studyDescription: "TEST1", title: "TEST1 title", finding: "finding1", conclusion: "conclusion1", recommendation: "recommendation1", shortcut: "test1"},
+                        {seqNo:"1", modality: "MR", bodypart: "CHEST", studyDescription: "TEST2", title: "TEST2 title", finding: "finding2", conclusion: "conclusion2", recommendation: "recommendation2", shortcut: "test2"},
+                        {seqNo:"2", modality: "CR", bodypart: "CHEST", studyDescription: "TEST3", title: "TEST3 title", finding: "finding3", conclusion: "conclusion3", recommendation: "recommendation3", shortcut: "test3"},
                     ];
 
                     this.gridOptions.onGridReady = (params) => {
