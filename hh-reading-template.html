@@ -44,7 +44,6 @@
 
             .template-list {
                 height: calc(100% - 75px);
-                padding: 2px;
             }
 
             .template-configure-setting-btn {
@@ -131,7 +130,7 @@
                     });
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
                         // let popup = window.open("../configure/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        let popup = window.open("../hh-reading-template-configure.html", "popup", "height=777, width=1700");
+                        let popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         popup.struct = "popup test";
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {
