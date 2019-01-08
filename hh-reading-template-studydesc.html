@@ -1,0 +1,164 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../ag-grid-polymer/ag-grid-polymer.html">
+<!--<link rel="import" href="../paper-icon-button/paper-icon-button.html">-->
+<!--<link rel="import" href="../vaadin-icons/vaadin-icons.html">-->
+<dom-module id="hh-reading-template-studydesc">
+    <template>
+        <style>
+            :host {
+                height: 100%;
+                width: 100%;
+            }
+            .container {
+                height: 100%;
+                width: 100%;
+            }
+            .class-input{
+                height: 93%;
+                width: 100%;
+            }
+
+            .class-studyDescription{
+                height: 20%;
+                width: 100%;
+                background-color: yellow;
+            }
+            .class-studyDescription-list{
+                height: 60%;
+                width: 100%;
+                background-color: darkseagreen;
+            }
+
+            .class-shortcut{
+                height: 20%;
+                width: 100%;
+                background-color: #7a69ab;
+            }
+
+            .class-sd-btn{
+                height: 7%;
+                width: 100%;
+                background-color: deepskyblue;
+                text-align: right;
+            }
+
+            .btn {
+                width: 100px;
+                height: 30px;
+                border: 0;
+                font-size: 10pt;
+                color: #fff;
+                cursor: pointer;
+                border-radius: 2px;
+                margin: 5px;
+            }
+
+            #prevBtn {
+                background: #ff646b;
+            }
+            #nextBtn {
+                background: #4c7d35;
+            }
+
+            .icon-style {
+                color: #aaaaaa;
+                height: 25px;
+                width: 25px;
+                padding: 5px;
+            }
+        </style>
+        <div class="container">
+            <div class="class-input">
+                <div class="class-studyDescription">
+                    <div style="font-size:x-large; color: black">Study Description</div>
+                    <paper-input always-float-label label="Search Study Description"></paper-input>
+                    <iron-icon icon="vaadin:line-v" style="color: #aaaaaa; height: 15px; width: 15px"></iron-icon>
+                    <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog" class="icon-style">
+                    </paper-icon-button>
+                </div>
+                <div class="class-studyDescription-list">
+                    <div style="font-size:x-large; color: black">Study Description RESULT LIST</div>
+                    <ag-grid-polymer
+                            class="ag-theme-balham-dark"
+                            rowData="{{rowData}}" ,
+                            columnDefs="{{columnDefs}}"
+                            on-first-data-rendered="{{firstDataRendered}}"
+                    ></ag-grid-polymer>
+                </div>
+                <div class="class-shortcut">
+                    <div style="font-size:x-large; color: black">Shortcut</div>
+                    <iron-autogrow-textarea class="context-textarea" id="shortcut" value="{{shortcut}}"
+                                            require="true"></iron-autogrow-textarea>
+                </div>
+            </div>
+            <div class="class-sd-btn">
+                <vaadin-checkbox id="modalityChecked">All Selected Checked</vaadin-checkbox>
+                <button id="prevBtn" class="btn">Prev</button>
+                <button id="nextBtn" class="btn">Next</button>
+            </div>
+        </div>
+    </template>
+    <script>
+        (function () {
+            let _this;
+            class HhReadingTemplateStudyDesc extends Polymer.Element {
+                static get is() {
+                    return 'hh-reading-template-studydesc';
+                }
+
+                constructor() {
+                    super();
+                    _this = this;
+
+                    this.gridOptions = {
+                        defaultColDef: {
+                            suppressMenu: true // 메뉴 막기
+                        },
+                        enableSorting: true,
+                        enableColResize: true,
+                        rowSelection: "single",
+                        overlayNoRowsTemplate: '<span class="ag-overlay-no-rows-center">No records Found</span>',
+                        toolPanelSuppressSideButtons: true,
+                        toolPanelSuppressRowGroups: true,
+                        toolPanelSuppressValues: true,
+                        toolPanelSuppressColumnSelectAll: true,
+                        toolPanelSuppressColumnExpandAll: true,
+                        toolPanelSuppressColumnFilter: true,
+                        toolPanelSuppressPivots: true,
+                        toolPanelSuppressPivotMode: true
+                    };
+
+                    this.columnDefs = [
+                        {headerName: "idx", field: "idx", width: 35},
+                        {headerName: "Study Description", field: "studyDescription", width: 100},
+                    ];
+                    this.rowData = [
+                        {idx:"0", studyDescription: "study description 11111"},
+                        {idx:"1", studyDescription: "study description 22222"},
+                        {idx:"2", studyDescription: "study description 33333"}
+                    ];
+
+                    this.gridOptions.onGridReady = (params) => {
+                        params.api.sizeColumnsToFit();
+                        console.log("test");
+                    }
+
+                    this.gridOptions.onRowSelected = (e) => {
+                        console.log(e);
+                    };
+
+                    this.gridOptions.onRowDoubleClicked = (event) => {
+                        console.log("double");
+                    }
+                }
+
+                ready() {
+                    super.ready();
+                }
+            }
+
+            window.customElements.define(HhReadingTemplateStudyDesc.is, HhReadingTemplateStudyDesc);
+        })();
+    </script>
+</dom-module>

@@ -4,40 +4,60 @@
         <style>
             :host {
                 display: block;
-                height: 500px;
-                width: 555px;
+                height: 100%;
+                width: 100%;
             }
             .container {
                 height: 100%;
                 width: 100%;
             }
 
+            .class-report-input{
+                height: 93%;
+                width: 100%;
+                background-color: deepskyblue;
+            }
+
+            .class-report-btn{
+                height: 7%;
+                width: 100%;
+                text-align: right;
+                background-color: yellow;
+            }
+
             iron-autogrow-textarea {
                 resize: none;
                 width: 100%;
                 height: 35px;
+
             }
 
+            .btn {
+                width: 100px;
+                height: 30px;
+                border: 0;
+                font-size: 10pt;
+                color: #fff;
+                cursor: pointer;
+                border-radius: 2px;
+                margin: 5px;
+            }
+
+            #prevBtn {
+                background: #ff646b;
+            }
         </style>
         <div class="container">
-            REPORT TEMPLATE
-            <div class="class-shortcut">
-            </div>
-
-            <div class="class-report">
-                <input type="hidden" id="seqNo" value="{{seqNo}}">
-                <input type="hidden" id="displayOrder" value="{{displayOrder}}">
-                <input type="hidden" id="hotKey1" value="{{hotKey1}}">
+            <div class="class-report-input">
                 <div class="wrap-context">
+                    <div style="font-size:x-large; color: black">REPORT TEMPLATE</div>
+                    <input type="hidden" id="seqNo" value="{{seqNo}}">
+                    <input type="hidden" id="displayOrder" value="{{displayOrder}}">
+                    <input type="hidden" id="hotKey1" value="{{hotKey1}}">
                     <div class="wrap">
                         <div class="text-title"><p class="text-font">Title</p></div>
                         <iron-autogrow-textarea class="textarea-title" id="title" maxlength="50"
                                                 value="{{title}}"></iron-autogrow-textarea>
-                    </div>
-                    <div class="wrap">
-                        <div class="text-shortcut"><p class="text-font">Shortcut</p></div>
-                        <iron-autogrow-textarea class="context-textarea" id="shortcut" value="{{shortcut}}"
-                                                require="true"></iron-autogrow-textarea>
                     </div>
                     <div class="wrap">
                         <div class="text-finding"><p class="text-font">Finding</p></div>
@@ -55,6 +75,10 @@
                                                 value="{{recommendation}}"></iron-autogrow-textarea>
                     </div>
                 </div>
+            </div>
+            <div class="class-report-btn">
+                <vaadin-checkbox id="modalityChecked">All Selected Checked</vaadin-checkbox>
+                <button id="prevBtn" class="btn">Prev</button>
             </div>
         </div>
     </template>

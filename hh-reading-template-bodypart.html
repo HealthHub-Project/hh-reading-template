@@ -1,4 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox-group.html">
+<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox.html">
 <dom-module id="hh-reading-template-badypart">
     <template>
         <style>
@@ -12,28 +14,47 @@
             }
             .class-bd{
                 display: flex;
-                height: 95%;
+                height: 93%;
             }
 
             .class-bd-field{
                 height: 100%;
-                width: 13%;
-
+                width: 11%;
+                background-color: #59c88e;
             }
             .class-bd-selected{
-                height: 100%;
-                width: 67%;
+                width: 97%;
+                background-color: yellow;
             }
             .class-bd-btn{
-                height: 5%;
+                height: 7%;
+                background-color: deepskyblue;
                 text-align: right;
             }
 
+            .btn {
+                width: 100px;
+                height: 30px;
+                border: 0;
+                font-size: 10pt;
+                color: #fff;
+                cursor: pointer;
+                border-radius: 2px;
+                margin: 5px;
+            }
+
+            #prevBtn {
+                background: #ff646b;
+            }
+            #nextBtn {
+                background: #4c7d35;
+            }
         </style>
         <div class="container">
-            <div class="class-bd" style="height: 90%">
+            <div class="class-bd">
                 <div class="class-bd-field">
-                    BODYPART
+                    <h2>BODYPART</h2>
+                    <vaadin-checkbox id="bodypartFieldAll">All</vaadin-checkbox>
                     <vaadin-checkbox-group id="bodypartField">
                         <vaadin-checkbox value="abdomen">Abdomen</vaadin-checkbox>
                         <vaadin-checkbox value="breast">Breast</vaadin-checkbox>
@@ -100,20 +121,73 @@
                 </div>
             </div>
             <div class="class-bd-btn">
-                <vaadin-checkbox id="selectedBdCheck">All Selected Checked</vaadin-checkbox>
+                <vaadin-checkbox id="bodypartChecked">All Selected Checked</vaadin-checkbox>
+                <button id="prevBtn" class="btn">Prev</button>
+                <button id="nextBtn" class="btn">Next</button>
             </div>
         </div>
     </template>
     <script>
         (function () {
             let _this;
+            let _checkFinished = false;
+
             class HhReadingTemplateBodyPart extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-badypart';
                 }
 
+                constructor() {
+                    super();
+                    _this = this;
+                }
+
                 ready() {
                     super.ready();
+
+                    this.$.bodypartChecked.addEventListener('change', function (e) {
+                        if (e.target.checked) {
+                            _checkFinished = true;
+                            console.log("BODYPART CHECKED FINISHED");
+                        }else{
+                            _checkFinished = false;
+                        }
+                    });
+
+                    this.$.bodypartFieldAll.addEventListener('change',function(e){
+                        for(let i=0; i<_this.$.bodypartField.childElementCount; i++){
+                            _this.$.bodypartField.children[i].checked = e.target.checked;
+                        }
+                    });
+
+                    this.$.bdSelected1All.addEventListener('change',function(e){
+                        for(let i=0; i<_this.$.bdSelected1.childElementCount; i++){
+                            _this.$.bdSelected1.children[i].checked = e.target.checked;
+                        }
+                    });
+
+                    this.$.bdSelected2All.addEventListener('change',function(e){
+                        for(let i=0; i<_this.$.bdSelected2.childElementCount; i++){
+                            _this.$.bdSelected2.children[i].checked = e.target.checked;
+                        }
+                    });
+
+                    this.$.prevBtn.addEventListener('click',function(){
+                        if(_checkFinished){
+                            _this.dispatchEvent(new CustomEvent('prevTabEvent'));
+                        }else{
+                            console.log('check All Selected Checked');
+                        }
+                    });
+
+                    this.$.nextBtn.addEventListener('click',function(){
+                        if(_checkFinished){
+                            _this.dispatchEvent(new CustomEvent('nextTabEvent'));
+                        }else{
+                            console.log('check All Selected Checked');
+                        }
+                    });
+
                     // this.$.selectedBdCheck.addEventListener('change',function (e) {
                     //     if(g_this.$.selectedBdCheck.checked){
                     //         console.log("bodypart checkbox checked finish");
@@ -133,11 +207,6 @@
                     //     //     option.checked = selectAll.checked;
                     //     // });
                     // });
-                }
-
-                constructor() {
-                    super();
-                    _this = this;
                 }
             }
 
