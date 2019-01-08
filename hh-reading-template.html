@@ -14,7 +14,7 @@
                 display: block;
                 height: 100%;
                 width: 100%;
-                margin: 2px;
+                /*margin: 2px;*/
             }
 
             ag-grid-polymer {
@@ -28,13 +28,14 @@
             }
 
             .context {
-                height: 100%;
-                width: 100%;
+                padding: 5px;
+                height: calc(100% - 10px);
+                width: calc(100% - 10px);
             }
 
             .template-configure {
                 display: flex;
-                height: 22%;
+                height: 75px;
             }
 
             .template-configure-sensitive {
@@ -43,7 +44,7 @@
             }
 
             .template-list {
-                height: 78%;
+                height: calc(100% - 75px);
             }
 
             .template-configure-setting-btn {
@@ -152,12 +153,11 @@
                     };
 
                     this.columnDefs = [
-                        {headerName: "idx", field: "seqNo", width: 33},
-                        {headerName: "Title of reading template", field: "title"},
+                        {headerName: "Title", field: "title", width: 100},
                         {headerName: "Shortcut", field: "shortcut", width: 90},
                         {headerName: "Modality", field: "modality", width: 100},
                         {headerName: "Bodypart", field: "bodypart", width: 100},
-                        {headerName: "Study description", field: "studyDescription"},
+                        {headerName: "Study description", field: "studyDescription", width: 100},
                         {headerName: "Finding", field: "finding"},
                         {headerName: "Conclusion", field: "conclusion"},
                         {headerName: "Recommendation", field: "recommendation"}
