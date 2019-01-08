@@ -8,7 +8,7 @@
     "ag-grid": "ag-grid-community#17.1.1",
     "vaadin-icons": "vaadin/vaadin-icons#^4.2.1",
     "vaadin-checkbox": "vaadin/vaadin-checkbox#^2.2.5",
-    "paper-icon-button": "PolymerElements/paper-icon-button#2.0.0",
+    "paper-icon-button": "PolymerElements/paper-icon-button#2.2.0",
     "iron-autogrow-textarea": "PolymerElements/iron-autogrow-textarea#2.2.0",
     "paper-tabs": "PolymerElements/paper-tabs#2.1.1",
     "iron-pages": "PolymerElements/iron-pages#2.1.1"
