@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>hh-reading-template configure</title>
 </head>
+
+<!--bower component-->
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../vaadin-checkbox/vaadin-checkbox-group.html">
@@ -11,6 +13,16 @@
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
+
+<!--develop-->
+<!--<link rel="import" href="./bower_components/polymer/polymer-element.html">-->
+<!--<link rel="import" href="./bower_components/paper-icon-button/paper-icon-button.html">-->
+<!--<link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox-group.html">-->
+<!--<link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">-->
+<!--<link rel="import" href="./bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">-->
+<!--<link rel="import" href="./bower_components/paper-tabs/paper-tabs.html">-->
+<!--<link rel="import" href="./bower_components/iron-pages/iron-pages.html">-->
+
 <link rel="import" href="hh-reading-template-modality.html">
 <link rel="import" href="hh-reading-template-bodypart.html">
 <link rel="import" href="hh-reading-template-studydesc.html">
@@ -20,31 +32,22 @@
     .container{
         height: 100%;
         width: 100%;
-        background-color: hotpink;
+        background-color: #35363d;
     }
     .class-paper-tabs{
         height: 6%;
         width: 100%;
     }
     .class-ironPage{
-        height: 84%;
+        height: 89%;
         width: 100%;
     }
 
-    .class-btn1{
-        height: 5%;
-        width: 100%;
-        background-color: #ff646b;
-
-        text-align: right;
-        /*padding: 5px;*/
-        /*margin: 5px;*/
-    }
     .class-btn2{
         height: 5%;
         width: 100%;
         text-align: center;
-        background-color: purple;
+        background-color: #14171c;
     }
 
     .btn {
@@ -85,29 +88,35 @@
     }
 
     iron-pages div {
-        /*height: calc(100% - 100px);*/
         height: 100%;
         width: 100%;
-        /*background-color: #00B4F0;*/
     }
 
     setting-btnGroups{
-
         display: flex;
         flex-direction: row;
         flex: 1;
         text-align: center;
         padding: 15px;
     }
+
+    #reportTempalteConfigTab{
+        height: 100%;
+        width: 100%;
+        color: #aaaaaa;
+        /*--paper-tabs-selection-bar_-_border-bottom: 3px solid #0087cb;*/
+        /*--paper-tabs-content_-_color: #aaaaaa;*/
+        /*--paper-tabs-content_-_background: #2d333f;*/
+        /*border-top-left-radius: 3px;*/
+        /*border-top-right-radius: 3px;*/
+    }
 </style>
 <body style="background-color: deepskyblue">
 <div class="container">
     <div class="class-btn1">
-        <button id="saveBtn" class="btn">Save</button>
-        <button id="clearBtn" class="btn">Clear</button>
     </div>
     <div class="class-paper-tabs">
-        <paper-tabs id="reportTempalteConfigTab" style="height: 100%; width: 100%" selected="0" noink>
+        <paper-tabs id="reportTempalteConfigTab" selected="0" noink>
             <paper-tab value="modalityTab">Modality</paper-tab>
             <paper-tab value="bodypartTab">Bodypart</paper-tab>
             <paper-tab value="studyDescriptionTab">Study Description & Shortcut</paper-tab>
@@ -123,8 +132,6 @@
         </iron-pages>
     </div>
     <div class="class-btn2">
-        <button id="prevBtn" class="btn">Prev</button>
-        <button id="nextBtn" class="btn">Next</button>
         <button id="closeBtn" class="btn">Closed</button>
     </div>
 </div>
@@ -145,19 +152,30 @@
             document.getElementById("reportTempalteConfigTab").selectIndex(tabIndex);
         });
 
-        document.getElementById("nextBtn").addEventListener('click', function(e) {
-            document.getElementById("tabPage").selectNext();
-        });
-        document.getElementById("prevBtn").addEventListener('click', function(e) {
-            document.getElementById("tabPage").selectPrevious();
-        });
-        document.getElementById("prevBtn").addEventListener('selected-changed', function(e) {
-            console.log(e);
-        });
-
         document.getElementById('modalityTemplate').addEventListener('nextTabEvent',function(){
             nextTabEvent();
-        })
+        });
+
+        document.getElementById('bodypartTemplate').addEventListener('prevTabEvent',function(){
+            prevTabEvent();
+        });
+
+        document.getElementById('bodypartTemplate').addEventListener('nextTabEvent',function(){
+            nextTabEvent();
+        });
+
+        document.getElementById('studyDescTemplate').addEventListener('nextTabEvent',function(){
+            nextTabEvent();
+        });
+
+        document.getElementById('studyDescTemplate').addEventListener('prevTabEvent',function(){
+            prevTabEvent();
+        });
+
+        document.getElementById('reportTemplate').addEventListener('prevTabEvent',function(){
+            prevTabEvent();
+        });
+
     });
 
     function nextTabEvent(){
@@ -165,7 +183,7 @@
     }
 
     function prevTabEvent(){
-        console.log("prev");
+        document.getElementById("tabPage").selectPrevious();
     }
 
 </script>

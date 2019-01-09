@@ -77,9 +77,9 @@
                 <div class="template-configure">
                     <div class="template-configure-sensitive">
                         <div class="class-sensitiveCheck">
-                            <paper-checkbox id="modality" class="checkBox-style">Modality Sensitive</paper-checkbox>
-                            <paper-checkbox id="bodypart" class="checkBox-style">Bodypart Sensitive</paper-checkbox>
-                            <paper-checkbox id="studyDescription" class="checkBox-style">Study description Sensitive</paper-checkbox>
+                            <paper-checkbox id="modality" class="checkBox-style" noink>Modality Sensitive</paper-checkbox>
+                            <paper-checkbox id="bodypart" class="checkBox-style" noink>Bodypart Sensitive</paper-checkbox>
+                            <paper-checkbox id="studyDescription" class="checkBox-style" noink>Study description Sensitive</paper-checkbox>
                         </div>
                     </div>
                     <div class="template-configure-setting-btn">
@@ -109,7 +109,6 @@
     <script>
         (function () {
             let _this;
-            let popup;
             let _sensitiveCheckList = [false,false,false];
 
             class HhReadingTemplate extends Polymer.Element {
@@ -129,8 +128,8 @@
                         _sensitiveCheckList[2] = _this.$.studyDescription.active;
                     });
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
-                        // let popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        let popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        let popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        // let popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         popup.struct = "popup test";
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {

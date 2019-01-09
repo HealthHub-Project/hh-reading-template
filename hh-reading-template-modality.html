@@ -15,6 +15,10 @@
             }
 
             .class-md {
+                height: 5%;
+            }
+
+            .class-md {
                 display: flex;
                 height: 93%;
             }
@@ -22,18 +26,21 @@
             .class-md-field {
                 height: 100%;
                 width: 11%;
-                background-color: #59c88e;
+                color: #aaaaaa;
+                background-color: #333a47;
             }
 
             .class-md-selected {
-                /*height: 100%;*/
                 width: 97%;
-                background-color: yellow;
+                padding-left: 10px;
+                color: #aaaaaa;
+                background-color: #2c333f;
             }
 
             .class-md-btn {
                 height: 7%;
-                background-color: deepskyblue;
+                color: #aaaaaa;
+                background-color: #252934;
                 text-align: right;
             }
 
@@ -54,12 +61,15 @@
             #nextBtn {
                 background: #4c7d35;
             }
+            #modalityFieldAll, #modalityField, #mdSelected1, #mdSelected2{
+                color: #aaaaaa;
+            }
 
         </style>
         <div class="container">
             <div class="class-md">
                 <div class="class-md-field">
-                    <h2>MODALITY</h2>
+                    <h2>Field</h2>
                     <vaadin-checkbox id="modalityFieldAll">All</vaadin-checkbox>
                     <vaadin-checkbox-group id="modalityField">
                         <vaadin-checkbox value="radiology">Radiology</vaadin-checkbox>
@@ -72,6 +82,7 @@
                     </vaadin-checkbox-group>
                 </div>
                 <div class="class-md-selected">
+                    <h2>Selected</h2>
                     <div>Radiology</div>
                     <vaadin-checkbox id="mdSelected1All">All</vaadin-checkbox>
                     <vaadin-checkbox-group id="mdSelected1">
@@ -91,7 +102,7 @@
                         <vaadin-checkbox value="ivus">IVUS (Intravascular Ultrasound)</vaadin-checkbox>
                     </vaadin-checkbox-group>
                     <div>Nuclear Medicine</div>
-                    <vaadin-checkbox value="mdSelected2All">All</vaadin-checkbox>
+                    <vaadin-checkbox id="mdSelected2All">All</vaadin-checkbox>
                     <vaadin-checkbox-group id="mdSelected2">
                         <vaadin-checkbox value="NM">NM (Neclear Medicine)</vaadin-checkbox>
                         <vaadin-checkbox value="NM&CT">NM & CT (Neclear Medicine and CT)</vaadin-checkbox>
@@ -144,6 +155,13 @@
                     this.$.mdSelected1All.addEventListener('change',function(e){
                         for(let i=0; i<_this.$.mdSelected1.childElementCount; i++){
                             _this.$.mdSelected1.children[i].checked = e.target.checked;
+                        }
+                    });
+
+                    this.$.mdSelected2All.addEventListener('change',function(e){
+                        console.log(e);
+                        for(let i=0; i<_this.$.mdSelected2.childElementCount; i++){
+                            _this.$.mdSelected2.children[i].checked = e.target.checked;
                         }
                     });
 

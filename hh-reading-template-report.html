@@ -12,24 +12,50 @@
                 width: 100%;
             }
 
+            .wrap-context{
+                height: 100%;
+                width: 100%;
+                background-color: #2c333f;
+            }
+
             .class-report-input{
                 height: 93%;
                 width: 100%;
-                background-color: deepskyblue;
+                background-color: #ffffff;
             }
 
             .class-report-btn{
                 height: 7%;
                 width: 100%;
                 text-align: right;
-                background-color: yellow;
+                background-color: #252934;
+            }
+
+            .wrap-title{
+                width: 80%;
+                height: 20%;
+                color: #aaaaaa;
+            }
+
+            .wrap-report{
+                width: 80%;
+                height: 80%;
+            }
+
+            .context-textarea{
+                width: 100%;
+                height: 30%;
+            }
+
+            .textarea-title{
+                width: 100%;
+                height: 100%;
             }
 
             iron-autogrow-textarea {
                 resize: none;
                 width: 100%;
-                height: 35px;
-
+                height: 100%;
             }
 
             .btn {
@@ -43,6 +69,14 @@
                 margin: 5px;
             }
 
+            #saveBtn {
+                background: #0087cb;
+            }
+
+            #clearBtn {
+                background: #4c5667;
+            }
+
             #prevBtn {
                 background: #ff646b;
             }
@@ -50,41 +84,35 @@
         <div class="container">
             <div class="class-report-input">
                 <div class="wrap-context">
-                    <div style="font-size:x-large; color: black">REPORT TEMPLATE</div>
-                    <input type="hidden" id="seqNo" value="{{seqNo}}">
-                    <input type="hidden" id="displayOrder" value="{{displayOrder}}">
-                    <input type="hidden" id="hotKey1" value="{{hotKey1}}">
-                    <div class="wrap">
+                    <div class="wrap-title">
+                        <div style="font-size:x-large;">REPORT TEMPLATE</div>
+                        <input type="hidden" id="seqNo" value="{{seqNo}}">
+                        <input type="hidden" id="displayOrder" value="{{displayOrder}}">
+                        <input type="hidden" id="hotKey1" value="{{hotKey1}}">
                         <div class="text-title"><p class="text-font">Title</p></div>
-                        <iron-autogrow-textarea class="textarea-title" id="title" maxlength="50"
-                                                value="{{title}}"></iron-autogrow-textarea>
+                        <paper-input always-float-label label="input title" class="textarea-title" char-counter maxlength="50"></paper-input>
                     </div>
-                    <div class="wrap">
-                        <div class="text-finding"><p class="text-font">Finding</p></div>
+                    <div class="wrap-report">
                         <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}"
                                                 require="true"></iron-autogrow-textarea>
-                    </div>
-                    <div class="wrap">
-                        <div class="text-conclusion"><p class="text-font">Conclusion</p></div>
                         <iron-autogrow-textarea class="context-textarea" id="conclusion"
                                                 value="{{conclusion}}"></iron-autogrow-textarea>
-                    </div>
-                    <div class="wrap">
-                        <div class="text-recommendation"><p class="text-font">Recommendation</p></div>
                         <iron-autogrow-textarea class="context-textarea" id="recommendation"
                                                 value="{{recommendation}}"></iron-autogrow-textarea>
                     </div>
                 </div>
             </div>
             <div class="class-report-btn">
-                <vaadin-checkbox id="modalityChecked">All Selected Checked</vaadin-checkbox>
                 <button id="prevBtn" class="btn">Prev</button>
+                <button id="saveBtn" class="btn">Save</button>
+                <button id="clearBtn" class="btn">Clear</button>
             </div>
         </div>
     </template>
     <script>
         (function () {
             let _this;
+
             class HhReadingTemplateReportTemplate extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-report';
@@ -92,6 +120,19 @@
 
                 ready() {
                     super.ready();
+
+                    this.$.saveBtn.addEventListener('click',function(){
+                        console.log("save btn");
+                    });
+
+                    this.$.clearBtn.addEventListener('click',function(){
+                        console.log("clear btn");
+                    });
+
+                    this.$.prevBtn.addEventListener('click',function(){
+                        _this.dispatchEvent(new CustomEvent('prevTabEvent'));
+                    });
+
                 }
 
                 constructor() {

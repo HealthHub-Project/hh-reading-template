@@ -8,27 +8,35 @@
                 height: 100%;
                 width: 100%;
             }
+
             .container {
                 height: 100%;
                 width: 100%;
             }
-            .class-bd{
+
+            .class-bd {
                 display: flex;
                 height: 93%;
             }
 
-            .class-bd-field{
+            .class-bd-field {
                 height: 100%;
                 width: 11%;
-                background-color: #59c88e;
+                color: #aaaaaa;
+                background-color: #333a47;
             }
-            .class-bd-selected{
+
+            .class-bd-selected {
                 width: 97%;
-                background-color: yellow;
+                color: #aaaaaa;
+                background-color: #2c333f;
+                padding-left: 10px;
             }
-            .class-bd-btn{
+
+            .class-bd-btn {
                 height: 7%;
-                background-color: deepskyblue;
+                color: #aaaaaa;
+                background-color: #252934;
                 text-align: right;
             }
 
@@ -46,14 +54,20 @@
             #prevBtn {
                 background: #ff646b;
             }
+
             #nextBtn {
                 background: #4c7d35;
             }
+
+            #bodypartFieldAll, #bodypartField, #bdSelected1, #bdSelected2 {
+                color: #aaaaaa;
+            }
+
         </style>
         <div class="container">
             <div class="class-bd">
                 <div class="class-bd-field">
-                    <h2>BODYPART</h2>
+                    <h2>Field</h2>
                     <vaadin-checkbox id="bodypartFieldAll">All</vaadin-checkbox>
                     <vaadin-checkbox-group id="bodypartField">
                         <vaadin-checkbox value="abdomen">Abdomen</vaadin-checkbox>
@@ -71,53 +85,51 @@
                     </vaadin-checkbox-group>
                 </div>
                 <div class="class-bd-selected">
-                    <div>
-                        <div>Abdomen</div>
-                        <vaadin-checkbox id="bdSelected1All">All</vaadin-checkbox>
-                        <vaadin-checkbox-group id="bdSelected1">
-                            <vaadin-checkbox value="abdomenWall">ABDOMEN WALL</vaadin-checkbox>
-                            <vaadin-checkbox value="appendix">APPENDIX</vaadin-checkbox>
-                            <vaadin-checkbox value="biliaryDucts">BILIARY DUCTS</vaadin-checkbox>
-                            <vaadin-checkbox value="cliacPlexus">CELIAC PLEXUS</vaadin-checkbox>
-                            <vaadin-checkbox value="cholangioPancreaticDucts">CHOLANGIO PANCREATIC DUCTS</vaadin-checkbox>
-                            <vaadin-checkbox value="duodenum">DUODENUM</vaadin-checkbox>
-                            <vaadin-checkbox value="esophagus">ESOPHAGUS</vaadin-checkbox>
-                            <vaadin-checkbox value="gallbladder">GALLBLADDER</vaadin-checkbox>
-                            <vaadin-checkbox value="gastrointestinalTract">GASTROINTESTINAL TRACT</vaadin-checkbox>
-                            <vaadin-checkbox value="hepaticVein">HEPATIC VEIN</vaadin-checkbox>
-                            <vaadin-checkbox value="largeIntestine">LARGE INTESTINE</vaadin-checkbox>
-                            <vaadin-checkbox value="liver">LIVER</vaadin-checkbox>
-                            <vaadin-checkbox value="mouthToAnus">MOUTH TO ANUS</vaadin-checkbox>
-                            <vaadin-checkbox value="pancreas">PANCREAS</vaadin-checkbox>
-                            <vaadin-checkbox value="pancreaticDucts">PANCREATIC DUCTS</vaadin-checkbox>
-                            <vaadin-checkbox value="peritoneum">PERITONEUM</vaadin-checkbox>
-                            <vaadin-checkbox value="rightUpperQuadrant">RIGHT UPPER QUADRANT</vaadin-checkbox>
-                            <vaadin-checkbox value="smallBowelLoopDiversion">SMALL BOWEL LOOP DIVERSION</vaadin-checkbox>
-                            <vaadin-checkbox value="smallIntestine">SMALL INTESTINE</vaadin-checkbox>
-                            <vaadin-checkbox value="spleen">SPLEEN</vaadin-checkbox>
-                            <vaadin-checkbox value="splenicVein">SPLENIC VEIN</vaadin-checkbox>
-                            <vaadin-checkbox value="stomach">STOMACH</vaadin-checkbox>
-                            <vaadin-checkbox value="subdiaphragm">SUBDIAPHRAGM</vaadin-checkbox>
-                            <vaadin-checkbox value="upperGiTract">UPPER GI TRACT</vaadin-checkbox>
-                        </vaadin-checkbox-group>
-                    </div>
-                    <div>
-                        <div>Chest</div>
-                        <vaadin-checkbox id="bdSelected2All">All</vaadin-checkbox>
-                        <vaadin-checkbox-group id="bdSelected2">
-                            <vaadin-checkbox value="airway">AIRWAY</vaadin-checkbox>
-                            <vaadin-checkbox value="chestWall">CHEST WALL</vaadin-checkbox>
-                            <vaadin-checkbox value="diaphragm">DIAPHRAGM</vaadin-checkbox>
-                            <vaadin-checkbox value="lung">LUNG</vaadin-checkbox>
-                            <vaadin-checkbox value="lungParenchyma">LUNG PARENCHYMA</vaadin-checkbox>
-                            <vaadin-checkbox value="mediastinum">MEDIASTINUM</vaadin-checkbox>
-                            <vaadin-checkbox value="pleura">PLEURA</vaadin-checkbox>
-                            <vaadin-checkbox value="pulmonaryArteries">PULMONARY ARTERIES</vaadin-checkbox>
-                            <vaadin-checkbox value="polmonaryVeins">PULMONARY VEINS</vaadin-checkbox>
-                            <vaadin-checkbox value="thoracicDuct">THORACIC DUCT</vaadin-checkbox>
-                            <vaadin-checkbox value="trachea">TRACHEA</vaadin-checkbox>
-                        </vaadin-checkbox-group>
-                    </div>
+                    <h2>Selected</h2>
+                    <div>Abdomen</div>
+                    <vaadin-checkbox id="bdSelected1All">All</vaadin-checkbox>
+                    <vaadin-checkbox-group id="bdSelected1">
+                        <vaadin-checkbox value="abdomenWall">ABDOMEN WALL</vaadin-checkbox>
+                        <vaadin-checkbox value="appendix">APPENDIX</vaadin-checkbox>
+                        <vaadin-checkbox value="biliaryDucts">BILIARY DUCTS</vaadin-checkbox>
+                        <vaadin-checkbox value="cliacPlexus">CELIAC PLEXUS</vaadin-checkbox>
+                        <vaadin-checkbox value="cholangioPancreaticDucts">CHOLANGIO PANCREATIC DUCTS</vaadin-checkbox>
+                        <vaadin-checkbox value="duodenum">DUODENUM</vaadin-checkbox>
+                        <vaadin-checkbox value="esophagus">ESOPHAGUS</vaadin-checkbox>
+                        <vaadin-checkbox value="gallbladder">GALLBLADDER</vaadin-checkbox>
+                        <vaadin-checkbox value="gastrointestinalTract">GASTROINTESTINAL TRACT</vaadin-checkbox>
+                        <vaadin-checkbox value="hepaticVein">HEPATIC VEIN</vaadin-checkbox>
+                        <vaadin-checkbox value="largeIntestine">LARGE INTESTINE</vaadin-checkbox>
+                        <vaadin-checkbox value="liver">LIVER</vaadin-checkbox>
+                        <vaadin-checkbox value="mouthToAnus">MOUTH TO ANUS</vaadin-checkbox>
+                        <vaadin-checkbox value="pancreas">PANCREAS</vaadin-checkbox>
+                        <vaadin-checkbox value="pancreaticDucts">PANCREATIC DUCTS</vaadin-checkbox>
+                        <vaadin-checkbox value="peritoneum">PERITONEUM</vaadin-checkbox>
+                        <vaadin-checkbox value="rightUpperQuadrant">RIGHT UPPER QUADRANT</vaadin-checkbox>
+                        <vaadin-checkbox value="smallBowelLoopDiversion">SMALL BOWEL LOOP DIVERSION</vaadin-checkbox>
+                        <vaadin-checkbox value="smallIntestine">SMALL INTESTINE</vaadin-checkbox>
+                        <vaadin-checkbox value="spleen">SPLEEN</vaadin-checkbox>
+                        <vaadin-checkbox value="splenicVein">SPLENIC VEIN</vaadin-checkbox>
+                        <vaadin-checkbox value="stomach">STOMACH</vaadin-checkbox>
+                        <vaadin-checkbox value="subdiaphragm">SUBDIAPHRAGM</vaadin-checkbox>
+                        <vaadin-checkbox value="upperGiTract">UPPER GI TRACT</vaadin-checkbox>
+                    </vaadin-checkbox-group>
+                    <div>Chest</div>
+                    <vaadin-checkbox id="bdSelected2All">All</vaadin-checkbox>
+                    <vaadin-checkbox-group id="bdSelected2">
+                        <vaadin-checkbox value="airway">AIRWAY</vaadin-checkbox>
+                        <vaadin-checkbox value="chestWall">CHEST WALL</vaadin-checkbox>
+                        <vaadin-checkbox value="diaphragm">DIAPHRAGM</vaadin-checkbox>
+                        <vaadin-checkbox value="lung">LUNG</vaadin-checkbox>
+                        <vaadin-checkbox value="lungParenchyma">LUNG PARENCHYMA</vaadin-checkbox>
+                        <vaadin-checkbox value="mediastinum">MEDIASTINUM</vaadin-checkbox>
+                        <vaadin-checkbox value="pleura">PLEURA</vaadin-checkbox>
+                        <vaadin-checkbox value="pulmonaryArteries">PULMONARY ARTERIES</vaadin-checkbox>
+                        <vaadin-checkbox value="polmonaryVeins">PULMONARY VEINS</vaadin-checkbox>
+                        <vaadin-checkbox value="thoracicDuct">THORACIC DUCT</vaadin-checkbox>
+                        <vaadin-checkbox value="trachea">TRACHEA</vaadin-checkbox>
+                    </vaadin-checkbox-group>
+
                 </div>
             </div>
             <div class="class-bd-btn">
@@ -149,64 +161,40 @@
                         if (e.target.checked) {
                             _checkFinished = true;
                             console.log("BODYPART CHECKED FINISHED");
-                        }else{
+                        } else {
                             _checkFinished = false;
                         }
                     });
 
-                    this.$.bodypartFieldAll.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.bodypartField.childElementCount; i++){
+                    this.$.bodypartFieldAll.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bodypartField.childElementCount; i++) {
                             _this.$.bodypartField.children[i].checked = e.target.checked;
                         }
                     });
 
-                    this.$.bdSelected1All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.bdSelected1.childElementCount; i++){
+                    this.$.bdSelected1All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected1.childElementCount; i++) {
                             _this.$.bdSelected1.children[i].checked = e.target.checked;
                         }
                     });
 
-                    this.$.bdSelected2All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.bdSelected2.childElementCount; i++){
+                    this.$.bdSelected2All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected2.childElementCount; i++) {
                             _this.$.bdSelected2.children[i].checked = e.target.checked;
                         }
                     });
 
-                    this.$.prevBtn.addEventListener('click',function(){
-                        if(_checkFinished){
-                            _this.dispatchEvent(new CustomEvent('prevTabEvent'));
-                        }else{
-                            console.log('check All Selected Checked');
-                        }
+                    this.$.prevBtn.addEventListener('click', function () {
+                        _this.dispatchEvent(new CustomEvent('prevTabEvent'));
                     });
 
-                    this.$.nextBtn.addEventListener('click',function(){
-                        if(_checkFinished){
+                    this.$.nextBtn.addEventListener('click', function () {
+                        if (_checkFinished) {
                             _this.dispatchEvent(new CustomEvent('nextTabEvent'));
-                        }else{
+                        } else {
                             console.log('check All Selected Checked');
                         }
                     });
-
-                    // this.$.selectedBdCheck.addEventListener('change',function (e) {
-                    //     if(g_this.$.selectedBdCheck.checked){
-                    //         console.log("bodypart checkbox checked finish");
-                    //     }
-                    // });
-
-                    // this.$.bdSelected1All.addEventListener('change',function (e) {
-                    //     for(let i=0; i<g_this.bdSelected1.length; i++){
-                    //         if(!g_this.bdSelected1.checked){
-                    //             g_this.bdSelected1.checked = true;
-                    //         }
-                    //     }
-                    // });
-                    // this.$.bdSelected2All.addEventListener('change',function (e) {
-                    //     console.log('all2');
-                    //     // options.forEach(function(option) {
-                    //     //     option.checked = selectAll.checked;
-                    //     // });
-                    // });
                 }
             }
 
