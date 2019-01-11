@@ -6,45 +6,79 @@
 </head>
 
 <!--bower component-->
+<link rel="import" href="../shadycss/apply-shim.html">
+<link rel="import" href="../polymer/lib/elements/custom-style.html">
 <link rel="import" href="../polymer/polymer-element.html">
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
-<link rel="import" href="../vaadin-checkbox/vaadin-checkbox-group.html">
-<link rel="import" href="../vaadin-checkbox/vaadin-checkbox.html">
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
 
 <!--develop-->
+<!--<link rel="import" href="./bower_components/shadycss/apply-shim.html">-->
+<!--<link rel="import" href="./bower_components/polymer/lib/elements/custom-style.html">-->
 <!--<link rel="import" href="./bower_components/polymer/polymer-element.html">-->
 <!--<link rel="import" href="./bower_components/paper-icon-button/paper-icon-button.html">-->
-<!--<link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox-group.html">-->
-<!--<link rel="import" href="./bower_components/vaadin-checkbox/vaadin-checkbox.html">-->
 <!--<link rel="import" href="./bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">-->
 <!--<link rel="import" href="./bower_components/paper-tabs/paper-tabs.html">-->
 <!--<link rel="import" href="./bower_components/iron-pages/iron-pages.html">-->
+<!--<link rel="import" href="./bower_components/paper-toast/paper-toast.html">-->
 
 <link rel="import" href="hh-reading-template-modality.html">
 <link rel="import" href="hh-reading-template-bodypart.html">
 <link rel="import" href="hh-reading-template-studydesc.html">
 <link rel="import" href="hh-reading-template-report.html">
+<custom-style>
+    <style is="custom-style">
+        paper-tabs {
+            --paper-tabs-selection-bar: {
+                border-bottom: 3px solid #0087cb;
+                color: #2baab1;
+            };
+            --paper-tabs-content: {
+                font-weight: bold;
+                color: #aaaaaa;
+                background-color: #252934;
+                font-size: 13px;
+
+            };
+            box-shadow: 0px 3px 9px -2px #000000;
+            height: 40px;
+        }
+
+        paper-tabs paper-tab.iron-selected {
+            color: #2baab1;
+        }
+    </style>
+</custom-style>
 <style>
-    html, body{ height: 100%; width: 100%; margin: 0; padding: 0; position: fixed}
-    .container{
+    html, body {
+        height: 100%;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        position: fixed
+    }
+
+    .container {
         height: 100%;
         width: 100%;
         background-color: #35363d;
     }
-    .class-paper-tabs{
-        height: 6%;
-        width: 100%;
-    }
-    .class-ironPage{
-        height: 89%;
+
+    .class-paper-tabs {
+        height: 40px;
         width: 100%;
     }
 
-    .class-btn2{
-        height: 5%;
+    .class-ironPage {
+        height: calc(100% - 80px);
+        width: 100%;
+    }
+
+    .class-btn {
+        height: 40px;
         width: 100%;
         text-align: center;
         background-color: #14171c;
@@ -60,10 +94,12 @@
         border-radius: 2px;
         margin: 5px;
     }
-    .class-tabPage{
+
+    .class-tabPage {
         height: 100%;
         width: 100%;
     }
+
     #saveBtn {
         background: #0087cb;
     }
@@ -71,12 +107,15 @@
     #clearBtn {
         background: #4c5667;
     }
+
     #prevBtn {
         background: #ff646b;
     }
+
     #nextBtn {
         background: #4c7d35;
     }
+
     #closeBtn {
         background: #4c5667;
     }
@@ -92,7 +131,7 @@
         width: 100%;
     }
 
-    setting-btnGroups{
+    setting-btnGroups {
         display: flex;
         flex-direction: row;
         flex: 1;
@@ -100,21 +139,18 @@
         padding: 15px;
     }
 
-    #reportTempalteConfigTab{
-        height: 100%;
-        width: 100%;
-        color: #aaaaaa;
-        /*--paper-tabs-selection-bar_-_border-bottom: 3px solid #0087cb;*/
-        /*--paper-tabs-content_-_color: #aaaaaa;*/
-        /*--paper-tabs-content_-_background: #2d333f;*/
-        /*border-top-left-radius: 3px;*/
-        /*border-top-right-radius: 3px;*/
+    paper-toast {
+        --paper-toast-color: white;
     }
+
+    #toast {
+        --paper-toast-background-color: #0087cb;
+    }
+
 </style>
 <body style="background-color: deepskyblue">
 <div class="container">
-    <div class="class-btn1">
-    </div>
+    <paper-toast id="saveToast" duration="1000" class="save-toast"></paper-toast>
     <div class="class-paper-tabs">
         <paper-tabs id="reportTempalteConfigTab" selected="0" noink>
             <paper-tab value="modalityTab">Modality</paper-tab>
@@ -125,64 +161,92 @@
     </div>
     <div class="class-ironPage">
         <iron-pages id="tabPage" class="class-tabPage" selected="0">
-            <div><hh-reading-template-modality id="modalityTemplate"></hh-reading-template-modality></div>
-            <div><hh-reading-template-badypart id="bodypartTemplate"></hh-reading-template-badypart></div>
-            <div><hh-reading-template-studydesc id="studyDescTemplate"></hh-reading-template-studydesc></div>
-            <div><hh-reading-template-report id="reportTemplate"></hh-reading-template-report></div>
+            <div>
+                <hh-reading-template-modality id="modalityTemplate"></hh-reading-template-modality>
+            </div>
+            <div>
+                <hh-reading-template-badypart id="bodypartTemplate"></hh-reading-template-badypart>
+            </div>
+            <div>
+                <hh-reading-template-studydesc id="studyDescTemplate"></hh-reading-template-studydesc>
+            </div>
+            <div>
+                <hh-reading-template-report id="reportTemplate"></hh-reading-template-report>
+            </div>
         </iron-pages>
     </div>
-    <div class="class-btn2">
+    <div class="class-btn">
         <button id="closeBtn" class="btn">Closed</button>
     </div>
 </div>
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("closeBtn").addEventListener('click',function () {
+        document.getElementById("closeBtn").addEventListener('click', function () {
             window.close();
         });
 
-        document.getElementById("reportTempalteConfigTab").addEventListener('selected-changed', function(e) {
+        document.getElementById("reportTempalteConfigTab").addEventListener('selected-changed', function (e) {
             let pageIndex = e.detail.value;
             document.getElementById("tabPage").selectIndex(pageIndex);
         });
 
-        document.getElementById("tabPage").addEventListener('selected-changed', function(e) {
+        document.getElementById("tabPage").addEventListener('selected-changed', function (e) {
             let tabIndex = e.detail.value;
             document.getElementById("reportTempalteConfigTab").selectIndex(tabIndex);
         });
 
-        document.getElementById('modalityTemplate').addEventListener('nextTabEvent',function(){
+        document.getElementById('modalityTemplate').addEventListener('nextTabEvent', function () {
             nextTabEvent();
         });
 
-        document.getElementById('bodypartTemplate').addEventListener('prevTabEvent',function(){
+        document.getElementById('bodypartTemplate').addEventListener('prevTabEvent', function () {
             prevTabEvent();
         });
 
-        document.getElementById('bodypartTemplate').addEventListener('nextTabEvent',function(){
+        document.getElementById('bodypartTemplate').addEventListener('nextTabEvent', function () {
             nextTabEvent();
         });
 
-        document.getElementById('studyDescTemplate').addEventListener('nextTabEvent',function(){
+        document.getElementById('studyDescTemplate').addEventListener('nextTabEvent', function () {
             nextTabEvent();
         });
 
-        document.getElementById('studyDescTemplate').addEventListener('prevTabEvent',function(){
+        document.getElementById('studyDescTemplate').addEventListener('prevTabEvent', function () {
             prevTabEvent();
         });
 
-        document.getElementById('reportTemplate').addEventListener('prevTabEvent',function(){
+        document.getElementById('reportTemplate').addEventListener('prevTabEvent', function () {
             prevTabEvent();
+        });
+        document.getElementById('reportTemplate').addEventListener('prevTabEvent', function () {
+            prevTabEvent();
+        });
+        document.getElementById('reportTemplate').addEventListener('saveReportEvent', function () {
+            reportSaveEvent();
         });
 
     });
 
-    function nextTabEvent(){
+    function reportSaveEvent(){
+        console.log("save report event");
+
+        // if (!message.isErr) {
+        //     document.getElementById("toast2").style.backgroundColor = "#0087cb";
+        // } else {
+        //     document.getElementById("toast2").style.backgroundColor = "#e46159";
+        // }
+
+        document.getElementById("saveToast").style.backgroundColor = "#0087cb";
+        document.getElementById('saveToast').text = "Report save complate.";
+        document.getElementById('saveToast').open();
+    }
+
+    function nextTabEvent() {
         document.getElementById("tabPage").selectNext();
     }
 
-    function prevTabEvent(){
+    function prevTabEvent() {
         document.getElementById("tabPage").selectPrevious();
     }
 

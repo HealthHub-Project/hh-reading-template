@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox-group.html">
-<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <dom-module id="hh-reading-template-badypart">
     <template>
         <style>
@@ -16,28 +16,34 @@
 
             .class-bd {
                 display: flex;
-                height: 93%;
+                height: calc(100% - 40px);
             }
 
             .class-bd-field {
+                display: flex;
+                flex-direction: column;
                 height: 100%;
-                width: 11%;
+                width: 210px;
                 color: #aaaaaa;
                 background-color: #333a47;
+                font-size: 14px;
+                border-right: 5px solid black;
             }
 
             .class-bd-selected {
-                width: 97%;
+                width: calc(100% - 210px);
                 color: #aaaaaa;
                 background-color: #2c333f;
                 padding-left: 10px;
+                font-size: 14px;
             }
 
             .class-bd-btn {
-                height: 7%;
+                height: 40px;
                 color: #aaaaaa;
                 background-color: #252934;
                 text-align: right;
+                border-top: 5px solid black;
             }
 
             .btn {
@@ -63,77 +69,136 @@
                 color: #aaaaaa;
             }
 
+            .class-bd-selected-title, .class-bd-field-title{
+                height: 40px;
+                width: 100%;
+                text-align: center;
+                text-decoration: underline;
+            }
+            .class-bd-selected-contents{
+                height: calc(100% - 40px);
+                width: 100%;
+                display: flex;
+            }
+
+            .bd-select1, .bd-select2 {
+                border: 1px solid #4c5667;
+                border-radius: 3px;
+                background-color: #2c333f;
+                width: 20%;
+                height: 80%;
+                margin: 10px;
+
+                display: flex;
+                flex-direction: column;
+                overflow: auto;
+                overflow-x: hidden;
+            }
+
+            .bd-select1-title, .bd-select2-title {
+                margin-bottom: 10px;
+                font-size: 18px;
+                text-align: center;
+            }
+
+            .checkBox-style{
+                font-size: 15px;
+                color: #aaaaaa;
+                --paper-checkbox-checked-color: #0087cb;
+                --paper-checkbox-label-color: #aaaaaa;
+                --paper-checkbox-unchecked-color: #4c5667;
+                padding: 3px;
+            }
+            .bd-filed{
+                display: flex;
+                flex-direction: column;
+                margin-left: 10px;
+                overflow: auto;
+                overflow-x: hidden;
+            }
+
+            iron-selector{
+                display: flex;
+                flex-direction: column;
+            }
         </style>
         <div class="container">
             <div class="class-bd">
                 <div class="class-bd-field">
-                    <h2>Field</h2>
-                    <vaadin-checkbox id="bodypartFieldAll">All</vaadin-checkbox>
-                    <vaadin-checkbox-group id="bodypartField">
-                        <vaadin-checkbox value="abdomen">Abdomen</vaadin-checkbox>
-                        <vaadin-checkbox value="breast">Breast</vaadin-checkbox>
-                        <vaadin-checkbox value="pediatric">Pediatric</vaadin-checkbox>
-                        <vaadin-checkbox value="chest">Chest</vaadin-checkbox>
-                        <vaadin-checkbox value="cardiovascular">Cardiovascular</vaadin-checkbox>
-                        <vaadin-checkbox value="dental">Dental</vaadin-checkbox>
-                        <vaadin-checkbox value="genitourinary">Genitourinary</vaadin-checkbox>
-                        <vaadin-checkbox value="angio&intervention">Angio and Intervention</vaadin-checkbox>
-                        <vaadin-checkbox value="head&neck">Head and Neck</vaadin-checkbox>
-                        <vaadin-checkbox value="musculoskeletal">Musculoskeletal</vaadin-checkbox>
-                        <vaadin-checkbox value="neuro">Neuro</vaadin-checkbox>
-                        <vaadin-checkbox value="general">General</vaadin-checkbox>
-                    </vaadin-checkbox-group>
+                    <div class="class-bd-field-title"><h2>Field</h2></div>
+                    <div class="bd-filed">
+                        <paper-checkbox id="bodypartFieldAll" class="checkBox-style" noink>All</paper-checkbox>
+                        <iron-selector attr-for-selected="value" id="bodypartField" selected-values="{{bodypartField}}" multi>
+                            <paper-checkbox id="abdomen" class="checkBox-style" noink>Abdomen</paper-checkbox>
+                            <paper-checkbox id="breast" class="checkBox-style" noink>Breast</paper-checkbox>
+                            <paper-checkbox id="pediatric" class="checkBox-style" noink>Pediatric</paper-checkbox>
+                            <paper-checkbox id="chest" class="checkBox-style" noink>Chest</paper-checkbox>
+                            <paper-checkbox id="cardiovascular" class="checkBox-style" noink>Cardiovascular</paper-checkbox>
+                            <paper-checkbox id="dental" class="checkBox-style" noink>dental</paper-checkbox>
+                            <paper-checkbox id="genitourinary" class="checkBox-style" noink>Genitourinary</paper-checkbox>
+                            <paper-checkbox id="angio&intervention" class="checkBox-style" noink>Angio and Intervention</paper-checkbox>
+                            <paper-checkbox id="head&neck" class="checkBox-style" noink>Head and Neck</paper-checkbox>
+                            <paper-checkbox id="musculoskeletal" class="checkBox-style" noink>Musculoskeletal</paper-checkbox>
+                            <paper-checkbox id="neuro" class="checkBox-style" noink>neuro</paper-checkbox>
+                            <paper-checkbox id="general" class="checkBox-style" noink>General</paper-checkbox>
+                        </iron-selector>
+                    </div>
                 </div>
                 <div class="class-bd-selected">
-                    <h2>Selected</h2>
-                    <div>Abdomen</div>
-                    <vaadin-checkbox id="bdSelected1All">All</vaadin-checkbox>
-                    <vaadin-checkbox-group id="bdSelected1">
-                        <vaadin-checkbox value="abdomenWall">ABDOMEN WALL</vaadin-checkbox>
-                        <vaadin-checkbox value="appendix">APPENDIX</vaadin-checkbox>
-                        <vaadin-checkbox value="biliaryDucts">BILIARY DUCTS</vaadin-checkbox>
-                        <vaadin-checkbox value="cliacPlexus">CELIAC PLEXUS</vaadin-checkbox>
-                        <vaadin-checkbox value="cholangioPancreaticDucts">CHOLANGIO PANCREATIC DUCTS</vaadin-checkbox>
-                        <vaadin-checkbox value="duodenum">DUODENUM</vaadin-checkbox>
-                        <vaadin-checkbox value="esophagus">ESOPHAGUS</vaadin-checkbox>
-                        <vaadin-checkbox value="gallbladder">GALLBLADDER</vaadin-checkbox>
-                        <vaadin-checkbox value="gastrointestinalTract">GASTROINTESTINAL TRACT</vaadin-checkbox>
-                        <vaadin-checkbox value="hepaticVein">HEPATIC VEIN</vaadin-checkbox>
-                        <vaadin-checkbox value="largeIntestine">LARGE INTESTINE</vaadin-checkbox>
-                        <vaadin-checkbox value="liver">LIVER</vaadin-checkbox>
-                        <vaadin-checkbox value="mouthToAnus">MOUTH TO ANUS</vaadin-checkbox>
-                        <vaadin-checkbox value="pancreas">PANCREAS</vaadin-checkbox>
-                        <vaadin-checkbox value="pancreaticDucts">PANCREATIC DUCTS</vaadin-checkbox>
-                        <vaadin-checkbox value="peritoneum">PERITONEUM</vaadin-checkbox>
-                        <vaadin-checkbox value="rightUpperQuadrant">RIGHT UPPER QUADRANT</vaadin-checkbox>
-                        <vaadin-checkbox value="smallBowelLoopDiversion">SMALL BOWEL LOOP DIVERSION</vaadin-checkbox>
-                        <vaadin-checkbox value="smallIntestine">SMALL INTESTINE</vaadin-checkbox>
-                        <vaadin-checkbox value="spleen">SPLEEN</vaadin-checkbox>
-                        <vaadin-checkbox value="splenicVein">SPLENIC VEIN</vaadin-checkbox>
-                        <vaadin-checkbox value="stomach">STOMACH</vaadin-checkbox>
-                        <vaadin-checkbox value="subdiaphragm">SUBDIAPHRAGM</vaadin-checkbox>
-                        <vaadin-checkbox value="upperGiTract">UPPER GI TRACT</vaadin-checkbox>
-                    </vaadin-checkbox-group>
-                    <div>Chest</div>
-                    <vaadin-checkbox id="bdSelected2All">All</vaadin-checkbox>
-                    <vaadin-checkbox-group id="bdSelected2">
-                        <vaadin-checkbox value="airway">AIRWAY</vaadin-checkbox>
-                        <vaadin-checkbox value="chestWall">CHEST WALL</vaadin-checkbox>
-                        <vaadin-checkbox value="diaphragm">DIAPHRAGM</vaadin-checkbox>
-                        <vaadin-checkbox value="lung">LUNG</vaadin-checkbox>
-                        <vaadin-checkbox value="lungParenchyma">LUNG PARENCHYMA</vaadin-checkbox>
-                        <vaadin-checkbox value="mediastinum">MEDIASTINUM</vaadin-checkbox>
-                        <vaadin-checkbox value="pleura">PLEURA</vaadin-checkbox>
-                        <vaadin-checkbox value="pulmonaryArteries">PULMONARY ARTERIES</vaadin-checkbox>
-                        <vaadin-checkbox value="polmonaryVeins">PULMONARY VEINS</vaadin-checkbox>
-                        <vaadin-checkbox value="thoracicDuct">THORACIC DUCT</vaadin-checkbox>
-                        <vaadin-checkbox value="trachea">TRACHEA</vaadin-checkbox>
-                    </vaadin-checkbox-group>
-
+                    <div class="class-bd-selected-title"><h2>Selected</h2></div>
+                    <div class="class-bd-selected-contents">
+                        <div class="bd-select1">
+                            <div class="bd-select1-title">Abdomen</div>
+                            <paper-checkbox id="bdSelected1All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected1" selected-values="{{bdSelected1}}" multi>
+                                <paper-checkbox value="abdomenWall" class="checkBox-style" noink>ABDOMEN WALL</paper-checkbox>
+                                <paper-checkbox value="appendix" class="checkBox-style" noink>APPENDIX</paper-checkbox>
+                                <paper-checkbox value="biliaryDucts" class="checkBox-style" noink>BILIARY DUCTS</paper-checkbox>
+                                <paper-checkbox value="cliacPlexus" class="checkBox-style" noink>CELIAC PLEXUS</paper-checkbox>
+                                <paper-checkbox value="cholangioPancreaticDucts" class="checkBox-style" noink>CHOLANGIO PANCREATIC DUCTS</paper-checkbox>
+                                <paper-checkbox value="duodenum" class="checkBox-style" noink>DUODENUM</paper-checkbox>
+                                <paper-checkbox value="esophagus" class="checkBox-style" noink>ESOPHAGUS</paper-checkbox>
+                                <paper-checkbox value="gallbladder" class="checkBox-style" noink>GALLBLADDER</paper-checkbox>
+                                <paper-checkbox value="gastrointestinalTract" class="checkBox-style" noink>GASTROINTESTINAL TRACT</paper-checkbox>
+                                <paper-checkbox value="hepaticVein" class="checkBox-style" noink>HEPATIC VEIN</paper-checkbox>
+                                <paper-checkbox value="largeIntestine" class="checkBox-style" noink>LARGE INTESTINE</paper-checkbox>
+                                <paper-checkbox value="liver" class="checkBox-style" noink>LIVER</paper-checkbox>
+                                <paper-checkbox value="mouthToAnus" class="checkBox-style" noink>MOUTH TO ANUS</paper-checkbox>
+                                <paper-checkbox value="pancreas" class="checkBox-style" noink>PANCREAS</paper-checkbox>
+                                <paper-checkbox value="pancreaticDucts" class="checkBox-style" noink>PANCREATIC DUCTS</paper-checkbox>
+                                <paper-checkbox value="peritoneum" class="checkBox-style" noink>PERITONEUM</paper-checkbox>
+                                <paper-checkbox value="rightUpperQuadrant" class="checkBox-style" noink>RIGHT UPPER QUADRANT</paper-checkbox>
+                                <paper-checkbox value="smallBowelLoopDiversion" class="checkBox-style" noink>SMALL BOWEL LOOP DIVERSION</paper-checkbox>
+                                <paper-checkbox value="smallIntestine" class="checkBox-style" noink>SMALL INTESTINE</paper-checkbox>
+                                <paper-checkbox value="spleen" class="checkBox-style" noink>SPLEEN</paper-checkbox>
+                                <paper-checkbox value="splenicVein" class="checkBox-style" noink>SPLENIC VEIN</paper-checkbox>
+                                <paper-checkbox value="stomach" class="checkBox-style" noink>STOMACH</paper-checkbox>
+                                <paper-checkbox value="subdiaphragm" class="checkBox-style" noink>SUBDIAPHRAGM</paper-checkbox>
+                                <paper-checkbox value="upperGiTract" class="checkBox-style" noink>UPPER GI TRACT</paper-checkbox>
+                            </iron-selector>
+                        </div>
+                        <div class="bd-select2">
+                            <div class="bd-select2-title">Chest</div>
+                            <paper-checkbox id="bdSelected2All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected2" selected-values="{{bdSelected2}}" multi>
+                                <paper-checkbox id="airway" class="checkBox-style" noink>AIRWAY</paper-checkbox>
+                                <paper-checkbox id="chestWall" class="checkBox-style" noink>CHEST WALL</paper-checkbox>
+                                <paper-checkbox id="diaphragm" class="checkBox-style" noink>DIAPHRAGM</paper-checkbox>
+                                <paper-checkbox id="lung" class="checkBox-style" noink>LUNG</paper-checkbox>
+                                <paper-checkbox id="lungParenchyma" class="checkBox-style" noink>LUNG PARENCHYMA</paper-checkbox>
+                                <paper-checkbox id="mediastinum" class="checkBox-style" noink>MEDIASTINUM</paper-checkbox>
+                                <paper-checkbox id="pleura" class="checkBox-style" noink>PLEURA</paper-checkbox>
+                                <paper-checkbox id="pulmonaryArteries" class="checkBox-style" noink>PULMONARY ARTERIES</paper-checkbox>
+                                <paper-checkbox id="polmonaryVeins" class="checkBox-style" noink>PULMONARY VEINS</paper-checkbox>
+                                <paper-checkbox id="thoracicDuct" class="checkBox-style" noink>THORACIC DUCT</paper-checkbox>
+                                <paper-checkbox id="trachea" class="checkBox-style" noink>TRACHEA</paper-checkbox>
+                            </iron-selector>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="class-bd-btn">
-                <vaadin-checkbox id="bodypartChecked">All Selected Checked</vaadin-checkbox>
+                <paper-checkbox id="bodypartChecked" class="checkBox-style" noink>All Selected Checked</paper-checkbox>
                 <button id="prevBtn" class="btn">Prev</button>
                 <button id="nextBtn" class="btn">Next</button>
             </div>
@@ -152,6 +217,20 @@
                 constructor() {
                     super();
                     _this = this;
+                }
+
+                static get properties() {
+                    return {
+                        bodypartField: {
+                            type: Array
+                        },
+                        bdSelected1: {
+                            type: Array
+                        },
+                        bdSelected2: {
+                            type: Array
+                        }
+                    }
                 }
 
                 ready() {

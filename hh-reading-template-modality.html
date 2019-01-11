@@ -1,6 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox-group.html">
-<link rel="import" href="../bower_components/vaadin-checkbox/vaadin-checkbox.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <dom-module id="hh-reading-template-modality">
     <template>
         <style>
@@ -20,28 +20,36 @@
 
             .class-md {
                 display: flex;
-                height: 93%;
+                height: calc(100% - 40px);
+                width: 100%;
             }
 
             .class-md-field {
+                display: flex;
+                flex-direction: column;
                 height: 100%;
-                width: 11%;
+                width: 210px;
                 color: #aaaaaa;
                 background-color: #333a47;
+                font-size: 14px;
+                border-right: 5px solid black;
             }
 
             .class-md-selected {
-                width: 97%;
+                width: calc(100% - 210px);
                 padding-left: 10px;
+                padding-right: 10px;
                 color: #aaaaaa;
                 background-color: #2c333f;
+                font-size: 14px;
             }
 
             .class-md-btn {
-                height: 7%;
+                height: 40px;
                 color: #aaaaaa;
                 background-color: #252934;
                 text-align: right;
+                border-top: 5px solid black;
             }
 
             .btn {
@@ -64,57 +72,113 @@
             #modalityFieldAll, #modalityField, #mdSelected1, #mdSelected2{
                 color: #aaaaaa;
             }
+            .class-md-selected-title, .class-md-field-title{
+                height: 40px;
+                width: 100%;
+                text-align: center;
+                text-decoration: underline;
+            }
+            .class-md-selected-contents{
+                height: calc(100% - 40px);
+                width: 100%;
+                display: flex;
+            }
 
+            .m-select1, .m-select2{
+                border: 1px solid #4c5667;
+                border-radius: 3px;
+                background-color: #2c333f;
+                width: 20%;
+                height: 80%;
+                margin: 10px;
+
+                display: flex;
+                flex-direction: column;
+                overflow: auto;
+                overflow-x: hidden;
+            }
+            .m-select1-title, .m-select2-title{
+                margin-bottom: 10px;
+                font-size: 18px;
+                text-align: center;
+            }
+
+            .checkBox-style{
+                font-size: 15px;
+                color: #aaaaaa;
+                --paper-checkbox-checked-color: #0087cb;
+                --paper-checkbox-label-color: #aaaaaa;
+                --paper-checkbox-unchecked-color: #4c5667;
+                padding: 3px;
+            }
+            .m-filed{
+                display: flex;
+                flex-direction: column;
+                margin-left: 10px;
+                overflow: auto;
+                overflow-x: hidden;
+            }
+            iron-selector{
+                display: flex;
+                flex-direction: column;
+            }
         </style>
         <div class="container">
             <div class="class-md">
                 <div class="class-md-field">
-                    <h2>Field</h2>
-                    <vaadin-checkbox id="modalityFieldAll">All</vaadin-checkbox>
-                    <vaadin-checkbox-group id="modalityField">
-                        <vaadin-checkbox value="radiology">Radiology</vaadin-checkbox>
-                        <vaadin-checkbox value="opthalmology">Opthalmology</vaadin-checkbox>
-                        <vaadin-checkbox value="nuclearMedicine">Nuclear Medicine</vaadin-checkbox>
-                        <vaadin-checkbox value="dental">Dental</vaadin-checkbox>
-                        <vaadin-checkbox value="waveform">Waveform</vaadin-checkbox>
-                        <vaadin-checkbox value="pathology">Pathology</vaadin-checkbox>
-                        <vaadin-checkbox value="other">Other</vaadin-checkbox>
-                    </vaadin-checkbox-group>
+                    <div class="class-md-field-title"><h2>Field</h2></div>
+                    <div class="m-filed">
+                        <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink>All</paper-checkbox>
+                        <iron-selector attr-for-selected="value" id="modalityField" selected-values="{{modalityField}}" multi>
+                            <paper-checkbox value="radiology" id="mdFiled1" class="checkBox-style" noink>Radiology</paper-checkbox>
+                            <paper-checkbox value="opthalmology" id="mdFiled2" class="checkBox-style" noink>Opthalmology</paper-checkbox>
+                            <paper-checkbox value="nuclearMedicine" id="mdFiled3" class="checkBox-style" noink>Nuclear Medicine</paper-checkbox>
+                            <paper-checkbox value="dental" id="mdFiled4" class="checkBox-style" noink>Dental</paper-checkbox>
+                            <paper-checkbox value="waveform" id="mdFiled5" class="checkBox-style" noink>Waveform</paper-checkbox>
+                            <paper-checkbox value="pathology" id="mdFiled6"  class="checkBox-style" noink>Pathology</paper-checkbox>
+                            <paper-checkbox value="other" id="mdFiled7"  class="checkBox-style" noink>Other</paper-checkbox>
+                        </iron-selector>
+                    </div>
                 </div>
                 <div class="class-md-selected">
-                    <h2>Selected</h2>
-                    <div>Radiology</div>
-                    <vaadin-checkbox id="mdSelected1All">All</vaadin-checkbox>
-                    <vaadin-checkbox-group id="mdSelected1">
-                        <vaadin-checkbox value="xr">XR (X-ray, Simple radiography)</vaadin-checkbox>
-                        <vaadin-checkbox value="xr&rf">XR & RF (X-ray and F)</vaadin-checkbox>
-                        <vaadin-checkbox value="rf">RF (Radio-Fluoroscopy)</vaadin-checkbox>
-                        <vaadin-checkbox value="mg">MG ( Mammography)</vaadin-checkbox>
-                        <vaadin-checkbox value="us">US (Ultrasound)</vaadin-checkbox>
-                        <vaadin-checkbox value="us&rf">US & RF (Ultrasound and Fluoroscopy)</vaadin-checkbox>
-                        <vaadin-checkbox value="ct">CT (Computed Tomography)</vaadin-checkbox>
-                        <vaadin-checkbox value="mr">MR (Magnetic Resonance Imaging)</vaadin-checkbox>
-                        <vaadin-checkbox value="xa">XA (X-ray Angiography)</vaadin-checkbox>
-                        <vaadin-checkbox value="rp">RP (Radiology Procedure)</vaadin-checkbox>
-                        <vaadin-checkbox value="ir">IR (Interventional Radiology)</vaadin-checkbox>
-                        <vaadin-checkbox value="sr">SR (Structured Repoting Document)</vaadin-checkbox>
-                        <vaadin-checkbox value="ot">OT (Other)</vaadin-checkbox>
-                        <vaadin-checkbox value="ivus">IVUS (Intravascular Ultrasound)</vaadin-checkbox>
-                    </vaadin-checkbox-group>
-                    <div>Nuclear Medicine</div>
-                    <vaadin-checkbox id="mdSelected2All">All</vaadin-checkbox>
-                    <vaadin-checkbox-group id="mdSelected2">
-                        <vaadin-checkbox value="NM">NM (Neclear Medicine)</vaadin-checkbox>
-                        <vaadin-checkbox value="NM&CT">NM & CT (Neclear Medicine and CT)</vaadin-checkbox>
-                        <vaadin-checkbox value="PT">PT (Positron Emission Tomography)</vaadin-checkbox>
-                        <vaadin-checkbox value="PT&CT">PT & CT (Positron Emission Tomography and CT)</vaadin-checkbox>
-                        <vaadin-checkbox value="PT&MR">PT-MR (Positron Emission Tomography and MR)</vaadin-checkbox>
-                    </vaadin-checkbox-group>
+                    <div class="class-md-selected-title"><h2>Selected</h2></div>
+                    <div class="class-md-selected-contents">
+                        <div class="m-select1">
+                            <div class="m-select1-title">Radiology</div>
+                            <paper-checkbox id="mdSelected1All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="mdSelected1" selected-values="{{mdSelected1}}" multi>
+                                <paper-checkbox value="xr" id="mdSelectedItem1" class="checkBox-style" noink>XR (X-ray, Simple radiography)</paper-checkbox>
+                                <paper-checkbox value="xr&rf" id="mdSelectedItem2" class="checkBox-style" noink>XR & RF (X-ray and F)</paper-checkbox>
+                                <paper-checkbox value="rf" id="mdSelectedItem3" class="checkBox-style" noink>RF (Radio-Fluoroscopy)</paper-checkbox>
+                                <paper-checkbox value="mg" id="mdSelectedItem4" class="checkBox-style" noink>MG ( Mammography)</paper-checkbox>
+                                <paper-checkbox value="us" id="mdSelectedItem5" class="checkBox-style" noink>US (Ultrasound)</paper-checkbox>
+                                <paper-checkbox value="us&rf" id="mdSelectedItem6" class="checkBox-style" noink>US & RF (Ultrasound and Fluoroscopy)</paper-checkbox>
+                                <paper-checkbox value="ct" id="mdSelectedItem7" class="checkBox-style" noink>CT (Computed Tomography)</paper-checkbox>
+                                <paper-checkbox value="mr" id="mdSelectedItem8" class="checkBox-style" noink>MR (Magnetic Resonance Imaging)</paper-checkbox>
+                                <paper-checkbox value="xa" id="mdSelectedItem9" class="checkBox-style" noink>XA (X-ray Angiography)</paper-checkbox>
+                                <paper-checkbox value="rp" id="mdSelectedItem10" class="checkBox-style" noink>RP (Radiology Procedure)</paper-checkbox>
+                                <paper-checkbox value="ir" id="mdSelectedItem11" class="checkBox-style" noink>IR (Interventional Radiology)</paper-checkbox>
+                                <paper-checkbox value="sr" id="mdSelectedItem12" class="checkBox-style" noink>SR (Structured Repoting Document)</paper-checkbox>
+                                <paper-checkbox value="ot" id="mdSelectedItem13" class="checkBox-style" noink>OT (Other)</paper-checkbox>
+                                <paper-checkbox value="ivus" id="mdSelectedItem14" class="checkBox-style" noink>IVUS (Intravascular Ultrasound)</paper-checkbox>
+                            </iron-selector>
+                        </div>
+                        <div class="m-select2">
+                            <div class="m-select2-title">Nuclear Medicine</div>
+                            <paper-checkbox id="mdSelected2All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="mdSelected2" selected-values="{{mdSelected2}}" multi>
+                                <paper-checkbox value="NM" id="mdFiled1" class="checkBox-style" noink>NM (Neclear Medicine)</paper-checkbox>
+                                <paper-checkbox value="NM&CT" id="mdFiled2" class="checkBox-style" noink>NM & CT (Neclear Medicine and CT)</paper-checkbox>
+                                <paper-checkbox value="PT" id="mdFiled2" class="checkBox-style" noink>PT (Positron Emission Tomography)</paper-checkbox>
+                                <paper-checkbox value="PT&CT" id="mdFiled2" class="checkBox-style" noink>PT & CT (Positron Emission Tomography and CT)</paper-checkbox>
+                                <paper-checkbox value="PT&MR" id="mdFiled2" class="checkBox-style" noink>PT-MR (Positron Emission Tomography and MR)</paper-checkbox>
+                            </iron-selector>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="class-md-btn">
-                <vaadin-checkbox id="modalityChecked">All Selected Checked</vaadin-checkbox>
-                <!--<button id="prevBtn" class="btn">Prev</button>-->
+                <paper-checkbox id="modalityChecked" class="checkBox-style" noink>All Selected Checked</paper-checkbox>
                 <button id="nextBtn" class="btn">Next</button>
             </div>
         </div>
@@ -128,6 +192,21 @@
                 static get is() {
                     return 'hh-reading-template-modality';
                 }
+
+                static get properties() {
+                    return {
+                        modalityField: {
+                            type: Array
+                        },
+                        mdSelected1: {
+                            type: Array
+                        },
+                        mdSelected2: {
+                            type: Array
+                        }
+                    }
+                }
+
 
                 constructor() {
                     super();
@@ -173,6 +252,10 @@
                         }
                     });
 
+                }
+
+                _onSelectedChanged(e){
+                    console.log('route',e.detail.value);
                 }
             }
 

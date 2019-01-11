@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
 <dom-module id="hh-reading-template-report">
     <template>
         <style>
@@ -7,6 +8,7 @@
                 height: 100%;
                 width: 100%;
             }
+
             .container {
                 height: 100%;
                 width: 100%;
@@ -19,27 +21,39 @@
             }
 
             .class-report-input{
-                height: 93%;
+                height: calc(100% - 40px);
                 width: 100%;
                 background-color: #ffffff;
             }
 
             .class-report-btn{
-                height: 7%;
+                height: 40px;
                 width: 100%;
                 text-align: right;
                 background-color: #252934;
+                border-top: 5px solid black;
             }
 
             .wrap-title{
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
                 width: 80%;
-                height: 20%;
+                height: 15%;
                 color: #aaaaaa;
+                padding-top: 10px;
+                margin-left: 10%;
+                margin-bottom: 10px;
+
+                text-decoration: underline;
+                font-size: 21px;
+                font-weight: bold;
             }
 
             .wrap-report{
                 width: 80%;
-                height: 80%;
+                height: 75%;
+                margin-left: 10%;
             }
 
             .context-textarea{
@@ -80,24 +94,39 @@
             #prevBtn {
                 background: #ff646b;
             }
+
+            paper-input {
+                --paper-input-container-focus-color: #0087cb;
+                --paper-input-container-input-color: #aaaaaa;
+                --paper-input-container-input-text-align: initial;
+                --paper-input-container-label-color: #aaaaaa;
+            }
+
+            iron-autogrow-textarea{
+                font-size: 15px;
+                background-color: #252934;
+                color: #aaaaaa;
+                resize: none;
+                margin-top: 10px;
+            }
+
         </style>
         <div class="container">
             <div class="class-report-input">
                 <div class="wrap-context">
                     <div class="wrap-title">
-                        <div style="font-size:x-large;">REPORT TEMPLATE</div>
+                        <div style="text-align: center">REPORT TEMPLATE</div>
                         <input type="hidden" id="seqNo" value="{{seqNo}}">
                         <input type="hidden" id="displayOrder" value="{{displayOrder}}">
                         <input type="hidden" id="hotKey1" value="{{hotKey1}}">
-                        <div class="text-title"><p class="text-font">Title</p></div>
-                        <paper-input always-float-label label="input title" class="textarea-title" char-counter maxlength="50"></paper-input>
+                        <paper-input always-float-label label="input title" id="title" class="textarea-title" no-label-float char-counter maxlength="50"></paper-input>
                     </div>
                     <div class="wrap-report">
-                        <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}"
+                        <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}" placeholder="Finding"
                                                 require="true"></iron-autogrow-textarea>
-                        <iron-autogrow-textarea class="context-textarea" id="conclusion"
+                        <iron-autogrow-textarea class="context-textarea" id="conclusion" placeholder="Conclusion"
                                                 value="{{conclusion}}"></iron-autogrow-textarea>
-                        <iron-autogrow-textarea class="context-textarea" id="recommendation"
+                        <iron-autogrow-textarea class="context-textarea" id="recommendation" placeholder="Recommendation"
                                                 value="{{recommendation}}"></iron-autogrow-textarea>
                     </div>
                 </div>
@@ -122,11 +151,14 @@
                     super.ready();
 
                     this.$.saveBtn.addEventListener('click',function(){
-                        console.log("save btn");
+                        _this.dispatchEvent(new CustomEvent('saveReportEvent'));
                     });
 
                     this.$.clearBtn.addEventListener('click',function(){
-                        console.log("clear btn");
+                        _this.$.title.value="";
+                        _this.$.finding.value = "";
+                        _this.$.conclusion.value = "";
+                        _this.$.recommendation.value = "";
                     });
 
                     this.$.prevBtn.addEventListener('click',function(){
