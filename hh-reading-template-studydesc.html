@@ -1,10 +1,11 @@
+<script src="licenseKey.js"></script>
 <!--bower component-->
-<script src="../ag-grid/dist/ag-grid.js"></script>
+<script src="../ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
 <link rel="import" href="../ag-grid-polymer/ag-grid-polymer.html">
 
 <!--develop-->
-<!--<script src="./bower_components/ag-grid/dist/ag-grid.js"></script>-->
-<!--<link rel="import" href="./bower_components/ag-grid-polymer/ag-grid-polymer.html">-->
+<!--<script src="../bower_components/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>-->
+<!--<link rel="import" href="../bower_components/ag-grid-polymer/ag-grid-polymer.html">-->
 <dom-module id="hh-reading-template-studydesc">
     <template>
         <!--bower component-->
@@ -12,8 +13,8 @@
         <link rel="stylesheet" href="../ag-grid/dist/styles/ag-theme-balham-dark.css">
 
         <!--develop-->
-        <!--<link rel="stylesheet" href="./bower_components/ag-grid/dist/styles/ag-grid.css">-->
-        <!--<link rel="stylesheet" href="./bower_components/ag-grid/dist/styles/ag-theme-balham-dark.css">-->
+        <!--<link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-grid.css">-->
+        <!--<link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-theme-balham-dark.css">-->
         <style>
             :host {
                 height: 100%;
@@ -161,7 +162,7 @@
                         toolPanelSuppressColumnSelectAll: true,
                         toolPanelSuppressColumnExpandAll: true,
                         toolPanelSuppressColumnFilter: true,
-                        toolPanelSuppressPivots: true,
+                        toolPanelSuppressPivots: false,
                         toolPanelSuppressPivotMode: true
                     };
 
