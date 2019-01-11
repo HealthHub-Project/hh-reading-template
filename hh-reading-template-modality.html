@@ -1,6 +1,3 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <dom-module id="hh-reading-template-modality">
     <template>
         <style>
@@ -63,23 +60,17 @@
                 margin: 5px;
             }
 
-            #prevBtn {
-                background: #ff646b;
-            }
             #nextBtn {
                 background: #4c7d35;
             }
+
             #modalityFieldAll, #modalityField, #mdSelected1, #mdSelected2{
                 color: #aaaaaa;
             }
-            .class-md-selected-title, .class-md-field-title{
-                height: 40px;
-                width: 100%;
-                text-align: center;
-                text-decoration: underline;
-            }
+
             .class-md-selected-contents{
-                height: calc(100% - 40px);
+                /*height: calc(100% - 40px);*/
+                height: 100%;
                 width: 100%;
                 display: flex;
             }
@@ -126,7 +117,6 @@
         <div class="container">
             <div class="class-md">
                 <div class="class-md-field">
-                    <div class="class-md-field-title"><h2>Field</h2></div>
                     <div class="m-filed">
                         <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink>All</paper-checkbox>
                         <iron-selector attr-for-selected="value" id="modalityField" selected-values="{{modalityField}}" multi>
@@ -141,7 +131,6 @@
                     </div>
                 </div>
                 <div class="class-md-selected">
-                    <div class="class-md-selected-title"><h2>Selected</h2></div>
                     <div class="class-md-selected-contents">
                         <div class="m-select1">
                             <div class="m-select1-title">Radiology</div>
@@ -238,7 +227,6 @@
                     });
 
                     this.$.mdSelected2All.addEventListener('change',function(e){
-                        console.log(e);
                         for(let i=0; i<_this.$.mdSelected2.childElementCount; i++){
                             _this.$.mdSelected2.children[i].checked = e.target.checked;
                         }

@@ -1,6 +1,3 @@
-<link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
-<link rel="import" href="../bower_components/iron-selector/iron-selector.html">
 <dom-module id="hh-reading-template-badypart">
     <template>
         <style>
@@ -69,12 +66,6 @@
                 color: #aaaaaa;
             }
 
-            .class-bd-selected-title, .class-bd-field-title{
-                height: 40px;
-                width: 100%;
-                text-align: center;
-                text-decoration: underline;
-            }
             .class-bd-selected-contents{
                 height: calc(100% - 40px);
                 width: 100%;
@@ -125,7 +116,6 @@
         <div class="container">
             <div class="class-bd">
                 <div class="class-bd-field">
-                    <div class="class-bd-field-title"><h2>Field</h2></div>
                     <div class="bd-filed">
                         <paper-checkbox id="bodypartFieldAll" class="checkBox-style" noink>All</paper-checkbox>
                         <iron-selector attr-for-selected="value" id="bodypartField" selected-values="{{bodypartField}}" multi>
@@ -145,7 +135,6 @@
                     </div>
                 </div>
                 <div class="class-bd-selected">
-                    <div class="class-bd-selected-title"><h2>Selected</h2></div>
                     <div class="class-bd-selected-contents">
                         <div class="bd-select1">
                             <div class="bd-select1-title">Abdomen</div>
