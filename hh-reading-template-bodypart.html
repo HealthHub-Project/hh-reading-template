@@ -62,7 +62,9 @@
                 background: #4c7d35;
             }
 
-            #bodypartFieldAll, #bodypartField, #bdSelected1, #bdSelected2 {
+            #bodypartFieldAll, #bodypartField, #bdSelected1, #bdSelected2,
+            #bdSelected3, #bdSelected4, #bdSelected5, #bdSelected6,
+            #bdSelected7, #bdSelected8, #bdSelected9, #bdSelected10 , #bdSelected11{
                 color: #aaaaaa;
             }
 
@@ -72,7 +74,8 @@
                 display: flex;
             }
 
-            .bd-select1, .bd-select2 {
+            .bd-select1, .bd-select2, .bd-select3, .bd-select4, .bd-select5,
+            .bd-select6, .bd-select7, .bd-select8, .bd-select9, .bd-select10, .bd-select11{
                 border: 1px solid #4c5667;
                 border-radius: 3px;
                 background-color: #2c333f;
@@ -86,7 +89,10 @@
                 overflow-x: hidden;
             }
 
-            .bd-select1-title, .bd-select2-title {
+            .bd-select1-title, .bd-select2-title, .bd-select3-title,
+            .bd-select4-title, .bd-select5-title, .bd-select6-title,
+            .bd-select7-title, .bd-select8-title, .bd-select9-title,
+            .bd-select10-title, .bd-select11-title{
                 margin-bottom: 10px;
                 font-size: 18px;
                 text-align: center;
@@ -139,7 +145,7 @@
                         <div class="bd-select1">
                             <div class="bd-select1-title">Abdomen</div>
                             <paper-checkbox id="bdSelected1All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="bdSelected1" selected-values="{{bdSelected1}}" multi>
+                            <iron-selector attr-for-selected="value" id="bdSelected1" selected-values="{{abdomen}}" multi>
                                 <paper-checkbox value="abdomenWall" class="checkBox-style" noink>ABDOMEN WALL</paper-checkbox>
                                 <paper-checkbox value="appendix" class="checkBox-style" noink>APPENDIX</paper-checkbox>
                                 <paper-checkbox value="biliaryDucts" class="checkBox-style" noink>BILIARY DUCTS</paper-checkbox>
@@ -166,10 +172,21 @@
                                 <paper-checkbox value="upperGiTract" class="checkBox-style" noink>UPPER GI TRACT</paper-checkbox>
                             </iron-selector>
                         </div>
+
                         <div class="bd-select2">
-                            <div class="bd-select2-title">Chest</div>
+                            <div class="bd-select2-title">Breast</div>
                             <paper-checkbox id="bdSelected2All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="bdSelected2" selected-values="{{bdSelected2}}" multi>
+                            <iron-selector attr-for-selected="value" id="bdSelected2" selected-values="{{breast}}" multi>
+                                <paper-checkbox id="axilla" class="checkBox-style" noink>AXILLA</paper-checkbox>
+                                <paper-checkbox id="axillaryLymphNode" class="checkBox-style" noink>AXILLARY LYMPH NODE</paper-checkbox>
+                                <paper-checkbox id="breast" class="checkBox-style" noink>BREAST</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select3">
+                            <div class="bd-select3-title">Chest</div>
+                            <paper-checkbox id="bdSelected3All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected3" selected-values="{{chest}}" multi>
                                 <paper-checkbox id="airway" class="checkBox-style" noink>AIRWAY</paper-checkbox>
                                 <paper-checkbox id="chestWall" class="checkBox-style" noink>CHEST WALL</paper-checkbox>
                                 <paper-checkbox id="diaphragm" class="checkBox-style" noink>DIAPHRAGM</paper-checkbox>
@@ -183,6 +200,245 @@
                                 <paper-checkbox id="trachea" class="checkBox-style" noink>TRACHEA</paper-checkbox>
                             </iron-selector>
                         </div>
+
+                        <div class="bd-select4">
+                            <div class="bd-select4-title">Cardiovascular</div>
+                            <paper-checkbox id="bdSelected4All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected4" selected-values="{{bdSelected4}}" multi>
+                                <paper-checkbox id="coronaryArteries" class="checkBox-style" noink>CORONARY ARTERIES</paper-checkbox>
+                                <paper-checkbox id="heart" class="checkBox-style" noink>HEART</paper-checkbox>
+                                <paper-checkbox id="internalMammaryArtery" class="checkBox-style" noink>INTERNAL MAMMARY ARTERY</paper-checkbox>
+                                <paper-checkbox id="leftAtrium" class="checkBox-style" noink>LEFT ATRIUM</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select5">
+                            <div class="bd-select5-title">Dental</div>
+                            <paper-checkbox id="bdSelected5All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected5" selected-values="{{dental}}" multi>
+                                <paper-checkbox id="teeth" class="checkBox-style" noink>Teeth</paper-checkbox>
+                                <paper-checkbox id="teethMaxilla" class="checkBox-style" noink>Teeth.maxilla</paper-checkbox>
+                                <paper-checkbox id="teethMandible" class="checkBox-style" noink>Teeth.mandible</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select6">
+                            <div class="bd-select6-title">Genitourinary</div>
+                            <paper-checkbox id="bdSelected6All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected6" selected-values="{{genitourinary}}" multi>
+                                <paper-checkbox id="additionalGestation" class="checkBox-style" noink>ADDITIONAL GESTATION</paper-checkbox>
+                                <paper-checkbox id="adrenal" class="checkBox-style" noink>ADRENAL</paper-checkbox>
+                                <paper-checkbox id="bladder" class="checkBox-style" noink>BLADDER</paper-checkbox>
+                                <paper-checkbox id="cervix" class="checkBox-style" noink>CERVIX</paper-checkbox>
+                                <paper-checkbox id="fallopianTube" class="checkBox-style" noink>FALLOPIAN TUBE</paper-checkbox>
+                                <paper-checkbox id="fallopianTubes" class="checkBox-style" noink>FALLOPIAN TUBES</paper-checkbox>
+                                <paper-checkbox id="fetus" class="checkBox-style" noink>FETUS</paper-checkbox>
+                                <paper-checkbox id="gestation" class="checkBox-style" noink>GESTATION</paper-checkbox>
+                                <paper-checkbox id="kidney" class="checkBox-style" noink>KIDNEY</paper-checkbox>
+                                <paper-checkbox id="ovaries" class="checkBox-style" noink>OVARIES</paper-checkbox>
+                                <paper-checkbox id="ovary" class="checkBox-style" noink>OVARY</paper-checkbox>
+                                <paper-checkbox id="penileArtery" class="checkBox-style" noink>PENILE ARTERY</paper-checkbox>
+                                <paper-checkbox id="penileVeins" class="checkBox-style" noink>PENILE VEINS</paper-checkbox>
+                                <paper-checkbox id="penileVessels" class="checkBox-style" noink>PENILE VESSELS</paper-checkbox>
+                                <paper-checkbox id="penis" class="checkBox-style" noink>PENIS</paper-checkbox>
+                                <paper-checkbox id="prostate" class="checkBox-style" noink>PROSTATE</paper-checkbox>
+                                <paper-checkbox id="renalCyst" class="checkBox-style" noink>RENAL CYST</paper-checkbox>
+                                <paper-checkbox id="scrotum" class="checkBox-style" noink>SCROTUM</paper-checkbox>
+                                <paper-checkbox id="seminalVesicle" class="checkBox-style" noink>SEMINAL VESICLE</paper-checkbox>
+                                <paper-checkbox id="testicles" class="checkBox-style" noink>TESTICLES</paper-checkbox>
+                                <paper-checkbox id="transplantedKidney" class="checkBox-style" noink>TRANSPLANTED KIDNEY</paper-checkbox>
+                                <paper-checkbox id="umbilicalArtery" class="checkBox-style" noink>UMBILICAL ARTERY</paper-checkbox>
+                                <paper-checkbox id="ureter" class="checkBox-style" noink>URETER</paper-checkbox>
+                                <paper-checkbox id="urethra" class="checkBox-style" noink>URETHRA</paper-checkbox>
+                                <paper-checkbox id="urinaryPouch" class="checkBox-style" noink>URINARY POUCH</paper-checkbox>
+                                <paper-checkbox id="urinaryTract" class="checkBox-style" noink>URINARY TRACT</paper-checkbox>
+                                <paper-checkbox id="uterus" class="checkBox-style" noink>UTERUS</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select7">
+                            <div class="bd-select7-title">Angio and Intervention</div>
+                            <paper-checkbox id="bdSelected7All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected7" selected-values="{{angioAndIntervention}}" multi>
+                                <paper-checkbox id="aorta" class="checkBox-style" noink>AORTA</paper-checkbox>
+                                <paper-checkbox id="arterialAnastomosis" class="checkBox-style" noink>ARTERIAL ANASTOMOSIS</paper-checkbox>
+                                <paper-checkbox id="arteries" class="checkBox-style" noink>ARTERIES</paper-checkbox>
+                                <paper-checkbox id="arteriovenousFistulae" class="checkBox-style" noink>ARTERIOVENOUS FISTULAE</paper-checkbox>
+                                <paper-checkbox id="brachiocephalIcArtery" class="checkBox-style" noink>BRACHIOCEPHALIC ARTERY</paper-checkbox>
+                                <paper-checkbox id="bronchialArtery" class="checkBox-style" noink>BRONCHIAL ARTERY</paper-checkbox>
+                                <paper-checkbox id="femoralArteries" class="checkBox-style" noink>FEMORAL ARTERIES</paper-checkbox>
+                                <paper-checkbox id="femoralArtery" class="checkBox-style" noink>FEMORAL ARTERY</paper-checkbox>
+                                <paper-checkbox id="iliacArtery" class="checkBox-style" noink>ILIAC ARTERY</paper-checkbox>
+                                <paper-checkbox id="inferiorVenaCava" class="checkBox-style" noink>INFERIOR VENA CAVA</paper-checkbox>
+                                <paper-checkbox id="intercostalArteries" class="checkBox-style" noink>INTERCOSTAL ARTERIES</paper-checkbox>
+                                <paper-checkbox id="lymphVessels" class="checkBox-style" noink>LYMPH VESSELS</paper-checkbox>
+                                <paper-checkbox id="lymphDuct" class="checkBox-style" noink>LYMPHATIC DUCT</paper-checkbox>
+                                <paper-checkbox id="poplitealArteries" class="checkBox-style" noink>POPLITEAL ARTERIES</paper-checkbox>
+                                <paper-checkbox id="portalVein" class="checkBox-style" noink>PORTAL VEIN</paper-checkbox>
+                                <paper-checkbox id="renalArteries" class="checkBox-style" noink>RENAL ARTERIES</paper-checkbox>
+                                <paper-checkbox id="renalArtery" class="checkBox-style" noink>RENAL ARTERY</paper-checkbox>
+                                <paper-checkbox id="renalVein" class="checkBox-style" noink>RENAL VEIN</paper-checkbox>
+                                <paper-checkbox id="superiorVenaCava" class="checkBox-style" noink>SUPERIOR VENA CAVA</paper-checkbox>
+                                <paper-checkbox id="uterineArtery" class="checkBox-style" noink>UTERINE ARTERY</paper-checkbox>
+                                <paper-checkbox id="vein" class="checkBox-style" noink>VEIN</paper-checkbox>
+                                <paper-checkbox id="veins" class="checkBox-style" noink>VEINS</paper-checkbox>
+                                <paper-checkbox id="vertebralArtery" class="checkBox-style" noink>VERTEBRAL ARTERY</paper-checkbox>
+                                <paper-checkbox id="vessels" class="checkBox-style" noink>VESSELS</paper-checkbox>
+                                <paper-checkbox id="visceralArteries" class="checkBox-style" noink>VISCERAL ARTERIES</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select8">
+                            <div class="bd-select8-title">Head and Neck</div>
+                            <paper-checkbox id="bdSelected8All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected8" selected-values="{{headAndNeck}}" multi>
+                                <paper-checkbox id="deepCervicalLymphNode" class="checkBox-style" noink>DEEP CERVICAL LYMPH NODE</paper-checkbox>
+                                <paper-checkbox id="ear" class="checkBox-style" noink>EAR</paper-checkbox>
+                                <paper-checkbox id="externalAuditoryCanal" class="checkBox-style" noink>EXTERNAL AUDITORY CANAL</paper-checkbox>
+                                <paper-checkbox id="facialBones" class="checkBox-style" noink>FACIAL BONES</paper-checkbox>
+                                <paper-checkbox id="jaws" class="checkBox-style" noink>JAWS</paper-checkbox>
+                                <paper-checkbox id="larynx" class="checkBox-style" noink>LARYNX</paper-checkbox>
+                                <paper-checkbox id="mandible" class="checkBox-style" noink>MANDIBLE</paper-checkbox>
+                                <paper-checkbox id="maxillofacial" class="checkBox-style" noink>MAXILLOFACIAL</paper-checkbox>
+                                <paper-checkbox id="middleEar" class="checkBox-style" noink>MIDDLE EAR</paper-checkbox>
+                                <paper-checkbox id="nasalBones" class="checkBox-style" noink>NASAL BONES</paper-checkbox>
+                                <paper-checkbox id="nasopharynx" class="checkBox-style" noink>NASOPHARYNX</paper-checkbox>
+                                <paper-checkbox id="opticForamina" class="checkBox-style" noink>OPTIC FORAMINA</paper-checkbox>
+                                <paper-checkbox id="orbits" class="checkBox-style" noink>ORBITS</paper-checkbox>
+                                <paper-checkbox id="paranasalSinues" class="checkBox-style" noink>PARANASAL SINUSES</paper-checkbox>
+                                <paper-checkbox id="parathyroidGland" class="checkBox-style" noink>PARATHYROID GLAND</paper-checkbox>
+                                <paper-checkbox id="parotidGland" class="checkBox-style" noink>PAROTID GLAND</paper-checkbox>
+                                <paper-checkbox id="pharynx" class="checkBox-style" noink>PHARYNX</paper-checkbox>
+                                <paper-checkbox id="pituitaryGland" class="checkBox-style" noink>PITUITARY GLAND</paper-checkbox>
+                                <paper-checkbox id="salivaryGland" class="checkBox-style" noink>SALIVARY GLAND</paper-checkbox>
+                                <paper-checkbox id="skull" class="checkBox-style" noink>SKULL</paper-checkbox>
+                                <paper-checkbox id="softTissueOfTheNeck" class="checkBox-style" noink>SOFT TISSUE OF THE NECK</paper-checkbox>
+                                <paper-checkbox id="temporalBone" class="checkBox-style" noink>TEMPORAL BONE</paper-checkbox>
+                                <paper-checkbox id="temporomandibularJoint" class="checkBox-style" noink>TEMPOROMANDIBULAR JOINT</paper-checkbox>
+                                <paper-checkbox id="thyroidGland" class="checkBox-style" noink>THYROID GLAND</paper-checkbox>
+                                <paper-checkbox id="vocalCord" class="checkBox-style" noink>VOCAL CORD</paper-checkbox>
+                                <paper-checkbox id="zygomaticArch" class="checkBox-style" noink>ZYGOMATIC ARCH</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select9">
+                            <div class="bd-select9-title">Musculoskeletal</div>
+                            <paper-checkbox id="bdSelected9All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected9" selected-values="{{musculoskeletal}}" multi>
+                                <paper-checkbox id="acromioclavicularJoint" class="checkBox-style" noink>ACROMIOCLAVICULAR JOINT</paper-checkbox>
+                                <paper-checkbox id="ankle" class="checkBox-style" noink>ANKLE</paper-checkbox>
+                                <paper-checkbox id="arm" class="checkBox-style" noink>ARM</paper-checkbox>
+                                <paper-checkbox id="bone" class="checkBox-style" noink>BONE</paper-checkbox>
+                                <paper-checkbox id="boneMarrow" class="checkBox-style" noink>BONE MARROW</paper-checkbox>
+                                <paper-checkbox id="brachialPlexus" class="checkBox-style" noink>BRACHIAL PLEXUS</paper-checkbox>
+                                <paper-checkbox id="calcaneus" class="checkBox-style" noink>CALCANEUS</paper-checkbox>
+                                <paper-checkbox id="calf" class="checkBox-style" noink>CALF</paper-checkbox>
+                                <paper-checkbox id="carpalTunnel" class="checkBox-style" noink>CARPAL TUNNEL</paper-checkbox>
+                                <paper-checkbox id="clavicle" class="checkBox-style" noink>CLAVICLE</paper-checkbox>
+
+                                <paper-checkbox id="coccyx" class="checkBox-style" noink>COCCYX</paper-checkbox>
+                                <paper-checkbox id="elbow" class="checkBox-style" noink>ELBOW</paper-checkbox>
+                                <paper-checkbox id="facetJoint" class="checkBox-style" noink>FACET JOINT</paper-checkbox>
+                                <paper-checkbox id="femur" class="checkBox-style" noink>FEMUR</paper-checkbox>
+                                <paper-checkbox id="finger" class="checkBox-style" noink>FINGER</paper-checkbox>
+                                <paper-checkbox id="fingers" class="checkBox-style" noink>FINGERS</paper-checkbox>
+                                <paper-checkbox id="foot" class="checkBox-style" noink>FOOT</paper-checkbox>
+                                <paper-checkbox id="forearm" class="checkBox-style" noink>FOREARM</paper-checkbox>
+                                <paper-checkbox id="ganglionCyst" class="checkBox-style" noink>GANGLION CYST</paper-checkbox>
+                                <paper-checkbox id="groin" class="checkBox-style" noink>GROIN</paper-checkbox>
+
+                                <paper-checkbox id="groinLymphNode" class="checkBox-style" noink>GROIN LYMPH NODE</paper-checkbox>
+                                <paper-checkbox id="hallux" class="checkBox-style" noink>HALLUX</paper-checkbox>
+                                <paper-checkbox id="hand" class="checkBox-style" noink>HAND</paper-checkbox>
+                                <paper-checkbox id="hip" class="checkBox-style" noink>HIP</paper-checkbox>
+                                <paper-checkbox id="humerus" class="checkBox-style" noink>HUMERUS</paper-checkbox>
+                                <paper-checkbox id="intercostalNerves" class="checkBox-style" noink>INTERCOSTAL NERVES</paper-checkbox>
+                                <paper-checkbox id="intermediateJoint" class="checkBox-style" noink>INTERMEDIATE JOINT</paper-checkbox>
+                                <paper-checkbox id="intervertebralDisc" class="checkBox-style" noink>INTERVERTEBRAL DISC</paper-checkbox>
+                                <paper-checkbox id="joint" class="checkBox-style" noink>JOINT</paper-checkbox>
+                                <paper-checkbox id="knee" class="checkBox-style" noink>KNEE</paper-checkbox>
+
+                                <paper-checkbox id="ligament" class="checkBox-style" noink>LIGAMENT</paper-checkbox>
+                                <paper-checkbox id="longBone" class="checkBox-style" noink>LONG BONE</paper-checkbox>
+                                <paper-checkbox id="lowerLeg" class="checkBox-style" noink>LOWER LEG</paper-checkbox>
+                                <paper-checkbox id="lumbarPlexus" class="checkBox-style" noink>LUMBAR PLEXUS</paper-checkbox>
+                                <paper-checkbox id="lumbosacralSpine" class="checkBox-style" noink>LUMBOSACRAL SPINE</paper-checkbox>
+                                <paper-checkbox id="majorJoint" class="checkBox-style" noink>MAJOR JOINT</paper-checkbox>
+                                <paper-checkbox id="mastoid" class="checkBox-style" noink>MASTOID</paper-checkbox>
+                                <paper-checkbox id="muscle" class="checkBox-style" noink>MUSCLE</paper-checkbox>
+                                <paper-checkbox id="musculoskeletalSystem" class="checkBox-style" noink>MUSCULOSKELETAL SYSTEM</paper-checkbox>
+                                <paper-checkbox id="navicular" class="checkBox-style" noink>NAVICULAR</paper-checkbox>
+
+                                <paper-checkbox id="patella" class="checkBox-style" noink>PATELLA</paper-checkbox>
+                                <paper-checkbox id="radius" class="checkBox-style" noink>RADIUS</paper-checkbox>
+                                <paper-checkbox id="ribs" class="checkBox-style" noink>RIBS</paper-checkbox>
+                                <paper-checkbox id="sacroiliacJoint" class="checkBox-style" noink>SACROILIAC JOINT</paper-checkbox>
+                                <paper-checkbox id="sacroiliacJoints" class="checkBox-style" noink>SACROILIAC JOINTS</paper-checkbox>
+                                <paper-checkbox id="sacrum" class="checkBox-style" noink>SACRUM</paper-checkbox>
+                                <paper-checkbox id="scapula" class="checkBox-style" noink>SCAPULA</paper-checkbox>
+                                <paper-checkbox id="shoulder" class="checkBox-style" noink>SHOULDER</paper-checkbox>
+                                <paper-checkbox id="skeletalSystem" class="checkBox-style" noink>SKELETAL SYSTEM</paper-checkbox>
+                                <paper-checkbox id="smallJoint" class="checkBox-style" noink>SMALL JOINT</paper-checkbox>
+
+                                <paper-checkbox id="sternoclavicularJoint" class="checkBox-style" noink>STERNOCLAVICULAR JOINT</paper-checkbox>
+                                <paper-checkbox id="sternum" class="checkBox-style" noink>STERNUM</paper-checkbox>
+                                <paper-checkbox id="superficialBone" class="checkBox-style" noink>SUPERFICIAL BONE</paper-checkbox>
+                                <paper-checkbox id="tendon" class="checkBox-style" noink>TENDON</paper-checkbox>
+                                <paper-checkbox id="tendonSheath" class="checkBox-style" noink>TENDON SHEATH</paper-checkbox>
+                                <paper-checkbox id="thigh" class="checkBox-style" noink>THIGH</paper-checkbox>
+                                <paper-checkbox id="thoracicOutlet" class="checkBox-style" noink>THORACIC OUTLET</paper-checkbox>
+                                <paper-checkbox id="thumb" class="checkBox-style" noink>THUMB</paper-checkbox>
+                                <paper-checkbox id="tibia" class="checkBox-style" noink>TIBIA</paper-checkbox>
+                                <paper-checkbox id="toe" class="checkBox-style" noink>TOE</paper-checkbox>
+
+                                <paper-checkbox id="toes" class="checkBox-style" noink>TOES</paper-checkbox>
+                                <paper-checkbox id="wrist" class="checkBox-style" noink>WRIST</paper-checkbox>
+
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select10">
+                            <div class="bd-select10-title">Neuro</div>
+                            <paper-checkbox id="bdSelected10All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected10" selected-values="{{neuro}}" multi>
+                                <paper-checkbox id="brain" class="checkBox-style" noink>BRAIN</paper-checkbox>
+                                <paper-checkbox id="carotidArteries" class="checkBox-style" noink>CAROTID ARTERIES</paper-checkbox>
+                                <paper-checkbox id="carotidArtery" class="checkBox-style" noink>CAROTID ARTERY</paper-checkbox>
+                                <paper-checkbox id="cerebralArteries" class="checkBox-style" noink>CEREBRAL ARTERIES</paper-checkbox>
+                                <paper-checkbox id="cerebralCisterns" class="checkBox-style" noink>CEREBRAL CISTERNS</paper-checkbox>
+                                <paper-checkbox id="cerebralSinuses" class="checkBox-style" noink>CEREBRAL SINUSES</paper-checkbox>
+                                <paper-checkbox id="circleOfWillis" class="checkBox-style" noink>CIRCLE OF WILLIS</paper-checkbox>
+                                <paper-checkbox id="epiduralSpace" class="checkBox-style" noink>EPIDURAL SPACE</paper-checkbox>
+                                <paper-checkbox id="internalAuditoryCanal" class="checkBox-style" noink>INTERNAL AUDITORY CANAL</paper-checkbox>
+                                <paper-checkbox id="jugularVein" class="checkBox-style" noink>JUGULAR VEIN</paper-checkbox>
+                                <paper-checkbox id="neuro" class="checkBox-style" noink>NEURO</paper-checkbox>
+                                <paper-checkbox id="posteriorCranialFossa" class="checkBox-style" noink>POSTERIOR CRANIAL FOSSA</paper-checkbox>
+                                <paper-checkbox id="sellaTurcica" class="checkBox-style" noink>SELLA TURCICA</paper-checkbox>
+                                <paper-checkbox id="spinalCord" class="checkBox-style" noink>SPINAL CORD</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
+                        <div class="bd-select11">
+                            <div class="bd-select11-title">General</div>
+                            <paper-checkbox id="bdSelected11All" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="bdSelected11" selected-values="{{general}}" multi>
+                                <paper-checkbox id="cyst" class="checkBox-style" noink>CYST</paper-checkbox>
+                                <paper-checkbox id="lymphNode" class="checkBox-style" noink>LYMPH NODE</paper-checkbox>
+                                <paper-checkbox id="nerve" class="checkBox-style" noink>NERVE</paper-checkbox>
+                                <paper-checkbox id="nerveRoot" class="checkBox-style" noink>NERVE ROOT</paper-checkbox>
+                                <paper-checkbox id="organ" class="checkBox-style" noink>ORGAN</paper-checkbox>
+                                <paper-checkbox id="pseudoaneurysm" class="checkBox-style" noink>PSEUDOANEURYSM</paper-checkbox>
+                                <paper-checkbox id="retroperitoneum" class="checkBox-style" noink>RETROPERITONEUM</paper-checkbox>
+                                <paper-checkbox id="sentinelLymphNode" class="checkBox-style" noink>SENTINEL LYMPH NODE</paper-checkbox>
+                                <paper-checkbox id="softTissue" class="checkBox-style" noink>SOFT TISSUE</paper-checkbox>
+                                <paper-checkbox id="specimen" class="checkBox-style" noink>SPECIMEN</paper-checkbox>
+                                <paper-checkbox id="spinalCanal" class="checkBox-style" noink>SPINAL CANAL</paper-checkbox>
+                                <paper-checkbox id="superficial" class="checkBox-style" noink>SUPERFICIAL</paper-checkbox>
+                                <paper-checkbox id="tumor" class="checkBox-style" noink>TUMOR</paper-checkbox>
+                                <paper-checkbox id="wholebody" class="checkBox-style" noink>WHOLEBODY</paper-checkbox>
+                            </iron-selector>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -213,10 +469,41 @@
                         bodypartField: {
                             type: Array
                         },
-                        bdSelected1: {
+
+                        abdomen: {
                             type: Array
                         },
-                        bdSelected2: {
+                        breast: {
+                            type: Array
+                        },
+                        pediatric: {
+                            type: Array
+                        },
+                        chest: {
+                            type: Array
+                        },
+                        cardiovascular: {
+                            type: Array
+                        },
+                        dental: {
+                            type: Array
+                        },
+                        genitourinary: {
+                            type: Array
+                        },
+                        angioAndIntervention: {
+                            type: Array
+                        },
+                        headAndNeck: {
+                            type: Array
+                        },
+                        musculoskeletal: {
+                            type: Array
+                        },
+                        neuro: {
+                            type: Array
+                        },
+                        general: {
                             type: Array
                         }
                     }
@@ -251,6 +538,52 @@
                             _this.$.bdSelected2.children[i].checked = e.target.checked;
                         }
                     });
+                    this.$.bdSelected3All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected3.childElementCount; i++) {
+                            _this.$.bdSelected3.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected4All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected4.childElementCount; i++) {
+                            _this.$.bdSelected4.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected5All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected5.childElementCount; i++) {
+                            _this.$.bdSelected5.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected6All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected6.childElementCount; i++) {
+                            _this.$.bdSelected6.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected7All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected7.childElementCount; i++) {
+                            _this.$.bdSelected7.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected8All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected8.childElementCount; i++) {
+                            _this.$.bdSelected8.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected9All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected9.childElementCount; i++) {
+                            _this.$.bdSelected9.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected10All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected10.childElementCount; i++) {
+                            _this.$.bdSelected10.children[i].checked = e.target.checked;
+                        }
+                    });
+                    this.$.bdSelected11All.addEventListener('change', function (e) {
+                        for (let i = 0; i < _this.$.bdSelected11.childElementCount; i++) {
+                            _this.$.bdSelected11.children[i].checked = e.target.checked;
+                        }
+                    });
+
 
                     this.$.prevBtn.addEventListener('click', function () {
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
