@@ -211,8 +211,8 @@
         });
 
         document.getElementById('bodypartTemplate').addEventListener('activeTab', function (e) {
-            console.log(e.detail);
-            if(e.detail == true){
+            // console.log(e.detail);
+            if(e.detail.nextBtn == true){
                 document.getElementById('studyDescTab').disabled = false;
                 document.getElementById('reportTab').disabled = false;
             }else{

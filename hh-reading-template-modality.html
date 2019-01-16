@@ -404,7 +404,6 @@
                 </div>
             </div>
             <div class="class-md-btn">
-                <button id="testtBtn" class="btn">test</button>
                 <button id="nextBtn" class="btn" disabled>Next</button>
             </div>
         </div>
@@ -456,11 +455,6 @@
 
                 ready() {
                     super.ready();
-
-                    this.$.testtBtn.addEventListener('click', function (e) {
-                        console.log(_this.radiology);
-                        // _this.activeNextData();
-                    })
 
                     this.$.modalityFieldAll.addEventListener('change', function (e) {
                         _this.activeNextData();
