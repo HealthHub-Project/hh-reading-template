@@ -15,7 +15,10 @@
     "paper-checkbox": "PolymerElements/paper-checkbox#2.0.4",
     "paper-input": "PolymerElements/paper-input#2.2.3",
     "iron-selector": "PolymerElements/iron-selector#2.1.0",
-    "paper-toast": "PolymerElements/paper-toast#2.1.2"
+    "paper-toast": "PolymerElements/paper-toast#2.1.2",
+    "paper-menu-button": "PolymerElements/paper-dropdown-menuPolymerElements/paper-menu-button#2.1.1",
+    "paper-dropdown-menu": "PolymerElements/paper-DROPDOWN-MENU#2.1.0",
+    "paper-item": "PolymerElements/paper-item#2.1.1"
   },
   "devDependencies": {
     "iron-demo-helpers": "PolymerElements/iron-demo-helpers#^2.0.0",

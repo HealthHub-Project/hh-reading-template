@@ -19,13 +19,13 @@
             }
 
             .class-report-input{
-                height: calc(100% - 40px);
+                height: calc(100% - 45px);
                 width: 100%;
                 background-color: #ffffff;
             }
 
             .class-report-btn{
-                height: 40px;
+                height: 45px;
                 width: 100%;
                 text-align: right;
                 background-color: #252934;
@@ -39,10 +39,9 @@
                 width: 80%;
                 height: 15%;
                 color: #aaaaaa;
-                padding-top: 10px;
+                /*padding-top: 10px;*/
                 margin-left: 10%;
                 margin-bottom: 10px;
-
                 text-decoration: underline;
                 font-size: 21px;
                 font-weight: bold;
@@ -61,7 +60,7 @@
 
             .textarea-title{
                 width: 100%;
-                height: 100%;
+                height: 50%;
             }
 
             iron-autogrow-textarea {
@@ -116,7 +115,7 @@
                         <input type="hidden" id="seqNo" value="{{seqNo}}">
                         <input type="hidden" id="displayOrder" value="{{displayOrder}}">
                         <input type="hidden" id="hotKey1" value="{{hotKey1}}">
-                        <paper-input always-float-label label="input title" id="title" class="textarea-title" no-label-float char-counter maxlength="50"></paper-input>
+                        <paper-input label="INPUT REPORT TEMPLATE TITLE" id="title" class="textarea-title" char-counter maxlength="50"></paper-input>
                     </div>
                     <div class="wrap-report">
                         <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}" placeholder="Finding"
@@ -129,9 +128,9 @@
                 </div>
             </div>
             <div class="class-report-btn">
+                <button id="clearBtn" class="btn">Clear</button>
                 <button id="prevBtn" class="btn">Prev</button>
                 <button id="saveBtn" class="btn">Save</button>
-                <button id="clearBtn" class="btn">Clear</button>
             </div>
         </div>
     </template>

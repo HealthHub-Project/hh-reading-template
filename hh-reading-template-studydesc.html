@@ -1,21 +1,21 @@
 <!--bower component-->
-<script src="../ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
-<link rel="import" href="../ag-grid-polymer/ag-grid-polymer.html">
-<script src="/hh-reading-template/licenseKey.js"></script>
+<!--<script src="../ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>-->
+<!--<link rel="import" href="../ag-grid-polymer/ag-grid-polymer.html">-->
+<!--<script src="/hh-reading-template/licenseKey.js"></script>-->
 
 <!--develop-->
-<!--<script src="../bower_components/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>-->
-<!--<link rel="import" href="../bower_components/ag-grid-polymer/ag-grid-polymer.html">-->
-<!--<script src="licenseKey.js"></script>-->
+<script src="../bower_components/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
+<link rel="import" href="../bower_components/ag-grid-polymer/ag-grid-polymer.html">
+<script src="licenseKey.js"></script>
 <dom-module id="hh-reading-template-studydesc">
     <template>
         <!--bower component-->
-        <link rel="stylesheet" href="../ag-grid/dist/styles/ag-grid.css">
-        <link rel="stylesheet" href="../ag-grid/dist/styles/ag-theme-balham-dark.css">
+        <!--<link rel="stylesheet" href="../ag-grid/dist/styles/ag-grid.css">-->
+        <!--<link rel="stylesheet" href="../ag-grid/dist/styles/ag-theme-balham-dark.css">-->
 
         <!--develop-->
-        <!--<link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-grid.css">-->
-        <!--<link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-theme-balham-dark.css">-->
+        <link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-grid.css">
+        <link rel="stylesheet" href="../bower_components/ag-grid/dist/styles/ag-theme-balham-dark.css">
         <style>
             :host {
                 height: 100%;
@@ -33,7 +33,7 @@
             }
 
             .class-input{
-                height: calc(100% - 40px);
+                height: calc(100% - 45px);
                 width: 100%;
             }
 
@@ -58,7 +58,7 @@
             }
 
             .class-sd-btn{
-                height: 40px;
+                height: 45px;
                 width: 100%;
                 color: #aaaaaa;
                 background-color: #252934;
@@ -81,7 +81,10 @@
                 background: #ff646b;
             }
             #nextBtn {
-                background: #4c7d35;
+                background: #0087cb;
+            }
+            #clearBtn {
+                background: #4c5667;
             }
 
             .class-search{
@@ -115,7 +118,7 @@
             <div class="class-input">
                 <div class="class-wrap">
                     <div class="class-studyDescription">
-                        <paper-input class="class-search" char-counter maxlength="20"></paper-input>
+                        <paper-input id="inputStudyDesc" label="INPUT STUDY DESCRIPTION" class="class-search" char-counter maxlength="20"></paper-input>
                     </div>
                     <div class="class-studyDescription-list">
                         <ag-grid-polymer
@@ -126,11 +129,11 @@
                     </div>
                 </div>
                 <div class="class-shortcut">
-                    <paper-input class="class-search" id="shortcut" char-counter  maxlength="30"></paper-input>
+                    <paper-input class="class-search" id="inputShortcut" label="INPUT REPORT-TEMPLATE SHORTCUT" char-counter  maxlength="30"></paper-input>
                 </div>
             </div>
             <div class="class-sd-btn">
-                <paper-checkbox id="studyDescChecked" class="checkBox-style" noink>All Selected Checked</paper-checkbox>
+                <button id="clearBtn" class="btn">Clear</button>
                 <button id="prevBtn" class="btn">Prev</button>
                 <button id="nextBtn" class="btn">Next</button>
             </div>
@@ -139,7 +142,6 @@
     <script>
         (function () {
             let _this;
-            let _checkFinished = false;
             class HhReadingTemplateStudyDesc extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-studydesc';
@@ -193,30 +195,21 @@
 
                 ready() {
                     super.ready();
-
-                    this.$.studyDescChecked.addEventListener('change', function (e) {
-                        if (e.target.checked) {
-                            _checkFinished = true;
-                            console.log("BODYPART CHECKED FINISHED");
-                        }else{
-                            _checkFinished = false;
-                        }
-                    });
-
                     this.$.prevBtn.addEventListener('click',function(){
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
                     });
 
                     this.$.nextBtn.addEventListener('click',function(){
-                        if(_checkFinished){
-                            _this.dispatchEvent(new CustomEvent('nextTabEvent'));
-                        }else{
-                            console.log('check All Selected Checked');
-                        }
+                        _this.dispatchEvent(new CustomEvent('nextTabEvent'));
+                    });
+
+                    this.$.clearBtn.addEventListener('click',function(){
+                       _this.$.inputStudyDesc.value ="";
+                       _this.$.inputShortcut.value = "";
                     });
                 }
-            }
 
+            }
             window.customElements.define(HhReadingTemplateStudyDesc.is, HhReadingTemplateStudyDesc);
         })();
     </script>

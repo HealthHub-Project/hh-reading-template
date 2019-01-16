@@ -31,7 +31,6 @@
 <!--<link rel="import" href="./bower_components/iron-selector/iron-selector.html">-->
 <!--<link rel="import" href="./bower_components/paper-input/paper-input.html">-->
 
-
 <link rel="import" href="hh-reading-template-modality.html">
 <link rel="import" href="hh-reading-template-bodypart.html">
 <link rel="import" href="hh-reading-template-studydesc.html">
@@ -160,10 +159,10 @@
     <paper-toast id="saveToast" duration="1000" class="save-toast"></paper-toast>
     <div class="class-paper-tabs">
         <paper-tabs id="reportTempalteConfigTab" selected="0" noink>
-            <paper-tab value="modalityTab">Modality</paper-tab>
-            <paper-tab value="bodypartTab">Bodypart</paper-tab>
-            <paper-tab value="studyDescriptionTab">Study Description & Shortcut</paper-tab>
-            <paper-tab value="reportTemplateTab">Report Template</paper-tab>
+            <paper-tab id="modalityTab" value="modalityTab">Modality</paper-tab>
+            <paper-tab id="bodypartTab" value="bodypartTab" disabled>Bodypart</paper-tab>
+            <paper-tab id="studyDescTab" value="studyDescriptionTab" disabled>Study Description & Shortcut</paper-tab>
+            <paper-tab id="reportTab" value="reportTemplateTab" disabled>Report Template</paper-tab>
         </paper-tabs>
     </div>
     <div class="class-ironPage">
@@ -203,6 +202,25 @@
             document.getElementById("reportTempalteConfigTab").selectIndex(tabIndex);
         });
 
+        document.getElementById('modalityTemplate').addEventListener('activeTab', function (e) {
+            if(e.detail.nextBtn == true){
+                document.getElementById('bodypartTab').disabled = false;
+            }else{
+                document.getElementById('bodypartTab').disabled = true;
+            }
+        });
+
+        document.getElementById('bodypartTemplate').addEventListener('activeTab', function (e) {
+            console.log(e.detail);
+            if(e.detail == true){
+                document.getElementById('studyDescTab').disabled = false;
+                document.getElementById('reportTab').disabled = false;
+            }else{
+                document.getElementById('studyDescTab').disabled = true;
+                document.getElementById('reportTab').disabled = true;
+            }
+        });
+
         document.getElementById('modalityTemplate').addEventListener('nextTabEvent', function () {
             nextTabEvent();
         });
@@ -226,9 +244,7 @@
         document.getElementById('reportTemplate').addEventListener('prevTabEvent', function () {
             prevTabEvent();
         });
-        document.getElementById('reportTemplate').addEventListener('prevTabEvent', function () {
-            prevTabEvent();
-        });
+
         document.getElementById('reportTemplate').addEventListener('saveReportEvent', function () {
             reportSaveEvent();
         });
@@ -236,8 +252,6 @@
     });
 
     function reportSaveEvent(){
-        console.log("save report event");
-
         // if (!message.isErr) {
         //     document.getElementById("toast2").style.backgroundColor = "#0087cb";
         // } else {

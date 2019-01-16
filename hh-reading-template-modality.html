@@ -17,7 +17,7 @@
 
             .class-md {
                 display: flex;
-                height: calc(100% - 40px);
+                height: calc(100% - 45px);
                 width: 100%;
             }
 
@@ -25,15 +25,16 @@
                 display: flex;
                 flex-direction: column;
                 height: 100%;
-                width: 210px;
+                width: 222px;
                 color: #aaaaaa;
                 background-color: #333a47;
                 font-size: 14px;
                 border-right: 5px solid black;
+
             }
 
             .class-md-selected {
-                width: calc(100% - 210px);
+                width: calc(100% - 222px);
                 padding-left: 10px;
                 padding-right: 10px;
                 color: #aaaaaa;
@@ -42,7 +43,7 @@
             }
 
             .class-md-btn {
-                height: 40px;
+                height: 45px;
                 color: #aaaaaa;
                 background-color: #252934;
                 text-align: right;
@@ -61,43 +62,47 @@
             }
 
             #nextBtn {
-                background: #4c7d35;
+                background: #dddddd;
             }
 
-            #modalityFieldAll, #modalityField, #mdSelected1, #mdSelected2,
-            #mdSelected3, #mdSelected4, #mdSelected5, #mdSelected6, #mdSelected7, #mdSelected8{
-                color: #aaaaaa;
-            }
-
-            .class-md-selected-contents{
-                /*height: calc(100% - 40px);*/
+            .class-md-selected-contents {
                 height: 100%;
                 width: 100%;
                 display: flex;
-            }
-
-            .m-select1, .m-select2, .m-select3, .m-select4,
-            .m-select5, .m-select6,.m-select7,.m-select8{
-                border: 1px solid #4c5667;
-                border-radius: 3px;
-                background-color: #2c333f;
-                width: 20%;
-                height: 80%;
-                margin: 10px;
-
-                display: flex;
-                flex-direction: column;
+                flex-wrap: wrap;
                 overflow: auto;
                 overflow-x: hidden;
             }
-            .m-select1-title, .m-select2-title, .m-select3-title,.m-select4-title,
-            .m-select5-title,.m-select6-title,.m-select7-title,.m-select8-title{
-                margin-bottom: 10px;
-                font-size: 18px;
-                text-align: center;
+
+            .m-select {
+                margin: 10px;
+                /*height: 550px;*/
+                width: 23%;
+                overflow: auto;
+                overflow-x: hidden;
             }
 
-            .checkBox-style{
+            .m-field-title, .m-select-title {
+                height: 30px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                background-color: #252934;
+                font-weight: bold;
+                font-size: 18px;
+                box-shadow: 0px 3px 9px -2px #000000;
+                color: #aaaaaa;
+                font-size: 13px;
+            }
+
+            .m-select-selected {
+                background-color: rgba(0, 0, 0, 0.15);
+                border-bottom-right-radius: 3px;
+                border-bottom-left-radius: 3px;
+                padding: 5px;
+            }
+
+            .checkBox-style {
                 font-size: 15px;
                 color: #aaaaaa;
                 --paper-checkbox-checked-color: #0087cb;
@@ -105,14 +110,18 @@
                 --paper-checkbox-unchecked-color: #4c5667;
                 padding: 3px;
             }
-            .m-filed{
+
+            .m-field {
+                height: calc(100% - 30px);
                 display: flex;
                 flex-direction: column;
-                margin-left: 10px;
+                background-color: rgba(0, 0, 0, 0.15);
                 overflow: auto;
                 overflow-x: hidden;
+                padding: 10px;
             }
-            iron-selector{
+
+            iron-selector {
                 display: flex;
                 flex-direction: column;
             }
@@ -120,147 +129,289 @@
         <div class="container">
             <div class="class-md">
                 <div class="class-md-field">
-                    <div class="m-filed">
-                        <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink>All</paper-checkbox>
-                        <iron-selector attr-for-selected="value" id="modalityField" selected-values="{{modalityField}}" multi>
-                            <paper-checkbox value="radiology" id="mdFiled1" class="checkBox-style" noink>Radiology</paper-checkbox>
-                            <paper-checkbox value="opthalmology" id="mdFiled2" class="checkBox-style" noink>Opthalmology</paper-checkbox>
-                            <paper-checkbox value="nuclearMedicine" id="mdFiled3" class="checkBox-style" noink>Nuclear Medicine</paper-checkbox>
-                            <paper-checkbox value="radiationOncology" id="mdFiled3" class="checkBox-style" noink>Radiation Oncology</paper-checkbox>
-                            <paper-checkbox value="dental" id="mdFiled4" class="checkBox-style" noink>Dental</paper-checkbox>
-                            <paper-checkbox value="waveform" id="mdFiled5" class="checkBox-style" noink>Waveform</paper-checkbox>
-                            <paper-checkbox value="pathology" id="mdFiled6"  class="checkBox-style" noink>Pathology</paper-checkbox>
-                            <paper-checkbox value="other" id="mdFiled7"  class="checkBox-style" noink>Other</paper-checkbox>
-                        </iron-selector>
+                    <div style="margin: 10px; height: 38%">
+                        <div class="m-field-title">MODALITY</div>
+                        <div class="m-field">
+                            <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink>All</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="modalityField"
+                                           selected-values="{{modalityField}}" multi>
+                                <paper-checkbox value="radiology" id="mdFiledRadiology" class="checkBox-style" noink>
+                                    Radiology
+                                </paper-checkbox>
+                                <paper-checkbox value="opthalmology" id="mdFiledOpthalmology" class="checkBox-style"
+                                                noink>Opthalmology
+                                </paper-checkbox>
+                                <paper-checkbox value="nuclearMedicine" id="mdFiledNuclearMedicine"
+                                                class="checkBox-style" noink>Nuclear Medicine
+                                </paper-checkbox>
+                                <paper-checkbox value="radiationOncology" id="mdFiledRadiationOncology"
+                                                class="checkBox-style" noink>Radiation Oncology
+                                </paper-checkbox>
+                                <paper-checkbox value="dental" id="mdFiledDental" class="checkBox-style" noink>Dental
+                                </paper-checkbox>
+                                <paper-checkbox value="waveform" id="mdFiledWaveform" class="checkBox-style" noink>
+                                    Waveform
+                                </paper-checkbox>
+                                <paper-checkbox value="pathology" id="mdFiledPathology" class="checkBox-style" noink>
+                                    Pathology
+                                </paper-checkbox>
+                                <paper-checkbox value="other" id="mdFiledOther" class="checkBox-style" noink>Other
+                                </paper-checkbox>
+                            </iron-selector>
+                        </div>
                     </div>
                 </div>
                 <div class="class-md-selected">
                     <div class="class-md-selected-contents">
-                        <div class="m-select1">
-                            <div class="m-select1-title">Radiology</div>
-                            <paper-checkbox id="mdSelected1All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected1" selected-values="{{radiology}}" multi>
-                                <paper-checkbox value="XR" id="mdSelectedItem1" class="checkBox-style" noink>XR (X-ray, Simple radiography)</paper-checkbox>
-                                <paper-checkbox value="XR&RF" id="mdSelectedItem2" class="checkBox-style" noink>XR & RF (X-ray and F)</paper-checkbox>
-                                <paper-checkbox value="RF" id="mdSelectedItem3" class="checkBox-style" noink>RF (Radio-Fluoroscopy)</paper-checkbox>
-                                <paper-checkbox value="MG" id="mdSelectedItem4" class="checkBox-style" noink>MG ( Mammography)</paper-checkbox>
-                                <paper-checkbox value="US" id="mdSelectedItem5" class="checkBox-style" noink>US (Ultrasound)</paper-checkbox>
-                                <paper-checkbox value="US&RF" id="mdSelectedItem6" class="checkBox-style" noink>US & RF (Ultrasound and Fluoroscopy)</paper-checkbox>
-                                <paper-checkbox value="CT" id="mdSelectedItem7" class="checkBox-style" noink>CT (Computed Tomography)</paper-checkbox>
-                                <paper-checkbox value="MR" id="mdSelectedItem8" class="checkBox-style" noink>MR (Magnetic Resonance Imaging)</paper-checkbox>
-                                <paper-checkbox value="XA" id="mdSelectedItem9" class="checkBox-style" noink>XA (X-ray Angiography)</paper-checkbox>
-                                <paper-checkbox value="RP" id="mdSelectedItem10" class="checkBox-style" noink>RP (Radiology Procedure)</paper-checkbox>
-                                <paper-checkbox value="IR" id="mdSelectedItem11" class="checkBox-style" noink>IR (Interventional Radiology)</paper-checkbox>
-                                <paper-checkbox value="SR" id="mdSelectedItem12" class="checkBox-style" noink>SR (Structured Repoting Document)</paper-checkbox>
-                                <paper-checkbox value="OT" id="mdSelectedItem13" class="checkBox-style" noink>OT (Other)</paper-checkbox>
-                                <paper-checkbox value="IVUS" id="mdSelectedItem14" class="checkBox-style" noink>IVUS (Intravascular Ultrasound)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsRadiology" hidden>
+                            <div class="m-select-title">Radiology</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected1All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected1"
+                                               selected-values="{{radiology}}" multi>
+                                    <paper-checkbox value="XR" id="mdSelectedItem1" class="checkBox-style" noink>XR
+                                        (X-ray, Simple radiography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="XRandRF" id="mdSelectedItem2" class="checkBox-style" noink>XR
+                                        & RF (X-ray and F)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RF" id="mdSelectedItem3" class="checkBox-style" noink>RF
+                                        (Radio-Fluoroscopy)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="MG" id="mdSelectedItem4" class="checkBox-style" noink>MG (
+                                        Mammography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="US" id="mdSelectedItem5" class="checkBox-style" noink>US
+                                        (Ultrasound)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="USandRF" id="mdSelectedItem6" class="checkBox-style" noink>US
+                                        & RF (Ultrasound and Fluoroscopy)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="CT" id="mdSelectedItem7" class="checkBox-style" noink>CT
+                                        (Computed Tomography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="MR" id="mdSelectedItem8" class="checkBox-style" noink>MR
+                                        (Magnetic Resonance Imaging)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="XA" id="mdSelectedItem9" class="checkBox-style" noink>XA
+                                        (X-ray Angiography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RP" id="mdSelectedItem10" class="checkBox-style" noink>RP
+                                        (Radiology Procedure)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="IR" id="mdSelectedItem11" class="checkBox-style" noink>IR
+                                        (Interventional Radiology)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="SR" id="mdSelectedItem12" class="checkBox-style" noink>SR
+                                        (Structured Repoting Document)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="OT" id="mdSelectedItem13" class="checkBox-style" noink>OT
+                                        (Other)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="IVUS" id="mdSelectedItem14" class="checkBox-style" noink>IVUS
+                                        (Intravascular Ultrasound)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-                        <div class="m-select2">
-                            <div class="m-select2-title">Opthalmology</div>
-                            <paper-checkbox id="mdSelected2All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected2" selected-values="{{opthalmology}}" multi>
-                                <paper-checkbox value="OP" id="mdSelected2item1" class="checkBox-style" noink>OP (Ophthalmic Photography)</paper-checkbox>
-                                <paper-checkbox value="SMR" id="mdSelected2item2" class="checkBox-style" noink>SMR (Stereometric Relationship)</paper-checkbox>
-                                <paper-checkbox value="AR" id="mdSelected2item3" class="checkBox-style" noink>AR (Autorefraction )</paper-checkbox>
-                                <paper-checkbox value="KER" id="mdSelected2item4" class="checkBox-style" noink>KER (Keratometry)</paper-checkbox>
-                                <paper-checkbox value="VA" id="mdSelected2item5" class="checkBox-style" noink>VA (Visual Acuity)</paper-checkbox>
-                                <paper-checkbox value="SRF" id="mdSelected2item6" class="checkBox-style" noink>SRF (Subjective Refraction)</paper-checkbox>
-                                <paper-checkbox value="COT" id="mdSelected2item7" class="checkBox-style" noink>OCT (Optical Coherence Tomography (non-Ophthalmic))</paper-checkbox>
-                                <paper-checkbox value="LEN" id="mdSelected2item8" class="checkBox-style" noink>LEN (Lensometry)</paper-checkbox>
-                                <paper-checkbox value="OPY" id="mdSelected2item9" class="checkBox-style" noink>OPV (Ophthalmic Visual Field)</paper-checkbox>
-                                <paper-checkbox value="OPM" id="mdSelected2item10" class="checkBox-style" noink>OPM (Ophthalmic Mapping)</paper-checkbox>
-                                <paper-checkbox value="OAM" id="mdSelected2item11" class="checkBox-style" noink>OAM (Ophthalmic Axial Measurements )</paper-checkbox>
-                                <paper-checkbox value="OPT" id="mdSelected2item12" class="checkBox-style" noink>OPT (Ophthalmic Tomography)</paper-checkbox>
-                                <paper-checkbox value="IOL" id="mdSelected2item13" class="checkBox-style" noink>IOL (Intraocular Lens Data)</paper-checkbox>
-                                <paper-checkbox value="IVOCT" id="mdSelected2item14" class="checkBox-style" noink>IVOCT (Intravascular Optical Coherence Tomography)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsOpthalmology" hidden>
+                            <div class="m-select-title">Opthalmology</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected2All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected2"
+                                               selected-values="{{opthalmology}}" multi>
+                                    <paper-checkbox value="OP" name="" id="mdSelected2item1" class="checkBox-style"
+                                                    noink>OP (Ophthalmic Photography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="SMR" id="mdSelected2item2" class="checkBox-style" noink>SMR
+                                        (Stereometric Relationship)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="AR" id="mdSelected2item3" class="checkBox-style" noink>AR
+                                        (Autorefraction )
+                                    </paper-checkbox>
+                                    <paper-checkbox value="KER" id="mdSelected2item4" class="checkBox-style" noink>KER
+                                        (Keratometry)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="VA" id="mdSelected2item5" class="checkBox-style" noink>VA
+                                        (Visual Acuity)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="SRF" id="mdSelected2item6" class="checkBox-style" noink>SRF
+                                        (Subjective Refraction)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="COT" id="mdSelected2item7" class="checkBox-style" noink>OCT
+                                        (Optical Coherence Tomography (non-Ophthalmic))
+                                    </paper-checkbox>
+                                    <paper-checkbox value="LEN" id="mdSelected2item8" class="checkBox-style" noink>LEN
+                                        (Lensometry)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="OPY" id="mdSelected2item9" class="checkBox-style" noink>OPV
+                                        (Ophthalmic Visual Field)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="OPM" id="mdSelected2item10" class="checkBox-style" noink>OPM
+                                        (Ophthalmic Mapping)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="OAM" id="mdSelected2item11" class="checkBox-style" noink>OAM
+                                        (Ophthalmic Axial Measurements )
+                                    </paper-checkbox>
+                                    <paper-checkbox value="OPT" id="mdSelected2item12" class="checkBox-style" noink>OPT
+                                        (Ophthalmic Tomography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="IOL" id="mdSelected2item13" class="checkBox-style" noink>IOL
+                                        (Intraocular Lens Data)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="IVOCT" id="mdSelected2item14" class="checkBox-style" noink>
+                                        IVOCT (Intravascular Optical Coherence Tomography)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-                        <div class="m-select3">
-                            <div class="m-select3-title">Nuclear Medicine</div>
-                            <paper-checkbox id="mdSelected3All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected3" selected-values="{{nuclearMedicine}}" multi>
-                                <paper-checkbox value="NM" id="mdSelected3item1" class="checkBox-style" noink>NM (Neclear Medicine)</paper-checkbox>
-                                <paper-checkbox value="NM&CT" id="mdSelected3item2" class="checkBox-style" noink>NM & CT (Neclear Medicine and CT)</paper-checkbox>
-                                <paper-checkbox value="PT" id="mdSelected3item3" class="checkBox-style" noink>PT (Positron Emission Tomography)</paper-checkbox>
-                                <paper-checkbox value="PT&CT" id="mdSelected3item4" class="checkBox-style" noink>PT & CT (Positron Emission Tomography and CT)</paper-checkbox>
-                                <paper-checkbox value="PT&MR" id="mdSelected3item5" class="checkBox-style" noink>PT-MR (Positron Emission Tomography and MR)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsNuclearMedicine" hidden>
+                            <div class="m-select-title">Nuclear Medicine</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected3All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected3"
+                                               selected-values="{{nuclearMedicine}}" multi>
+                                    <paper-checkbox value="NM" id="mdSelected3item1" class="checkBox-style" noink>NM
+                                        (Neclear Medicine)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="NMandCT" id="mdSelected3item2" class="checkBox-style" noink>
+                                        NM & CT (Neclear Medicine and CT)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="PT" id="mdSelected3item3" class="checkBox-style" noink>PT
+                                        (Positron Emission Tomography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="PT&CT" id="mdSelected3item4" class="checkBox-style" noink>PT
+                                        & CT (Positron Emission Tomography and CT)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="PTandMR" id="mdSelected3item5" class="checkBox-style" noink>
+                                        PT-MR (Positron Emission Tomography and MR)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-
-                        <div class="m-select4">
-                            <div class="m-select4-title">Radiation Oncology</div>
-                            <paper-checkbox id="mdSelected4All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected4" selected-values="{{radiationOncology}}" multi>
-                                <paper-checkbox value="RTIMAGE" id="mdSelected4item1" class="checkBox-style" noink>RTIMAGE (Radiotherapy Image )</paper-checkbox>
-                                <paper-checkbox value="RTDOSE" id="mdSelected4item2" class="checkBox-style" noink>RTDOSE (Radiotherapy Dose)</paper-checkbox>
-                                <paper-checkbox value="RTSTRUCT" id="mdSelected4item3" class="checkBox-style" noink>RTSTRUCT (Radiotherapy Structure Set )</paper-checkbox>
-                                <paper-checkbox value="RTPLAN" id="mdSelected4item4" class="checkBox-style" noink>RTPLAN (Radiotherapy Plan)</paper-checkbox>
-                                <paper-checkbox value="RTRECORD" id="mdSelected4item5" class="checkBox-style" noink>RTRECORD (RT Treatment Record)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsRadiationOncology" hidden>
+                            <div class="m-select-title">Radiation Oncology</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected4All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected4"
+                                               selected-values="{{radiationOncology}}" multi>
+                                    <paper-checkbox value="RTIMAGE" id="mdSelected4item1" class="checkBox-style" noink>
+                                        RTIMAGE (Radiotherapy Image )
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RTDOSE" id="mdSelected4item2" class="checkBox-style" noink>
+                                        RTDOSE (Radiotherapy Dose)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RTSTRUCT" id="mdSelected4item3" class="checkBox-style" noink>
+                                        RTSTRUCT (Radiotherapy Structure Set )
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RTPLAN" id="mdSelected4item4" class="checkBox-style" noink>
+                                        RTPLAN (Radiotherapy Plan)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RTRECORD" id="mdSelected4item5" class="checkBox-style" noink>
+                                        RTRECORD (RT Treatment Record)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-                        <div class="m-select5">
-                            <div class="m-select5-title">Dental</div>
-                            <paper-checkbox id="mdSelected5All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected5" selected-values="{{dental}}" multi>
-                                <paper-checkbox value="IO" id="mdSelected5item1" class="checkBox-style" noink>IO (Intra-oral Radiography)</paper-checkbox>
-                                <paper-checkbox value="PX" id="mdSelected5item2" class="checkBox-style" noink>PX (Panoramic X-Ray)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsDental" hidden>
+                            <div class="m-select-title">Dental</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected5All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected5" selected-values="{{dental}}"
+                                               multi>
+                                    <paper-checkbox value="IO" id="mdSelected5item1" class="checkBox-style" noink>IO
+                                        (Intra-oral Radiography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="PX" id="mdSelected5item2" class="checkBox-style" noink>PX
+                                        (Panoramic X-Ray)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-                        <div class="m-select6">
-                            <div class="m-select6-title">Waveform</div>
-                            <paper-checkbox id="mdSelected6All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected6" selected-values="{{waveform}}" multi>
-                                <paper-checkbox value="AU" id="mdSelected6item1" class="checkBox-style" noink>AU (Audio )</paper-checkbox>
-                                <paper-checkbox value="ECG" id="mdSelected6item2" class="checkBox-style" noink>ECG (Electrocardiography)</paper-checkbox>
-                                <paper-checkbox value="EPS" id="mdSelected6item3" class="checkBox-style" noink>EPS (Cardiac Electrophysiology)</paper-checkbox>
-                                <paper-checkbox value="HD" id="mdSelected6item4" class="checkBox-style" noink>HD (Hemodynamic Waveform)</paper-checkbox>
-                                <paper-checkbox value="RESP" id="mdSelected6item5" class="checkBox-style" noink>RESP (Respiratory Waveform)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsWaveform" hidden>
+                            <div class="m-select-title">Waveform</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected6All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected6" selected-values="{{waveform}}"
+                                               multi>
+                                    <paper-checkbox value="AU" id="mdSelected6item1" class="checkBox-style" noink>AU
+                                        (Audio )
+                                    </paper-checkbox>
+                                    <paper-checkbox value="ECG" id="mdSelected6item2" class="checkBox-style" noink>ECG
+                                        (Electrocardiography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="EPS" id="mdSelected6item3" class="checkBox-style" noink>EPS
+                                        (Cardiac Electrophysiology)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="HD" id="mdSelected6item4" class="checkBox-style" noink>HD
+                                        (Hemodynamic Waveform)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="RESP" id="mdSelected6item5" class="checkBox-style" noink>RESP
+                                        (Respiratory Waveform)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-                        <div class="m-select7">
-                            <div class="m-select7-title">Pathology</div>
-                            <paper-checkbox id="mdSelected7All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected7" selected-values="{{pathology}}" multi>
-                                <paper-checkbox value="GM" id="mdSelected7item1" class="checkBox-style" noink>GM (General Microscopy)</paper-checkbox>
-                                <paper-checkbox value="SM" id="mdSelected7item2" class="checkBox-style" noink>SM (Slide Microscopy)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsPathology" hidden>
+                            <div class="m-select-title">Pathology</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected7All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected7"
+                                               selected-values="{{pathology}}" multi>
+                                    <paper-checkbox value="GM" id="mdSelected7item1" class="checkBox-style" noink>GM
+                                        (General Microscopy)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="SM" id="mdSelected7item2" class="checkBox-style" noink>SM
+                                        (Slide Microscopy)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
-
-                        <div class="m-select8">
-                            <div class="m-select8-title">Others</div>
-                            <paper-checkbox id="mdSelected8All" class="checkBox-style" noink>All</paper-checkbox>
-                            <iron-selector attr-for-selected="value" id="mdSelected8" selected-values="{{other}}" multi>
-                                <paper-checkbox value="ES" id="mdSelected8item1" class="checkBox-style" noink>ES (Endoscopy)</paper-checkbox>
-                                <paper-checkbox value="TG" id="mdSelected8item2" class="checkBox-style" noink>TG (Thermography)</paper-checkbox>
-                                <paper-checkbox value="DG" id="mdSelected8item3" class="checkBox-style" noink>DG (Diaphanography)</paper-checkbox>
-                                <paper-checkbox value="LS" id="mdSelected8item4" class="checkBox-style" noink>LS (Laser surface scan)</paper-checkbox>
-                                <paper-checkbox value="BI" id="mdSelected8item5" class="checkBox-style" noink>BI (Biomagnetic imaging)</paper-checkbox>
-                                <paper-checkbox value="XC" id="mdSelected8item6" class="checkBox-style" noink>XC (External-camera Photography)</paper-checkbox>
-                                <paper-checkbox value="DOC" id="mdSelected8item7" class="checkBox-style" noink>DOC (Document)</paper-checkbox>
-                                <paper-checkbox value="FID" id="mdSelected8item8" class="checkBox-style" noink>FID (Fiducials)</paper-checkbox>
-                            </iron-selector>
+                        <div class="m-select" id="mdsOthers" hidden>
+                            <div class="m-select-title">Others</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelected8All" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelected8" selected-values="{{other}}"
+                                               multi>
+                                    <paper-checkbox value="ES" id="mdSelected8item1" class="checkBox-style" noink>ES
+                                        (Endoscopy)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="TG" id="mdSelected8item2" class="checkBox-style" noink>TG
+                                        (Thermography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="DG" id="mdSelected8item3" class="checkBox-style" noink>DG
+                                        (Diaphanography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="LS" id="mdSelected8item4" class="checkBox-style" noink>LS
+                                        (Laser surface scan)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="BI" id="mdSelected8item5" class="checkBox-style" noink>BI
+                                        (Biomagnetic imaging)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="XC" id="mdSelected8item6" class="checkBox-style" noink>XC
+                                        (External-camera Photography)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="DOC" id="mdSelected8item7" class="checkBox-style" noink>DOC
+                                        (Document)
+                                    </paper-checkbox>
+                                    <paper-checkbox value="FID" id="mdSelected8item8" class="checkBox-style" noink>FID
+                                        (Fiducials)
+                                    </paper-checkbox>
+                                </iron-selector>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="class-md-btn">
-                <paper-checkbox id="modalityChecked" class="checkBox-style" noink>All Selected Checked</paper-checkbox>
-                <button id="nextBtn" class="btn">Next</button>
+                <button id="testtBtn" class="btn">test</button>
+                <button id="nextBtn" class="btn" disabled>Next</button>
             </div>
         </div>
     </template>
     <script>
         (function () {
             let _this;
-            let _checkFinished = false
-
             class HhReadingTemplateModality extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-modality';
@@ -306,81 +457,376 @@
                 ready() {
                     super.ready();
 
-                    this.$.modalityChecked.addEventListener('change', function (e) {
-                        if (e.target.checked) {
-                            _checkFinished = true;
-                            console.log("MODALITY CHECKED FINISHED");
-                        }else{
-                            _checkFinished = false;
-                        }
-                    });
+                    this.$.testtBtn.addEventListener('click', function (e) {
+                        console.log(_this.radiology);
+                        // _this.activeNextData();
+                    })
 
-                    this.$.modalityFieldAll.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.modalityField.childElementCount; i++){
+                    this.$.modalityFieldAll.addEventListener('change', function (e) {
+                        _this.activeNextData();
+                        for (let i = 0; i < _this.$.modalityField.childElementCount; i++) {
                             _this.$.modalityField.children[i].checked = e.target.checked;
                         }
                     });
 
-                    this.$.mdSelected1All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected1.childElementCount; i++){
+                    this.$.mdFiledRadiology.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledRadiology.checked) {
+                            _this.$.mdsRadiology.hidden = false;
+                            // _this.$.mdSelected1All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected1.childElementCount; i++){
+                            //     _this.$.mdSelected1.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected1All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected1.childElementCount; i++) {
+                                _this.$.mdSelected1.children[i].checked = false;
+                            }
+                            _this.radiology = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsRadiology.hidden = true;
+                        }
+                    });
+
+                    this.$.mdFiledOpthalmology.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledOpthalmology.checked) {
+                            _this.$.mdsOpthalmology.hidden = false;
+                            // _this.$.mdSelected2All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected2.childElementCount; i++){
+                            //     _this.$.mdSelected2.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected2All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected2.childElementCount; i++) {
+                                _this.$.mdSelected2.children[i].checked = false;
+                            }
+                            _this.opthalmology = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsOpthalmology.hidden = true;
+                        }
+                    })
+
+                    this.$.mdFiledNuclearMedicine.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledNuclearMedicine.checked) {
+                            _this.$.mdsNuclearMedicine.hidden = false;
+                            // _this.$.mdSelected3All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected3.childElementCount; i++){
+                            //     _this.$.mdSelected3.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected3All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected3.childElementCount; i++) {
+                                _this.$.mdSelected3.children[i].checked = false;
+                            }
+                            _this.nuclearMedicine = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsNuclearMedicine.hidden = true;
+                        }
+                    })
+
+                    this.$.mdFiledRadiationOncology.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledRadiationOncology.checked) {
+                            _this.$.mdsRadiology.hidden = false;
+                            // _this.$.mdSelected4All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected4.childElementCount; i++){
+                            //     _this.$.mdSelected4.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected4All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected4.childElementCount; i++) {
+                                _this.$.mdSelected4.children[i].checked = false;
+                            }
+                            _this.radiationOncology = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsRadiology.hidden = true;
+                        }
+                    })
+
+                    this.$.mdFiledDental.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledDental.checked) {
+                            _this.$.mdsDental.hidden = false;
+                            // _this.$.mdSelected5All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected5.childElementCount; i++){
+                            //     _this.$.mdSelected5.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected5All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected5.childElementCount; i++) {
+                                _this.$.mdSelected5.children[i].checked = false;
+                            }
+                            _this.dental = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsDental.hidden = true;
+                        }
+                    })
+
+                    this.$.mdFiledWaveform.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledWaveform.checked) {
+                            _this.$.mdsWaveform.hidden = false;
+                            // _this.$.mdSelected6All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected6.childElementCount; i++){
+                            //     _this.$.mdSelected6.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected6All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected6.childElementCount; i++) {
+                                _this.$.mdSelected6.children[i].checked = false;
+                            }
+                            _this.waveform = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsWaveform.hidden = true;
+                        }
+                    })
+
+                    this.$.mdFiledPathology.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledPathology.checked) {
+                            _this.$.mdsPathology.hidden = false;
+                            // _this.$.mdSelected7All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected7.childElementCount; i++){
+                            //     _this.$.mdSelected7.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected7All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected7.childElementCount; i++) {
+                                _this.$.mdSelected7.children[i].checked = false;
+                            }
+                            _this.pathology = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsPathology.hidden = true;
+                        }
+                    })
+
+                    this.$.mdFiledOther.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledOther.checked) {
+                            _this.$.mdsOthers.hidden = false;
+                            // _this.$.mdSelected8All.checked = true;
+                            // for(let i=0; i<_this.$.mdSelected8.childElementCount; i++){
+                            //     _this.$.mdSelected8.children[i].checked = true;
+                            // }
+                        } else {
+                            _this.$.mdSelected8All.checked = false;
+                            for (let i = 0; i < _this.$.mdSelected8.childElementCount; i++) {
+                                _this.$.mdSelected8.children[i].checked = false;
+                            }
+                            _this.other = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsOthers.hidden = true;
+                        }
+                    })
+
+                    /**
+                     * SELECTED AREA CHECKBOX
+                     *
+                     * Create by BohyunJang on 2019-01-14 오후 4:27
+                     **/
+
+                    this.$.mdSelected1All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        for (let i = 0; i < _this.$.mdSelected1.childElementCount; i++) {
                             _this.$.mdSelected1.children[i].checked = e.target.checked;
+                            if(_this.$.mdSelected1.children[i].checked){
+                                _this.radiology.push(_this.$.mdSelected1.children[i].value);
+                            }else{
+                                _this.radiology = [];
+                            }
+                            cnt++;
+                            if(cnt == _this.$.mdSelected1.childElementCount){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected2All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected2.childElementCount; i++){
+                    this.$.mdSelected2All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected2.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected2.children[i].checked = e.target.checked;
+
+                            if(_this.$.mdSelected2.children[i].checked){
+                                _this.opthalmology.push(_this.$.mdSelected2.children[i].value);
+                            }else{
+                                _this.opthalmology = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected3All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected3.childElementCount; i++){
+                    this.$.mdSelected3All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected3.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected3.children[i].checked = e.target.checked;
+
+                            if(_this.$.mdSelected3.children[i].checked){
+                                _this.nuclearMedicine.push(_this.$.mdSelected3.children[i].value);
+                            }else{
+                                _this.nuclearMedicine = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected4All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected4.childElementCount; i++){
+                    this.$.mdSelected4All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected4.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected4.children[i].checked = e.target.checked;
+                            if(_this.$.mdSelected4.children[i].checked){
+                                _this.radiationOncology.push(_this.$.mdSelected4.children[i].value);
+                            }else{
+                                _this.radiationOncology = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected5All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected5.childElementCount; i++){
+                    this.$.mdSelected5All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected5.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected5.children[i].checked = e.target.checked;
+                            if(_this.$.mdSelected5.children[i].checked){
+                                _this.dental.push(_this.$.mdSelected5.children[i].value);
+                            }else{
+                                _this.dental = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected6All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected6.childElementCount; i++){
+                    this.$.mdSelected6All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected6.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected6.children[i].checked = e.target.checked;
+                            if(_this.$.mdSelected6.children[i].checked){
+                                _this.waveform.push(_this.$.mdSelected6.children[i].value);
+                            }else{
+                                _this.waveform = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected7All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected7.childElementCount; i++){
+                    this.$.mdSelected7All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected7.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected7.children[i].checked = e.target.checked;
+                            if(_this.$.mdSelected7.children[i].checked){
+                                _this.pathology.push(_this.$.mdSelected7.children[i].value);
+                            }else{
+                                _this.pathology = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
-                    this.$.mdSelected8All.addEventListener('change',function(e){
-                        for(let i=0; i<_this.$.mdSelected8.childElementCount; i++){
+                    this.$.mdSelected8All.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelected8.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
                             _this.$.mdSelected8.children[i].checked = e.target.checked;
-                        }
-                    });
-                    this.$.nextBtn.addEventListener('click',function(){
-                        if(_checkFinished){
-                            _this.dispatchEvent(new CustomEvent('nextTabEvent'));
-                        }else{
-                            console.log('check All Selected Checked');
+                            if(_this.$.mdSelected8.children[i].checked){
+                                _this.other.push(_this.$.mdSelected8.children[i].value);
+                            }else{
+                                _this.other = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                _this.activeNextData();
+                            }
                         }
                     });
 
+                    this.$.mdSelected1.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected2.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected3.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected4.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected5.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected6.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected7.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+                    this.$.mdSelected8.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+
+                    this.$.nextBtn.addEventListener('click', function () {
+                        _this.dispatchEvent(new CustomEvent('nextTabEvent'));
+                    });
                 }
 
-                _onSelectedChanged(e){
-                    console.log('route',e.detail.value);
+                activeNextData() {
+                    console.log(_this.radiology);
+                    let param = new Object();
+                    let detail = new Object();
+                    let modalityObj = new Object();
+                    let validationFieldCheckbox = _this.modalityField.length > 0;
+                    let validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
+                        _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0);
+                    if ( validationFieldCheckbox && validationSelectedChecbox ) {
+                        _this.$.nextBtn.style.backgroundColor = "#0087cb";
+                        _this.$.nextBtn.disabled = false;
+                        detail.nextBtn = true;
+                        modalityObj = _this.radiology;
+                        modalityObj += _this.opthalmology;
+                        modalityObj += _this.nuclearMedicine;
+                        modalityObj += _this.radiationOncology;
+                        modalityObj += _this.dental;
+                        modalityObj += _this.waveform;
+                        modalityObj += _this.pathology;
+                        modalityObj += _this.other;
+
+                        detail.modalityObj = modalityObj;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('activeTab', param));
+                    } else {
+                        _this.$.nextBtn.style.backgroundColor = "#dddddd";
+                        _this.$.nextBtn.disabled = true;
+                        detail.nextBtn = false;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('activeTab', param));
+                    }
                 }
+
             }
 
             window.customElements.define(HhReadingTemplateModality.is, HhReadingTemplateModality);
