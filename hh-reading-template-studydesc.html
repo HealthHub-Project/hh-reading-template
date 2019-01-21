@@ -6,6 +6,7 @@
 <!--<script src="../bower_components/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>-->
 <!--<link rel="import" href="../bower_components/ag-grid-polymer/ag-grid-polymer.html">-->
 <script src="licenseKey.js"></script>
+<script src="../resource/humiic_studyDesc_json"></script>
 <dom-module id="hh-reading-template-studydesc">
     <template>
         <!--bower component-->
@@ -26,7 +27,7 @@
             }
 
             ag-grid-polymer {
-                width: 80%;
+                width: 83%;
                 height: 80%;
                 margin-top: 5%;
             }
@@ -39,11 +40,13 @@
             .class-studyDescription{
                 height: 40px;
                 width: 70%;
+                margin-top: 1%;
                 color: #aaaaaa;
                 background-color: #2c333f;
             }
             .class-studyDescription-list{
                 height: calc(100% - 40px);
+                margin-top: 1%;
                 width: 60%;
                 color: #aaaaaa;
                 background-color: #2c333f;
@@ -63,6 +66,7 @@
                 background-color: #252934;
                 text-align: right;
                 border-top: 5px solid black;
+                /*padding-right: 15px;*/
             }
 
             .btn {
@@ -87,7 +91,7 @@
             }
 
             .class-search{
-                width: 80%;
+                width: 70%;
                 margin-left: 10%;
             }
             .class-wrap{
@@ -112,18 +116,20 @@
                 --paper-input-container-input-text-align: initial;
                 --paper-input-container-label-color: #aaaaaa;
             }
+
         </style>
         <div class="container">
             <div class="class-input">
                 <div class="class-wrap">
                     <div class="class-studyDescription">
-                        <paper-input id="inputStudyDesc" label="INPUT STUDY DESCRIPTION" class="class-search" char-counter maxlength="20"></paper-input>
+                        <paper-input id="inputStudyDesc" label="INPUT STUDY DESCRIPTION" class="class-search" style="margin-left: 20%" char-counter maxlength="50"></paper-input>
                     </div>
                     <div class="class-studyDescription-list">
                         <ag-grid-polymer
                                 class="ag-theme-balham-dark"
-                                rowData="{{rowData}}" ,
+                                rowData="{{rowData}}"
                                 columnDefs="{{columnDefs}}"
+                                gridOptions="{{gridOptions}}"
                         ></ag-grid-polymer>
                     </div>
                 </div>
@@ -141,6 +147,9 @@
     <script>
         (function () {
             let _this;
+            let g_humiicDesc = new Array();
+            let g_resultDesc = new Array();
+
             class HhReadingTemplateStudyDesc extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-studydesc';
@@ -154,6 +163,7 @@
                         defaultColDef: {
                             suppressMenu: true // 메뉴 막기
                         },
+                        // columnDefs: _this.createColumnDefs(),
                         enableSorting: true,
                         enableColResize: true,
                         rowSelection: "single",
@@ -169,43 +179,105 @@
                     };
 
                     this.columnDefs = [
-                        {headerName: "Idx", field: "idx", width: 35},
-                        {headerName: "Study Description", field: "studyDescription", width: 585}
+                        // {headerName: "병명코드", field: "hCode", width: 300},
+                        {headerName: "Study Description", field: "studyDescription", width: 580},
+                        // {headerName: "Modality", field: "modality", width: 200}
                     ];
                     this.rowData = [
-                        {idx:"0", studyDescription: "study description 11111"},
-                        {idx:"1", studyDescription: "study description 22222"},
-                        {idx:"2", studyDescription: "study description 33333"}
                     ];
 
                     this.gridOptions.onGridReady = (params) => {
-                        params.api.sizeColumnsToFit();
-                        console.log("test");
+                        // params.api.sizeColumnsToFit();
                     }
 
-                    this.gridOptions.onRowSelected = (e) => {
-                        console.log(e);
-                    };
-
                     this.gridOptions.onRowDoubleClicked = (event) => {
-                        console.log("double");
+                        let param = new Object();
+                        let detail = new Object();
+                        detail.studyDesc = event.data.studyDescription;
+                        g_resultDesc =event.data.studyDescription;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('activeTab', param));
                     }
                 }
 
                 ready() {
                     super.ready();
-                    this.$.prevBtn.addEventListener('click',function(){
+                    this.readTextFile("../resource/humiic_studyDesc_json", function(desc){
+                        if(desc){
+                            g_humiicDesc  = JSON.parse(desc);
+                        }
+                    });
+
+                    this.$.prevBtn.addEventListener('click', function () {
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
                     });
 
-                    this.$.nextBtn.addEventListener('click',function(){
-                        _this.dispatchEvent(new CustomEvent('nextTabEvent'));
+                    this.$.inputStudyDesc.addEventListener('keyup', function (e) {
+                        _this.searchStudyDesc();
                     });
 
-                    this.$.clearBtn.addEventListener('click',function(){
-                       _this.$.inputStudyDesc.value ="";
-                       _this.$.inputShortcut.value = "";
+                    this.$.inputShortcut.addEventListener('focused-changed', function (e) {
+                        let param = new Object();
+                        let detail = new Object();
+                        detail.shortcut = _this.$.inputShortcut.value;
+                        if(g_resultDesc){
+                            detail.studyDesc = g_resultDesc;
+                        }
+                        param.detail = detail;
+                        if(_this.$.inputShortcut.value) {
+                            _this.dispatchEvent(new CustomEvent('activeTab', param));
+                        }
                     });
+
+                    this.$.nextBtn.addEventListener('click', function () {
+                        let param = new Object();
+                        let detail = new Object();
+                        let studyDesc = new Object();
+                        let desc = _this.$.inputStudyDesc.value;
+                        let shortcut = _this.$.inputShortcut.value;
+                        studyDesc.desc = desc;
+                        studyDesc.shortcut = shortcut;
+                        detail.studyDesc = studyDesc;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('nextTabEvent', param));
+                    });
+
+                    this.$.clearBtn.addEventListener('click', function () {
+                        _this.$.inputStudyDesc.value = "";
+                        _this.$.inputShortcut.value = "";
+                    });
+                }
+
+                searchStudyDesc(){
+                    let input = _this.$.inputStudyDesc.value;
+                    let inputStudyDesc = g_humiicDesc;
+                    let resultStudyDesc = new Array();
+                    for(let i=0; i<inputStudyDesc.length; i++){
+                        if(inputStudyDesc[i].studyDescription){
+                            let descValue = inputStudyDesc[i].studyDescription.toLowerCase();
+                            if(descValue.includes(input)){
+                                let result = {};
+                                result.studyDescription = inputStudyDesc[i].studyDescription;
+                                result.hCode  = inputStudyDesc[i].hCode;
+                                result.modality = inputStudyDesc[i].modality;
+                                resultStudyDesc.push(result);
+                            }
+                        }
+                    }
+                    let rowNodes = resultStudyDesc;
+                    _this.gridOptions.api.setRowData(rowNodes);
+                }
+
+                readTextFile(file, callback) {
+                    var rawFile = new XMLHttpRequest();
+                    rawFile.overrideMimeType("application/json");
+                    rawFile.open("GET", file, true);
+                    rawFile.onreadystatechange = function() {
+                        if (rawFile.readyState === 4 && rawFile.status == "200") {
+                            callback(rawFile.responseText);
+                        }
+                    }
+                    rawFile.send(null);
                 }
 
             }

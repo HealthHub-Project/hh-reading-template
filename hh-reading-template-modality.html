@@ -48,6 +48,7 @@
                 background-color: #252934;
                 text-align: right;
                 border-top: 5px solid black;
+                /*padding-right: 15px;*/
             }
 
             .btn {
@@ -791,7 +792,7 @@
                 activeNextData() {
                     let param = new Object();
                     let detail = new Object();
-                    let modalityObj = new Object();
+                    let modality = new Array();
                     let validationFieldCheckbox = _this.modalityField.length > 0;
                     let validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
                         _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0);
@@ -799,16 +800,15 @@
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
                         _this.$.nextBtn.disabled = false;
                         detail.nextBtn = true;
-                        modalityObj = _this.radiology;
-                        modalityObj += _this.opthalmology;
-                        modalityObj += _this.nuclearMedicine;
-                        modalityObj += _this.radiationOncology;
-                        modalityObj += _this.dental;
-                        modalityObj += _this.waveform;
-                        modalityObj += _this.pathology;
-                        modalityObj += _this.other;
-
-                        detail.modalityObj = modalityObj;
+                        if(_this.radiology.length){modality.push(_this.radiology)}
+                        if(_this.opthalmology.length){modality.push(_this.opthalmology)}
+                        if(_this.nuclearMedicine.length){modality.push(_this.nuclearMedicine)}
+                        if(_this.radiationOncology.length){modality.push(_this.radiationOncology)}
+                        if(_this.dental.length){modality.push(_this.dental)}
+                        if(_this.waveform.length){modality.push(_this.waveform)}
+                        if(_this.pathology.length){modality.push(_this.pathology)}
+                        if(_this.other.length){modality.push(_this.other)}
+                        detail.modality = modality;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
                     } else {

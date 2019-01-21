@@ -30,6 +30,7 @@
                 text-align: right;
                 background-color: #252934;
                 border-top: 5px solid black;
+                /*padding-right: 15px;*/
             }
 
             .wrap-title{
@@ -81,7 +82,8 @@
             }
 
             #saveBtn {
-                background: #0087cb;
+                /*background: #0087cb;*/
+                background: #dddddd;
             }
 
             #clearBtn {
@@ -109,13 +111,14 @@
 
         </style>
         <div class="container">
+            <paper-toast id="saveToast" duration="1000" class="save-toast"></paper-toast>
             <div class="class-report-input">
                 <div class="wrap-context">
                     <div class="wrap-title">
                         <input type="hidden" id="seqNo" value="{{seqNo}}">
                         <input type="hidden" id="displayOrder" value="{{displayOrder}}">
                         <input type="hidden" id="hotKey1" value="{{hotKey1}}">
-                        <paper-input label="INPUT REPORT TEMPLATE TITLE" id="title" class="textarea-title" char-counter maxlength="50"></paper-input>
+                        <paper-input label="INPUT REPORT TEMPLATE TITLE" id="title" class="textarea-title" value="{{title}}" char-counter maxlength="50"></paper-input>
                     </div>
                     <div class="wrap-report">
                         <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}" placeholder="Finding"
@@ -130,7 +133,7 @@
             <div class="class-report-btn">
                 <button id="clearBtn" class="btn">Clear</button>
                 <button id="prevBtn" class="btn">Prev</button>
-                <button id="saveBtn" class="btn">Save</button>
+                <button id="saveBtn" class="btn" disabled>Save</button>
             </div>
         </div>
     </template>
@@ -143,11 +146,28 @@
                     return 'hh-reading-template-report';
                 }
 
+                static get properties() {
+                    return {
+                        title: {
+                            type: String
+                        },
+                        finding: {
+                            type: String
+                        },
+                        conclusion: {
+                            type: String
+                        },
+                        recommendation: {
+                            type: String
+                        }
+                    }
+                }
+
                 ready() {
                     super.ready();
 
                     this.$.saveBtn.addEventListener('click',function(){
-                        _this.dispatchEvent(new CustomEvent('saveReportEvent'));
+                        _this.saveValidation();
                     });
 
                     this.$.clearBtn.addEventListener('click',function(){
@@ -155,18 +175,65 @@
                         _this.$.finding.value = "";
                         _this.$.conclusion.value = "";
                         _this.$.recommendation.value = "";
+                        _this.$.saveBtn.style.backgroundColor = "#dddddd";
+                        _this.$.saveBtn.disabled = true;
                     });
 
                     this.$.prevBtn.addEventListener('click',function(){
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
                     });
 
+                    this.$.title.addEventListener('keyup',function(){
+                        if(_this.$.title.value.length > 0){
+                            _this.$.saveBtn.style.backgroundColor = "#0087cb";
+                            _this.$.saveBtn.disabled = false;
+                        }else{
+                            _this.$.saveBtn.style.backgroundColor = "#dddddd";
+                            _this.$.saveBtn.disabled = true;
+                        }
+
+                    });
                 }
 
                 constructor() {
                     super();
                     _this = this;
                 }
+
+                saveValidation(){
+                    let message = new Object();
+                    message.isErr = true;
+                    if(!_this.title){
+                        message.text = "Titles can not be duplicated.";
+                        _this.openToast(message);
+                    }else if(!_this.finding && !_this.conclusion && !_this.recommendation){
+                        message.text = "Please enter at least one area of report.";
+                        _this.openToast(message);
+                    }else{
+                        let param = new Object();
+                        let detail = new Object();
+                        detail.title = _this.title;
+                        detail.finding = _this.finding;
+                        detail.conclusion = _this.conclusion;
+                        detail.recommendation = _this.recommendation;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('saveReportEvent', param));
+                    }
+                }
+
+                openToast(message){
+                    if (!message.isErr) {
+                        _this.$.saveToast.style.backgroundColor = "#0087cb";
+                    } else {
+                        _this.$.saveToast.style.backgroundColor = "#e46159";
+                    }
+                    this.$.saveToast.text = message.text;
+                    this.$.saveToast.open();
+                    if(message.isErr){
+                        return false;
+                    }
+                }
+
             }
 
             window.customElements.define(HhReadingTemplateReportTemplate.is, HhReadingTemplateReportTemplate);

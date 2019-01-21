@@ -187,6 +187,8 @@
 </div>
 </body>
 <script>
+    let g_readingTemplate = new Object();
+
     document.addEventListener("DOMContentLoaded", () => {
         document.getElementById("closeBtn").addEventListener('click', function () {
             window.close();
@@ -204,6 +206,8 @@
 
         document.getElementById('modalityTemplate').addEventListener('activeTab', function (e) {
             if(e.detail.nextBtn == true){
+                let modality = e.detail.modality;
+                g_readingTemplate.modality = modality;
                 document.getElementById('bodypartTab').disabled = false;
             }else{
                 document.getElementById('bodypartTab').disabled = true;
@@ -211,14 +215,27 @@
         });
 
         document.getElementById('bodypartTemplate').addEventListener('activeTab', function (e) {
-            // console.log(e.detail);
             if(e.detail.nextBtn == true){
+                let bodypart = e.detail.bodypart;
+                g_readingTemplate.bodypart = bodypart;
                 document.getElementById('studyDescTab').disabled = false;
                 document.getElementById('reportTab').disabled = false;
             }else{
                 document.getElementById('studyDescTab').disabled = true;
                 document.getElementById('reportTab').disabled = true;
             }
+        });
+
+        document.getElementById('studyDescTemplate').addEventListener('activeTab', function (e) {
+            if(e.detail.studyDesc && e.detail.shortcut){
+                g_readingTemplate.studyDesc = e.detail.studyDesc;
+                g_readingTemplate.shortcut = e.detail.shortcut;
+            }else if(e.detail.studyDesc){
+                g_readingTemplate.studyDesc = e.detail.studyDesc;
+            }else if(e.detail.shortcut){
+                g_readingTemplate.shortcut = e.detail.shortcut;
+            }
+            console.log(g_readingTemplate);
         });
 
         document.getElementById('modalityTemplate').addEventListener('nextTabEvent', function () {
@@ -234,6 +251,7 @@
         });
 
         document.getElementById('studyDescTemplate').addEventListener('nextTabEvent', function () {
+            console.log(g_readingTemplate);
             nextTabEvent();
         });
 
@@ -245,22 +263,51 @@
             prevTabEvent();
         });
 
-        document.getElementById('reportTemplate').addEventListener('saveReportEvent', function () {
+        document.getElementById('reportTemplate').addEventListener('saveReportEvent', function (e) {
+            g_readingTemplate.title = e.detail.title;
+            g_readingTemplate.finding = e.detail.finding;
+            g_readingTemplate.conclusion = e.detail.conclusion;
+            g_readingTemplate.recommendation = e.detail.recommendation;
             reportSaveEvent();
+
         });
 
     });
 
     function reportSaveEvent(){
+
+        /*
+        "seqNo" : 1,
+        "displayOrder" : 2,
+        "title" : "PNS WNL",
+        "finding" : "111. Normal paranasal sinuses",
+        "conclusion" : "111. Normal paranasal sinuses",
+        "recommendation" : "111. Normal paranasal sinuses",
+        "modality" : "CR",
+        "hotKey1" : "alt",
+        "hotKey2" : "1"
+        ----------
+        bodypart(multi select),
+        modality(multi select)
+        studyDesc
+        * */
+
+        // console.log(g_readingTemplate);
         // if (!message.isErr) {
         //     document.getElementById("toast2").style.backgroundColor = "#0087cb";
         // } else {
         //     document.getElementById("toast2").style.backgroundColor = "#e46159";
         // }
-
         document.getElementById("saveToast").style.backgroundColor = "#0087cb";
         document.getElementById('saveToast').text = "Report save complate.";
         document.getElementById('saveToast').open();
+        // let param = new Object();
+        // let detail = new Object();
+        // detail = g_readingTemplate;
+        // param.detail = detail;
+        // console.log(param.detail);
+        console.log(g_readingTemplate);
+        document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
     }
 
     function nextTabEvent() {
