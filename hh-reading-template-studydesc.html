@@ -6,7 +6,6 @@
 <!--<script src="../bower_components/ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>-->
 <!--<link rel="import" href="../bower_components/ag-grid-polymer/ag-grid-polymer.html">-->
 <script src="licenseKey.js"></script>
-<script src="humiic_studyDesc_json"></script>
 <dom-module id="hh-reading-template-studydesc">
     <template>
         <!--bower component-->
@@ -202,7 +201,7 @@
 
                 ready() {
                     super.ready();
-                    this.readTextFile("../resource/humiic_studyDesc_json", function(desc){
+                    this.readTextFile("../humiic_studyDesc_json", function(desc){
                         if(desc){
                             g_humiicDesc  = JSON.parse(desc);
                         }
