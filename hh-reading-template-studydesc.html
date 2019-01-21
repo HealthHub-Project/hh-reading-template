@@ -201,11 +201,12 @@
 
                 ready() {
                     super.ready();
-                    this.readTextFile("../humiic_studyDesc_json", function(desc){
-                        if(desc){
-                            g_humiicDesc  = JSON.parse(desc);
-                        }
-                    });
+                    // this.readTextFile("../humiic_studyDesc_json", function(desc){
+                    //     if(desc){
+                    //         g_humiicDesc  = JSON.parse(desc);
+                    //     }
+                    // });
+                    this.readTextFile();
 
                     this.$.prevBtn.addEventListener('click', function () {
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
@@ -277,6 +278,19 @@
                         }
                     }
                     rawFile.send(null);
+                }
+
+                readTextFile() {
+                    let fileReader = new XMLHttpRequest();
+                    fileReader.open('GET', '../humiic_studyDesc_json', true);
+                    fileReader.onload = function() {
+                        if (fileReader.status == 200) {
+                            let properties = JSON.parse(fileReader.responseText);
+                            g_humiicDesc = properties;
+                            fileReader.close();
+                        }
+                    };
+                    // fileReader.send(null);
                 }
 
             }
