@@ -283,7 +283,8 @@
                 readTextFile() {
                     let fileReader = new XMLHttpRequest();
                     fileReader.open('GET', '../humiic_studyDesc_json', true);
-                    fileReader.onload = function() {
+                    fileReader.onload = function(response) {
+                        console.log(response);
                         if (fileReader.status == 200) {
                             let properties = JSON.parse(fileReader.responseText);
                             g_humiicDesc = properties;
