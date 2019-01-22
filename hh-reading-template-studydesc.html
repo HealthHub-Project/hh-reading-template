@@ -282,7 +282,7 @@
 
                 readTextFile() {
                     let fileReader = new XMLHttpRequest();
-                    fileReader.open('GET', '../humiic_studyDesc_json', true);
+                    fileReader.open('GET', '../hh-reading-template/humiic_studyDesc_json', true);
                     fileReader.onload = function(response) {
                         console.log(response);
                         if (fileReader.status == 200) {
