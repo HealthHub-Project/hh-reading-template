@@ -268,17 +268,17 @@
                     _this.gridOptions.api.setRowData(rowNodes);
                 }
 
-                readTextFile(file, callback) {
-                    var rawFile = new XMLHttpRequest();
-                    rawFile.overrideMimeType("application/json");
-                    rawFile.open("GET", file, true);
-                    rawFile.onreadystatechange = function() {
-                        if (rawFile.readyState === 4 && rawFile.status == "200") {
-                            callback(rawFile.responseText);
-                        }
-                    }
-                    rawFile.send(null);
-                }
+                // readTextFile(file, callback) {
+                //     var rawFile = new XMLHttpRequest();
+                //     rawFile.overrideMimeType("application/json");
+                //     rawFile.open("GET", file, true);
+                //     rawFile.onreadystatechange = function() {
+                //         if (rawFile.readyState === 4 && rawFile.status == "200") {
+                //             callback(rawFile.responseText);
+                //         }
+                //     }
+                //     rawFile.send(null);
+                // }
 
                 readTextFile() {
                     let fileReader = new XMLHttpRequest();
@@ -291,7 +291,7 @@
                             fileReader.close();
                         }
                     };
-                    // fileReader.send(null);
+                    fileReader.send(null);
                 }
 
             }
