@@ -288,7 +288,6 @@
                         if (fileReader.status == 200) {
                             let properties = JSON.parse(fileReader.responseText);
                             g_humiicDesc = properties;
-                            fileReader.close();
                         }
                     };
                     fileReader.send(null);
