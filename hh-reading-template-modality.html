@@ -130,7 +130,7 @@
         <div class="container">
             <div class="class-md">
                 <div class="class-md-field">
-                    <div style="margin: 10px; height: 38%">
+                    <div style="margin: 10px; height: 42%">
                         <div class="m-field-title">MODALITY</div>
                         <div class="m-field">
                             <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink>All</paper-checkbox>
@@ -793,7 +793,7 @@
                     let param = new Object();
                     let detail = new Object();
                     let modality = new Array();
-                    let validationFieldCheckbox = _this.modalityField.length > 0;
+                    let validationFieldCheckbox = _this.modalityField.length > 0 || _this.$.modalityFieldAll.checked;
                     let validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
                         _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0);
                     if ( validationFieldCheckbox && validationSelectedChecbox ) {
