@@ -239,7 +239,7 @@
                         detail.title = _this.title;
                         if(_this.finding){detail.finding = _this.finding;}
                         if(_this.conclusion){detail.conclusion = _this.conclusion;}
-                        if(_this.recommendation){console.log("test");detail.recommendation = _this.recommendation;}
+                        if(_this.recommendation){detail.recommendation = _this.recommendation;}
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('saveReportEvent', param));
                     }
