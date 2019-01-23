@@ -140,7 +140,7 @@
         <div class="container">
             <div class="class-bd">
                 <div class="class-bd-field">
-                    <div style="margin: 10px; height: 53%">
+                    <div style="margin: 10px; height: 60%">
                         <div class="bd-field-title">BODY PART</div>
                         <div class="class-bd-filed">
                             <paper-checkbox id="bodypartFieldAll" class="checkBox-style" noink >All</paper-checkbox>
@@ -1007,7 +1007,7 @@
                     let param = new Object();
                     let detail = new Object();
                     let bodypart = new Array();
-                    let validationFieldCheckbox = _this.bodypartField.length > 0;
+                    let validationFieldCheckbox = _this.bodypartField.length > 0 || _this.$.bodypartFieldAll.checked;
                     let validationSelectedChecbox = _this.abdomen.length > 0 || _this.breast.length > 0 || _this.pediatric != null || _this.chest.length > 0 ||
                         _this.cardiovascular.length > 0 || _this.dental.length > 0 || _this.genitourinary.length > 0 || _this.angioAndIntervention.length > 0|| _this.headAndNeck.length > 0 ||
                         _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0;

@@ -265,9 +265,9 @@
 
         document.getElementById('reportTemplate').addEventListener('saveReportEvent', function (e) {
             g_readingTemplate.title = e.detail.title;
-            g_readingTemplate.finding = e.detail.finding;
-            g_readingTemplate.conclusion = e.detail.conclusion;
-            g_readingTemplate.recommendation = e.detail.recommendation;
+            if(e.detail.finding){g_readingTemplate.finding = e.detail.finding;}
+            if(e.detail.conclusion){g_readingTemplate.conclusion = e.detail.conclusion;}
+            if(e.detail.recommendation){g_readingTemplate.recommendation = e.detail.recommendation;}
             reportSaveEvent();
 
         });

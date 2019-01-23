@@ -37,11 +37,10 @@
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                width: 80%;
+                width: 93%;
                 height: 15%;
                 color: #aaaaaa;
-                /*padding-top: 10px;*/
-                margin-left: 10%;
+                margin-left: 3%;
                 margin-bottom: 10px;
                 text-decoration: underline;
                 font-size: 21px;
@@ -49,8 +48,9 @@
             }
 
             .wrap-report{
-                width: 80%;
-                height: 75%;
+                height: 90%;
+                width: 82%;
+                padding-top: 2%;
                 margin-left: 10%;
             }
 
@@ -108,25 +108,49 @@
                 resize: none;
                 margin-top: 10px;
             }
-
+            .wrap-report-title{
+                height: 30px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                background-color: #252934;
+                font-weight: bold;
+                box-shadow: 0px 3px 9px -2px #000000;
+                color: #aaaaaa;
+                font-size: 13px;
+            }
+            .wrap-report-content-context{
+                width: 93%;
+                height: 420px;
+                margin: 1% 0 0 3%;
+            }
         </style>
         <div class="container">
             <paper-toast id="saveToast" duration="1000" class="save-toast"></paper-toast>
             <div class="class-report-input">
                 <div class="wrap-context">
-                    <div class="wrap-title">
-                        <input type="hidden" id="seqNo" value="{{seqNo}}">
-                        <input type="hidden" id="displayOrder" value="{{displayOrder}}">
-                        <input type="hidden" id="hotKey1" value="{{hotKey1}}">
-                        <paper-input label="INPUT REPORT TEMPLATE TITLE" id="title" class="textarea-title" value="{{title}}" char-counter maxlength="50"></paper-input>
-                    </div>
                     <div class="wrap-report">
-                        <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}" placeholder="Finding"
-                                                require="true"></iron-autogrow-textarea>
-                        <iron-autogrow-textarea class="context-textarea" id="conclusion" placeholder="Conclusion"
-                                                value="{{conclusion}}"></iron-autogrow-textarea>
-                        <iron-autogrow-textarea class="context-textarea" id="recommendation" placeholder="Recommendation"
-                                                value="{{recommendation}}"></iron-autogrow-textarea>
+                        <div style="background-color: rgba(0, 0, 0, 0.15); height: 100%; width: 100%">
+                            <div class="wrap-report-title">
+                                Report
+                            </div>
+                            <div class="wrap-report-content">
+                                <div class="wrap-title">
+                                    <input type="hidden" id="seqNo" value="{{seqNo}}">
+                                    <input type="hidden" id="displayOrder" value="{{displayOrder}}">
+                                    <input type="hidden" id="hotKey1" value="{{hotKey1}}">
+                                    <paper-input label="INPUT REPORT TEMPLATE TITLE" id="title" class="textarea-title" value="{{title}}" char-counter maxlength="50"></paper-input>
+                                </div>
+                                <div class="wrap-report-content-context">
+                                    <iron-autogrow-textarea class="context-textarea" id="finding" value="{{finding}}" placeholder="Finding"
+                                                            require="true"></iron-autogrow-textarea>
+                                    <iron-autogrow-textarea class="context-textarea" id="conclusion" placeholder="Conclusion"
+                                                            value="{{conclusion}}"></iron-autogrow-textarea>
+                                    <iron-autogrow-textarea class="context-textarea" id="recommendation" placeholder="Recommendation"
+                                                            value="{{recommendation}}"></iron-autogrow-textarea>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -213,9 +237,9 @@
                         let param = new Object();
                         let detail = new Object();
                         detail.title = _this.title;
-                        detail.finding = _this.finding;
-                        detail.conclusion = _this.conclusion;
-                        detail.recommendation = _this.recommendation;
+                        if(_this.finding){detail.finding = _this.finding;}
+                        if(_this.conclusion){detail.conclusion = _this.conclusion;}
+                        if(_this.recommendation){console.log("test");detail.recommendation = _this.recommendation;}
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('saveReportEvent', param));
                     }
