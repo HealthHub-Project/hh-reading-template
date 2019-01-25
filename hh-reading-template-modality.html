@@ -139,24 +139,24 @@
                                 <paper-checkbox value="radiology" id="mdFiledRadiology" class="checkBox-style" noink>
                                     Radiology
                                 </paper-checkbox>
-                                <paper-checkbox value="opthalmology" id="mdFiledOpthalmology" class="checkBox-style"
+                                <paper-checkbox value="opthalmology" id="mdFiledOpthalmology" class="checkBox-style" hidden
                                                 noink>Opthalmology
                                 </paper-checkbox>
-                                <paper-checkbox value="nuclearMedicine" id="mdFiledNuclearMedicine"
+                                <paper-checkbox value="nuclearMedicine" id="mdFiledNuclearMedicine" hidden
                                                 class="checkBox-style" noink>Nuclear Medicine
                                 </paper-checkbox>
-                                <paper-checkbox value="radiationOncology" id="mdFiledRadiationOncology"
+                                <paper-checkbox value="radiationOncology" id="mdFiledRadiationOncology" hidden
                                                 class="checkBox-style" noink>Radiation Oncology
                                 </paper-checkbox>
-                                <paper-checkbox value="dental" id="mdFiledDental" class="checkBox-style" noink>Dental
+                                <paper-checkbox value="dental" id="mdFiledDental" class="checkBox-style" hidden noink>Dental
                                 </paper-checkbox>
-                                <paper-checkbox value="waveform" id="mdFiledWaveform" class="checkBox-style" noink>
+                                <paper-checkbox value="waveform" id="mdFiledWaveform" class="checkBox-style" hidden noink>
                                     Waveform
                                 </paper-checkbox>
-                                <paper-checkbox value="pathology" id="mdFiledPathology" class="checkBox-style" noink>
+                                <paper-checkbox value="pathology" id="mdFiledPathology" class="checkBox-style" hidden noink>
                                     Pathology
                                 </paper-checkbox>
-                                <paper-checkbox value="other" id="mdFiledOther" class="checkBox-style" noink>Other
+                                <paper-checkbox value="other" id="mdFiledOther" class="checkBox-style" hidden noink>Other
                                 </paper-checkbox>
                             </iron-selector>
                         </div>
@@ -459,9 +459,10 @@
 
                     this.$.modalityFieldAll.addEventListener('change', function (e) {
                         _this.activeNextData();
-                        for (let i = 0; i < _this.$.modalityField.childElementCount; i++) {
-                            _this.$.modalityField.children[i].checked = e.target.checked;
-                        }
+                        _this.$.modalityField.children[0].checked = e.target.checked;
+                        // for (let i = 0; i < _this.$.modalityField.childElementCount; i++) {
+                        //     _this.$.modalityField.children[i].checked = e.target.checked;
+                        // }
                     });
 
                     this.$.mdFiledRadiology.addEventListener('checked-changed', function (e) {

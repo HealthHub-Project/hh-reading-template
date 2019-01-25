@@ -494,7 +494,6 @@
                 </div>
             </div>
             <div class="class-bd-btn">
-                <button id="test" class="btn" hidden>Prev</button>
                 <button id="prevBtn" class="btn">Prev</button>
                 <button id="nextBtn" class="btn" disabled>Next</button>
             </div>
@@ -559,10 +558,6 @@
 
                 ready() {
                     super.ready();
-
-                    this.$.test.addEventListener('click',function (e) {
-                        _this.activeNextData();
-                    })
 
                     /**
                      * FIELD AREA CHECK BOX
@@ -1008,7 +1003,7 @@
                     let detail = new Object();
                     let bodypart = new Array();
                     let validationFieldCheckbox = _this.bodypartField.length > 0 || _this.$.bodypartFieldAll.checked;
-                    let validationSelectedChecbox = _this.abdomen.length > 0 || _this.breast.length > 0 || _this.pediatric != null || _this.chest.length > 0 ||
+                    let validationSelectedChecbox = _this.abdomen.length > 0 || _this.breast.length > 0 || _this.$.bdFieldPediatric.checked || _this.chest.length > 0 ||
                         _this.cardiovascular.length > 0 || _this.dental.length > 0 || _this.genitourinary.length > 0 || _this.angioAndIntervention.length > 0|| _this.headAndNeck.length > 0 ||
                         _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0;
 
