@@ -4,6 +4,8 @@
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
 <script src="../ag-grid-enterprise/dist/ag-grid-enterprise.js"></script>
 <link rel="import" href="../ag-grid-polymer/ag-grid-polymer.html">
+<link rel="import" href="../paper-toast/paper-toast.html">
+<link rel="import" href="../iron-selector/iron-selector.html">
 
 <script src="licenseKey.js"></script>
 <dom-module id="hh-reading-template">
@@ -73,15 +75,23 @@
                 padding: 5px;
             }
 
+            paper-toast {
+                --paper-toast-color: white;
+            }
+
         </style>
         <div class="container">
+            <paper-toast id="toast" duration="1000" class="class-toast"></paper-toast>
             <div class="context">
                 <div class="template-configure">
                     <div class="template-configure-sensitive">
                         <div class="class-sensitiveCheck">
-                            <paper-checkbox id="modality" class="checkBox-style" noink>Modality Sensitive</paper-checkbox>
-                            <paper-checkbox id="bodypart" class="checkBox-style" noink>Bodypart Sensitive</paper-checkbox>
-                            <paper-checkbox id="studyDescription" class="checkBox-style" noink>Study description Sensitive</paper-checkbox>
+                            <iron-selector attr-for-selected="value" id="sensitive" selected-values="{{selectSensitive}}"
+                                           multi>
+                                <paper-checkbox value="modality" id="sensitiveModal" class="checkBox-style" noink>Modality Sensitive</paper-checkbox>
+                                <paper-checkbox value="bodypart" class="checkBox-style" noink>Bodypart Sensitive</paper-checkbox>
+                                <paper-checkbox value="studyDescription" class="checkBox-style" noink>Study description Sensitive</paper-checkbox>
+                            </iron-selector>
                         </div>
                     </div>
                     <div class="template-configure-setting-btn">
@@ -91,7 +101,8 @@
                         <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog" class="icon-style">
                         </paper-icon-button>
                         <iron-icon icon="vaadin:line-v" style="color: #aaaaaa; height: 15px; width: 15px"></iron-icon>
-                        <paper-icon-button id="importBtn" icon="vaadin:cloud-upload" class="icon-style">
+                        <input id="importBtn" type="file" style="display:none" />
+                        <paper-icon-button id="iconFileBtn" icon="vaadin:cloud-upload" class="icon-style">
                         </paper-icon-button>
                         <paper-icon-button id="exportBtn" icon="vaadin:cloud-download" class="icon-style">
                         </paper-icon-button>
@@ -102,7 +113,7 @@
                             class="ag-theme-balham-dark"
                             rowData="{{rowData}}" ,
                             columnDefs="{{columnDefs}}"
-                            on-first-data-rendered="{{firstDataRendered}}"
+                            gridOptions="{{gridOptions}}"
                     ></ag-grid-polymer>
                 </div>
             </div>
@@ -111,37 +122,66 @@
     <script>
         (function () {
             let _this;
-            let _sensitiveCheckList = [false,false,false];
+            let g_readingTemplateList = new Array();
+            let g_popup;
+            let message = new Object();
 
             class HhReadingTemplate extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template';
                 }
 
+                static get properties(){
+                    return{
+                        selectSensitive:{
+                            type: Array
+                        }
+                    }
+                }
+
                 ready() {
                     super.ready();
-                    this.$.modality.addEventListener('change',function(e){
-                        _sensitiveCheckList[0] = _this.$.modality.active;
+                    window.addEventListener("beforeunload", function (event) {
+                        if (g_popup) {
+                            g_popup.close();
+                        }
                     });
-                    this.$.bodypart.addEventListener('change',function(e){
-                        _sensitiveCheckList[1] = _this.$.bodypart.active;
+                    window.addEventListener('message', event => {
+                        if(event.data.flag =="rtConfigure"){
+                            _this.readingTemplateUpdate(event.data.readingTemplate);
+                        }
                     });
-                    this.$.studyDescription.addEventListener('change',function(e){
-                        _sensitiveCheckList[2] = _this.$.studyDescription.active;
-                    });
+
+                    this.$.sensitive.addEventListener('selected-items-changed',function(){
+                        console.log(_this.selectSensitive);
+                    })
+
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
                         let popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        // let popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        popup.struct = "popup test";
+                        // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        g_popup.struct = "popup test";
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {
                         console.log("setting");
                     })
-                    this.$.importBtn.addEventListener('click', function (event) {
-                        console.log("importBtn");
+
+                    this.$.iconFileBtn.addEventListener('click',function () {
+                        _this.$.importBtn.click();
+                    });
+
+                    this.$.importBtn.addEventListener('change', function (event) {
+                        if(this.files[0].name.includes("ReadingTemplate")){
+                            _this.importRedingTemplateToJson(this.files);
+                            this.files = null;
+                        }else{
+                            message.isErr = true;
+                            message.text = "Please select file which is the name of exportReadingTemplate.";
+                            _this.openToast(message);
+                        }
+
                     })
                     this.$.exportBtn.addEventListener('click', function (event) {
-                        console.log("exportBtn");
+                        _this.exportRedingTemplateToJson();
                     })
                 }
 
@@ -164,7 +204,10 @@
                         toolPanelSuppressColumnExpandAll: true,
                         toolPanelSuppressColumnFilter: true,
                         toolPanelSuppressPivots: true,
-                        toolPanelSuppressPivotMode: true
+                        toolPanelSuppressPivotMode: true,
+                        components: {
+                            agDateInput: CustomDateComponent
+                        }
                     };
 
                     this.columnDefs = [
@@ -178,25 +221,110 @@
                         {headerName: "Recommendation", field: "recommendation"}
                     ];
                     this.rowData = [
-                        {seqNo:"0", modality: "CT", bodypart: "CHEST", studyDescription: "TEST1", title: "TEST1 title", finding: "finding1", conclusion: "conclusion1", recommendation: "recommendation1", shortcut: "test1"},
-                        {seqNo:"1", modality: "MR", bodypart: "CHEST", studyDescription: "TEST2", title: "TEST2 title", finding: "finding2", conclusion: "conclusion2", recommendation: "recommendation2", shortcut: "test2"},
-                        {seqNo:"2", modality: "CR", bodypart: "CHEST", studyDescription: "TEST3", title: "TEST3 title", finding: "finding3", conclusion: "conclusion3", recommendation: "recommendation3", shortcut: "test3"},
+                        // {seqNo:"0", title: "TEST", shortcut: "TEST SHORTCUT", modality: "CT, MR", bodypart: "CHEST, FOOT", studyDescription: "TEST STUDY DESCRIPTION", finding: "FINDING", conclusion: "CONCLUSION", recommendation: "RECOMMENDATION"},
                     ];
 
 
                     this.gridOptions.onGridReady = (params) => {
-                        params.api.sizeColumnsToFit();
-                        console.log("test");
+                        // params.api.sizeColumnsToFit();
                     }
 
                     this.gridOptions.onRowSelected = (e) => {
-                        console.log(e);
                     };
 
                     this.gridOptions.onRowDoubleClicked = (event) => {
-                        console.log("double");
+                        let struct = event.data;
+                        if(!g_popup.closed){
+                            g_popup.struct = struct;
+                        }else{
+                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                            // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        }
                     }
+                }
 
+                getReadingTemplateList(readingTemplateList){
+                    if(readingTemplateList){
+                        for(let i=0; i<readingTemplateList.length; i++){
+                            g_readingTemplateList[i].push(readingTemplateList[i]);
+                        }
+                    }
+                }
+
+                readingTemplateUpdate(rtConfigure){
+                    g_readingTemplateList.push(rtConfigure);
+                    _this.gridOptions.api.setRowData(g_readingTemplateList);
+                }
+
+                exportRedingTemplateToJson(){
+                    if(g_readingTemplateList.length>0){
+                        _this.writeJsonFile(g_readingTemplateList);
+                    }else{
+                        message.isErr = true;
+                        message.text = "No reading template.";
+                        _this.openToast(message);
+                    }
+                }
+
+                /**
+                 * Import ReadingTemplate from Json
+                 *
+                 * Create by BohyunJang on 2019-01-24 오후 12:30
+                **/
+                importRedingTemplateToJson(readFile) {
+                    let reader = new FileReader();
+                    reader.readAsText(readFile[0]);
+                    reader.onload = function(){
+                        let result = JSON.parse(reader.result);
+                        let cnt =0;
+                        for(let i=0; i<result.length; i++){
+                            g_readingTemplateList.push(result[i]);
+                            cnt ++;
+                            if(cnt == result.length){
+                                // console.log(g_readingTemplateList);
+                                //TODO : 파일 업로드 이후 디비 업데이트
+                                _this.gridOptions.api.setRowData(g_readingTemplateList);
+                            }
+                        }
+                    }
+                }
+
+                /**
+                 * Export ReadingTemlate to Josn
+                 *
+                 * Create by BohyunJang on 2019-01-24 오후 12:33
+                **/
+                writeJsonFile(readingTemplateList){
+                    let contents =JSON.stringify(readingTemplateList);
+                    this.saveToFile_Chrome("ReadingTemplate",contents);
+                }
+
+                saveToFile_Chrome(fileName, content) {
+                    let blob = new Blob([content], { type: 'text/plain' });
+                    let objURL = window.URL.createObjectURL(blob);
+
+                    if (window.__Xr_objURL_forCreatingFile__) {
+                        window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
+                    }
+                    window.__Xr_objURL_forCreatingFile__ = objURL;
+
+                    let a = document.createElement('a');
+                    a.download = fileName;
+                    a.href = objURL;
+                    a.click();
+                }
+
+                openToast(message){
+                    if (!message.isErr) {
+                        _this.$.toast.style.backgroundColor = "#0087cb";
+                    } else {
+                        _this.$.toast.style.backgroundColor = "#e46159";
+                    }
+                    this.$.toast.text = message.text;
+                    this.$.toast.open();
+                    if(message.isErr){
+                        return false;
+                    }
                 }
 
             }
