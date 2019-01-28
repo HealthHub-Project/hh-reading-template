@@ -188,13 +188,13 @@
 </body>
 <script>
     let g_readingTemplate = new Object();
-    // let _url = "http://127.0.0.1:8081";
-    let _url = "http://localhost:8081";
+    let _url = "http://127.0.0.1:8081";
+    // let _url = "http://localhost:8081";
 
     document.addEventListener("DOMContentLoaded", () => {
-        // console.log(window.struct);
         if(window.struct) {
-            getReportTemplate(window.struct);
+            console.log("onload");
+            setReadingTemplate(window.struct);
         }
 
         document.getElementById("closeBtn").addEventListener('click', function () {
@@ -280,6 +280,27 @@
 
     });
 
+    function reload(){
+        console.log("reload");
+        setReadingTemplate(window.struct);
+    }
+
+    function setReadingTemplate(readingTemplate){
+        console.log("set reading template");
+        if(readingTemplate.modality){
+            document.getElementById('modalityTemplate').setModality(readingTemplate);
+        }
+        if(readingTemplate.bodypart){
+            document.getElementById('bodypartTemplate').setBodypart(readingTemplate);
+        }
+        if(readingTemplate.studyDescription){
+            document.getElementById('studyDescTemplate').setStudyDesc(readingTemplate);
+        }
+        if(readingTemplate.report){
+            document.getElementById('reportTemplate').setReport(readingTemplate);
+        }
+    }
+
     function reportSaveEvent(){
 
         /*
@@ -320,10 +341,6 @@
 
     function prevTabEvent() {
         document.getElementById("tabPage").selectPrevious();
-    }
-
-    function getReportTemplate(reportTemplate){
-        console.log(reportTemplate);
     }
 
 </script>

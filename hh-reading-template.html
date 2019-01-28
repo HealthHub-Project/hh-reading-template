@@ -123,7 +123,7 @@
         (function () {
             let _this;
             let g_readingTemplateList = new Array();
-            let g_popup;
+            let g_popup = new Object();
             let message = new Object();
 
             class HhReadingTemplate extends Polymer.Element {
@@ -148,6 +148,7 @@
                     });
                     window.addEventListener('message', event => {
                         if(event.data.flag =="rtConfigure"){
+                            console.log(event.data);
                             _this.readingTemplateUpdate(event.data.readingTemplate);
                         }
                     });
@@ -170,10 +171,11 @@
                     });
 
                     this.$.importBtn.addEventListener('change', function (event) {
-                        if(this.files[0].name.includes("ReadingTemplate")){
+                        if(this.files[0].name.includes("ReadingTemplate") && this.files[0].type == "text/plain"){
                             _this.importRedingTemplateToJson(this.files);
-                            this.files = null;
+                            event.target.value = "";
                         }else{
+                            event.target.value = "";
                             message.isErr = true;
                             message.text = "Please select file which is the name of exportReadingTemplate.";
                             _this.openToast(message);
@@ -204,10 +206,7 @@
                         toolPanelSuppressColumnExpandAll: true,
                         toolPanelSuppressColumnFilter: true,
                         toolPanelSuppressPivots: true,
-                        toolPanelSuppressPivotMode: true,
-                        components: {
-                            agDateInput: CustomDateComponent
-                        }
+                        toolPanelSuppressPivotMode: true
                     };
 
                     this.columnDefs = [
@@ -234,11 +233,21 @@
 
                     this.gridOptions.onRowDoubleClicked = (event) => {
                         let struct = event.data;
-                        if(!g_popup.closed){
-                            g_popup.struct = struct;
-                        }else{
+                        if(g_popup.window == null){
                             g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                             // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                            g_popup.struct = struct;
+                        }else{
+                            if(!g_popup.window.closed){
+                                g_popup.close();
+                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                g_popup.struct = struct;
+                            }else{
+                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                g_popup.struct = struct;
+                            }
                         }
                     }
                 }
@@ -258,6 +267,7 @@
 
                 exportRedingTemplateToJson(){
                     if(g_readingTemplateList.length>0){
+                        console.log(g_readingTemplateList);
                         _this.writeJsonFile(g_readingTemplateList);
                     }else{
                         message.isErr = true;
