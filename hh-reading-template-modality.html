@@ -163,7 +163,7 @@
                     </div>
                 </div>
                 <div class="class-md-selected">
-                    <div class="class-md-selected-contents">
+                    <div class="class-md-selected-contents" id="mdSelectedContens">
                         <div class="m-select" id="mdsRadiology" hidden>
                             <div class="m-select-title">Radiology</div>
                             <div class="m-select-selected">
@@ -412,6 +412,8 @@
     <script>
         (function () {
             let _this;
+            let validationFieldCheckbox;
+            let validationSelectedChecbox;
             class HhReadingTemplateModality extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-modality';
@@ -794,8 +796,8 @@
                     let param = new Object();
                     let detail = new Object();
                     let modality = new Array();
-                    let validationFieldCheckbox = _this.modalityField.length > 0 || _this.$.modalityFieldAll.checked;
-                    let validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
+                    validationFieldCheckbox = _this.modalityField.length > 0 || _this.$.modalityFieldAll.checked;
+                    validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
                         _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0);
                     if ( validationFieldCheckbox && validationSelectedChecbox ) {
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
@@ -818,6 +820,52 @@
                         detail.nextBtn = false;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
+                    }
+                }
+
+                setModality(readingTemplate){
+
+                    console.log("modality");
+                    console.log(readingTemplate.modality);
+                    let fieldChecked = false;
+                    let selectedChecked = false;
+                    let param = new Object();
+                    let detail = new Object();
+                    let cnt = 0;
+                    for (let i = 0; i < _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount; i++) {
+                        for (let k = 0; k < readingTemplate.modality.length; k++) {
+                            if (i == 0) {
+                                // _this.radiology.push(readingTemplate.modality[k]);
+                            }
+                            if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value)) {
+                                // console.log(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value);
+                                // console.log(_this.$.mdSelectedContens.children[0].children[0].innerText);
+                                for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
+                                    if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[0].children[0].innerText && !_this.$.modalityField.children[j].checked) {
+                                        console.log(_this.$.mdSelectedContens.children[0].children[0]);
+                                        _this.$.modalityField.children[j].checked = true;
+                                        fieldChecked = true;
+                                    }
+                                }
+                                selectedChecked = true;
+                                _this.$.mdSelectedContens.children[0].children[1].children[1].children[i].checked = true;
+                                _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(i);
+                            }
+                        }
+                        cnt++;
+                        if(cnt == _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount){
+                            console.log(this.radiology);
+                            console.log("field "+fieldChecked);
+                            console.log("selected"+selectedChecked);
+                            if(fieldChecked && selectedChecked){
+                                console.log("test");
+                                _this.$.nextBtn.style.backgroundColor = "#0087cb";
+                                _this.$.nextBtn.disabled = false;
+                                detail.nextBtn = true;
+                                param.detail = detail;
+                                _this.dispatchEvent(new CustomEvent('activeTab', param));
+                            }
+                        }
                     }
                 }
 
