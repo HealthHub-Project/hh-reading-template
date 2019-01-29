@@ -412,8 +412,6 @@
     <script>
         (function () {
             let _this;
-            let validationFieldCheckbox;
-            let validationSelectedChecbox;
             class HhReadingTemplateModality extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-modality';
@@ -462,19 +460,12 @@
                     this.$.modalityFieldAll.addEventListener('change', function (e) {
                         _this.activeNextData();
                         _this.$.modalityField.children[0].checked = e.target.checked;
-                        // for (let i = 0; i < _this.$.modalityField.childElementCount; i++) {
-                        //     _this.$.modalityField.children[i].checked = e.target.checked;
-                        // }
                     });
 
                     this.$.mdFiledRadiology.addEventListener('checked-changed', function (e) {
                         _this.activeNextData();
                         if (_this.$.mdFiledRadiology.checked) {
                             _this.$.mdsRadiology.hidden = false;
-                            // _this.$.mdSelected1All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected1.childElementCount; i++){
-                            //     _this.$.mdSelected1.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected1All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected1.childElementCount; i++) {
@@ -490,10 +481,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledOpthalmology.checked) {
                             _this.$.mdsOpthalmology.hidden = false;
-                            // _this.$.mdSelected2All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected2.childElementCount; i++){
-                            //     _this.$.mdSelected2.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected2All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected2.childElementCount; i++) {
@@ -509,10 +496,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledNuclearMedicine.checked) {
                             _this.$.mdsNuclearMedicine.hidden = false;
-                            // _this.$.mdSelected3All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected3.childElementCount; i++){
-                            //     _this.$.mdSelected3.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected3All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected3.childElementCount; i++) {
@@ -528,10 +511,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledRadiationOncology.checked) {
                             _this.$.mdsRadiology.hidden = false;
-                            // _this.$.mdSelected4All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected4.childElementCount; i++){
-                            //     _this.$.mdSelected4.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected4All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected4.childElementCount; i++) {
@@ -547,10 +526,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledDental.checked) {
                             _this.$.mdsDental.hidden = false;
-                            // _this.$.mdSelected5All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected5.childElementCount; i++){
-                            //     _this.$.mdSelected5.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected5All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected5.childElementCount; i++) {
@@ -566,10 +541,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledWaveform.checked) {
                             _this.$.mdsWaveform.hidden = false;
-                            // _this.$.mdSelected6All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected6.childElementCount; i++){
-                            //     _this.$.mdSelected6.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected6All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected6.childElementCount; i++) {
@@ -585,10 +556,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledPathology.checked) {
                             _this.$.mdsPathology.hidden = false;
-                            // _this.$.mdSelected7All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected7.childElementCount; i++){
-                            //     _this.$.mdSelected7.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected7All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected7.childElementCount; i++) {
@@ -604,10 +571,6 @@
                         _this.activeNextData();
                         if (_this.$.mdFiledOther.checked) {
                             _this.$.mdsOthers.hidden = false;
-                            // _this.$.mdSelected8All.checked = true;
-                            // for(let i=0; i<_this.$.mdSelected8.childElementCount; i++){
-                            //     _this.$.mdSelected8.children[i].checked = true;
-                            // }
                         } else {
                             _this.$.mdSelected8All.checked = false;
                             for (let i = 0; i < _this.$.mdSelected8.childElementCount; i++) {
@@ -796,8 +759,13 @@
                     let param = new Object();
                     let detail = new Object();
                     let modality = new Array();
-                    validationFieldCheckbox = _this.modalityField.length > 0 || _this.$.modalityFieldAll.checked;
-                    validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
+                    let validationFieldCheckbox = false;
+                    for(let i=0; i<this.$.modalityField.childElementCount; i++){
+                        if(_this.$.modalityField.children[i].checked){
+                            validationFieldCheckbox = true;
+                        }
+                    }
+                    let validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
                         _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0);
                     if ( validationFieldCheckbox && validationSelectedChecbox ) {
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
@@ -824,47 +792,22 @@
                 }
 
                 setModality(readingTemplate){
-
-                    console.log("modality");
-                    console.log(readingTemplate.modality);
-                    let fieldChecked = false;
-                    let selectedChecked = false;
-                    let param = new Object();
-                    let detail = new Object();
                     let cnt = 0;
                     for (let i = 0; i < _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount; i++) {
                         for (let k = 0; k < readingTemplate.modality.length; k++) {
-                            if (i == 0) {
-                                // _this.radiology.push(readingTemplate.modality[k]);
-                            }
                             if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value)) {
-                                // console.log(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value);
-                                // console.log(_this.$.mdSelectedContens.children[0].children[0].innerText);
                                 for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
                                     if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[0].children[0].innerText && !_this.$.modalityField.children[j].checked) {
-                                        console.log(_this.$.mdSelectedContens.children[0].children[0]);
                                         _this.$.modalityField.children[j].checked = true;
-                                        fieldChecked = true;
                                     }
                                 }
-                                selectedChecked = true;
                                 _this.$.mdSelectedContens.children[0].children[1].children[1].children[i].checked = true;
                                 _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(i);
                             }
                         }
                         cnt++;
                         if(cnt == _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount){
-                            console.log(this.radiology);
-                            console.log("field "+fieldChecked);
-                            console.log("selected"+selectedChecked);
-                            if(fieldChecked && selectedChecked){
-                                console.log("test");
-                                _this.$.nextBtn.style.backgroundColor = "#0087cb";
-                                _this.$.nextBtn.disabled = false;
-                                detail.nextBtn = true;
-                                param.detail = detail;
-                                _this.dispatchEvent(new CustomEvent('activeTab', param));
-                            }
+                            _this.activeNextData();
                         }
                     }
                 }

@@ -198,7 +198,7 @@
                         Report-template<Br>Shortcut
                     </div>
                     <paper-input class="class-search" id="inputShortcut" label="INPUT REPORT-TEMPLATE SHORTCUT" style="width: 80%; margin-left: 2%"
-                                 char-counter maxlength="30"></paper-input>
+                                 value="{{shortcut}}"char-counter maxlength="30"></paper-input>
                 </div>
             </div>
             <div class="class-sd-btn">
@@ -222,6 +222,9 @@
                 static  get properties(){
                     return {
                         studyDesc:{
+                            type:String
+                        },
+                        shortcut:{
                             type:String
                         }
                     }
@@ -299,14 +302,13 @@
                     this.$.nextBtn.addEventListener('click', function () {
                         let param = new Object();
                         let detail = new Object();
-                        let studyDesc = new Object();
-                        let desc = _this.$.inputStudyDesc.value;
-                        let shortcut = _this.$.inputShortcut.value;
-                        studyDesc.desc = desc;
-                        studyDesc.shortcut = shortcut;
-                        detail.studyDesc = studyDesc;
+                        let desc = _this.studyDesc;
+                        let shortcut = _this.shortcut;
+                        detail.studyDesc = desc;
+                        detail.shortcut = shortcut;
                         param.detail = detail;
-                        _this.dispatchEvent(new CustomEvent('nextTabEvent', param));
+                        _this.dispatchEvent(new CustomEvent('activeTab', param));
+                        _this.dispatchEvent(new CustomEvent('nextTabEvent'));
                     });
 
                     this.$.clearBtn.addEventListener('click', function () {
@@ -321,8 +323,8 @@
                     let resultStudyDesc = new Array();
                     for (let i = 0; i < inputStudyDesc.length; i++) {
                         if (inputStudyDesc[i].studyDescription) {
-                            let descValue = inputStudyDesc[i].studyDescription.toLowerCase();
-                            if (descValue.includes(input)) {
+                            let compareDesc = new RegExp(input,'ig');
+                            if (inputStudyDesc[i].studyDescription.match(compareDesc)) {
                                 let result = {};
                                 result.studyDescription = inputStudyDesc[i].studyDescription;
                                 result.hCode = inputStudyDesc[i].hCode;
@@ -349,8 +351,14 @@
                 }
 
                 setStudyDesc(readingTemplate){
-                    console.log("study desc");
-                    console.log(readingTemplate.studyDescription);
+                    if(readingTemplate.studyDescription){
+                        _this.$.inputStudyDesc.value = readingTemplate.studyDescription;
+                        this.studyDesc = readingTemplate.studyDescription;
+                        this.searchStudyDesc();
+                    }
+                    if(readingTemplate.shortcut){
+                        this.shortcut = readingTemplate.shortcut;
+                    }
                 }
 
             }

@@ -147,9 +147,11 @@
                         }
                     });
                     window.addEventListener('message', event => {
-                        if(event.data.flag =="rtConfigure"){
+                        if(event.data.flag =="rtSaveEvent"){
+                            _this.saveReadingTemplate(event.data.readingTemplate);
+                        }else if(event.data.flag =="rtUpdateEvent"){
                             console.log(event.data);
-                            _this.readingTemplateUpdate(event.data.readingTemplate);
+                            _this.updateReadingTemplate(event.data.readingTemplate);
                         }
                     });
 
@@ -160,7 +162,15 @@
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
                         let g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        g_popup.struct = "popup test";
+                        if(g_readingTemplateList){
+                            let param = new Object
+                            let data = new Object;
+                            data.g_readingTemplateList = g_readingTemplateList;
+                            param.data = data;
+                            let struct = param.data;
+                            g_popup.struct = struct;
+                        }
+                        g_popup.focus();
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {
                         console.log("setting");
@@ -226,27 +236,50 @@
 
                     this.gridOptions.onGridReady = (params) => {
                         // params.api.sizeColumnsToFit();
+                    };
+
+                    this.gridOptions.getContextMenuItems = (params) => {
+                        let result = [
+                            {
+                                name: 'delete',
+                                action: function () {
+                                    _this.deleteReadingTemplate(params.node.data);
+                                }
+                            }
+                        ];
+                        return result;
                     }
 
                     this.gridOptions.onRowSelected = (e) => {
                     };
 
                     this.gridOptions.onRowDoubleClicked = (event) => {
+                        console.log(event.data);
+                        if(g_readingTemplateList.length>0){
+                            let data = event.data;
+                            data.g_readingTemplateList = g_readingTemplateList;
+                            event.data = data;
+                        }
                         let struct = event.data;
                         if(g_popup.window == null){
+
                             g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                             // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                             g_popup.struct = struct;
+                            g_popup.focus();
                         }else{
                             if(!g_popup.window.closed){
                                 g_popup.close();
                                 g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 g_popup.struct = struct;
+                                g_popup.focus();
+                                // g_popup.reload();
                             }else{
                                 g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 g_popup.struct = struct;
+                                g_popup.focus();
                             }
                         }
                     }
@@ -260,14 +293,36 @@
                     }
                 }
 
-                readingTemplateUpdate(rtConfigure){
-                    g_readingTemplateList.push(rtConfigure);
+                deleteReadingTemplate(data){
+                    console.log("delete");
+                    // console.log(data);
+                    g_readingTemplateList.pop(data.seqNo);
                     _this.gridOptions.api.setRowData(g_readingTemplateList);
+                }
+
+                saveReadingTemplate(readingTemplate){
+                    if(g_readingTemplateList.length > 0){
+                        readingTemplate.seqNo = g_readingTemplateList.length + 1;
+                    }else{
+                        readingTemplate.seqNo = 1;
+                    }
+                    readingTemplate.hotkey1 = "";
+                    readingTemplate.hotkey2 = "";
+
+                    g_readingTemplateList.push(readingTemplate);
+                    _this.gridOptions.api.setRowData(g_readingTemplateList);
+                }
+
+                updateReadingTemplate(readingTemplate){
+                    console.log("update");
+                    console.log(readingTemplate);
+
+                    // g_readingTemplateList.push(readingTemplate);
+                    // _this.gridOptions.api.setRowData(g_readingTemplateList);
                 }
 
                 exportRedingTemplateToJson(){
                     if(g_readingTemplateList.length>0){
-                        console.log(g_readingTemplateList);
                         _this.writeJsonFile(g_readingTemplateList);
                     }else{
                         message.isErr = true;
@@ -291,9 +346,16 @@
                             g_readingTemplateList.push(result[i]);
                             cnt ++;
                             if(cnt == result.length){
-                                // console.log(g_readingTemplateList);
-                                //TODO : 파일 업로드 이후 디비 업데이트
-                                _this.gridOptions.api.setRowData(g_readingTemplateList);
+                                let cnt2 = 0;
+                                for(let j=0; j<g_readingTemplateList.length; j++) {
+                                    g_readingTemplateList[j].seqNo = j+1;
+                                    cnt2++;
+                                    if (cnt2 == g_readingTemplateList.length) {
+                                        // console.log(g_readingTemplateList);
+                                        //TODO : 파일 업로드 이후 디비 업데이트
+                                        _this.gridOptions.api.setRowData(g_readingTemplateList);
+                                    }
+                                }
                             }
                         }
                     }
@@ -312,12 +374,10 @@
                 saveToFile_Chrome(fileName, content) {
                     let blob = new Blob([content], { type: 'text/plain' });
                     let objURL = window.URL.createObjectURL(blob);
-
                     if (window.__Xr_objURL_forCreatingFile__) {
                         window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
                     }
                     window.__Xr_objURL_forCreatingFile__ = objURL;
-
                     let a = document.createElement('a');
                     a.download = fileName;
                     a.href = objURL;
