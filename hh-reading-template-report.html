@@ -137,8 +137,8 @@
                             <div class="wrap-report-content">
                                 <div class="wrap-title">
                                     <input type="hidden" id="seqNo" value="{{seqNo}}">
-                                    <input type="hidden" id="displayOrder" value="{{displayOrder}}">
                                     <input type="hidden" id="hotKey1" value="{{hotKey1}}">
+                                    <input type="hidden" id="hotKey2" value="{{hotKey2}}">
                                     <paper-input label="INPUT REPORT TEMPLATE TITLE" id="title" class="textarea-title" value="{{title}}" char-counter maxlength="50"></paper-input>
                                 </div>
                                 <div class="wrap-report-content-context">
@@ -164,6 +164,7 @@
     <script>
         (function () {
             let _this;
+            let g_readingTemplateList = new Array();
 
             class HhReadingTemplateReportTemplate extends Polymer.Element {
                 static get is() {
@@ -172,6 +173,18 @@
 
                 static get properties() {
                     return {
+                        seqNo:{
+                            type:String
+                        },
+                        displayOrder:{
+                            type:String
+                        },
+                        hotkey1:{
+                            type:String
+                        },
+                        hotkey2:{
+                            typd:String
+                        },
                         title: {
                             type: String
                         },
@@ -189,9 +202,12 @@
 
                 ready() {
                     super.ready();
-
                     this.$.saveBtn.addEventListener('click',function(){
-                        _this.saveValidation();
+                        if(this.seqNo){
+                            _this.saveValidation("update");
+                        }else{
+                            _this.saveValidation("save");
+                        }
                     });
 
                     this.$.clearBtn.addEventListener('click',function(){
@@ -208,14 +224,7 @@
                     });
 
                     this.$.title.addEventListener('keyup',function(){
-                        if(_this.$.title.value.length > 0){
-                            _this.$.saveBtn.style.backgroundColor = "#0087cb";
-                            _this.$.saveBtn.disabled = false;
-                        }else{
-                            _this.$.saveBtn.style.backgroundColor = "#dddddd";
-                            _this.$.saveBtn.disabled = true;
-                        }
-
+                        _this.activeSaveBtn();
                     });
                 }
 
@@ -224,10 +233,13 @@
                     _this = this;
                 }
 
-                saveValidation(){
+                saveValidation(flag){
                     let message = new Object();
                     message.isErr = true;
                     if(!_this.title){
+                        message.text = "Titles can not be empty.";
+                        _this.openToast(message);
+                    }else if(_this.validationTitle(_this.title) && flag == "save"){
                         message.text = "Titles can not be duplicated.";
                         _this.openToast(message);
                     }else if(!_this.finding && !_this.conclusion && !_this.recommendation){
@@ -237,11 +249,43 @@
                         let param = new Object();
                         let detail = new Object();
                         detail.title = _this.title;
+                        if(_this.seqNo){detail.seqNo = _this.seqNo;}
                         if(_this.finding){detail.finding = _this.finding;}
                         if(_this.conclusion){detail.conclusion = _this.conclusion;}
                         if(_this.recommendation){detail.recommendation = _this.recommendation;}
+                        if(_this.hotkey1){detail.hotkey1 = _this.hotkey1;}
+                        if(_this.hotkey2){detail.hotkey2 = _this.hotkey2;}
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('saveReportEvent', param));
+                    }
+                }
+
+                validationTitle(){
+                    if(g_readingTemplateList){
+                        let result = false;
+                        let cnt = 0;
+                        for(let i=0; i<g_readingTemplateList.length; i++){
+                            if(_this.title == g_readingTemplateList[i].title && !_this.seqNo){
+                                result = true;
+                                return result
+                            }
+                            cnt++;
+                            if(!result && cnt == g_readingTemplateList.length){
+                                return result
+                            }
+                        }
+                    }else{
+                        return false;
+                    }
+                }
+
+                activeSaveBtn(){
+                    if(_this.$.title.value.length > 0){
+                        _this.$.saveBtn.style.backgroundColor = "#0087cb";
+                        _this.$.saveBtn.disabled = false;
+                    }else{
+                        _this.$.saveBtn.style.backgroundColor = "#dddddd";
+                        _this.$.saveBtn.disabled = true;
                     }
                 }
 
@@ -258,11 +302,26 @@
                     }
                 }
 
-                setReport(readingTemplate){
-                    console.log("report");
-                    console.log(readingTemplate);
+                setReadingTemplateList(readingTemplate){
+                    g_readingTemplateList = readingTemplate.g_readingTemplateList;
                 }
 
+                setReport(readingTemplate){
+                    this.title = readingTemplate.title;
+                    if(readingTemplate.finding){
+                        this.finding = readingTemplate.finding;
+                    }
+                    if(readingTemplate.conclusion){
+                        this.conclusion = readingTemplate.conclusion;
+                    }
+                    if(readingTemplate.recommendation){
+                        this.recommendation = readingTemplate.recommendation;
+                    }
+                    if(readingTemplate.seqNo){
+                        this.seqNo = readingTemplate.seqNo;
+                    }
+                    this.activeSaveBtn();
+                }
             }
 
             window.customElements.define(HhReadingTemplateReportTemplate.is, HhReadingTemplateReportTemplate);

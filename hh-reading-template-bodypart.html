@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="class-bd-selected">
-                    <div class="class-bd-selected-contents">
+                    <div class="class-bd-selected-contents" id="bdSelectedContens">
                         <div class="bd-select" id="bdsAbdomen" hidden>
                             <div class="bd-select-title">Abdomen</div>
                             <div class="bd-select-selected">
@@ -1002,10 +1002,15 @@
                     let param = new Object();
                     let detail = new Object();
                     let bodypart = new Array();
-                    let validationFieldCheckbox = _this.bodypartField.length > 0 || _this.$.bodypartFieldAll.checked;
-                    let validationSelectedChecbox = _this.abdomen.length > 0 || _this.breast.length > 0 || _this.$.bdFieldPediatric.checked || _this.chest.length > 0 ||
+                    let validationFieldCheckbox = false;
+                    for(let i=0; i<this.$.bodypartField.childElementCount; i++){
+                        if(_this.$.bodypartField.children[i].checked){
+                            validationFieldCheckbox = true;
+                        }
+                    }
+                    let validationSelectedChecbox = Boolean(_this.abdomen.length > 0 || _this.breast.length > 0 || _this.$.bdFieldPediatric.checked || _this.chest.length > 0 ||
                         _this.cardiovascular.length > 0 || _this.dental.length > 0 || _this.genitourinary.length > 0 || _this.angioAndIntervention.length > 0|| _this.headAndNeck.length > 0 ||
-                        _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0;
+                        _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0);
 
                     if (validationFieldCheckbox && validationSelectedChecbox) {
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
@@ -1036,10 +1041,47 @@
                 }
 
                 setBodypart(readingTemplate){
-                    console.log("bodypart");
-                    console.log(readingTemplate.bodypart);
+                    let cnt = 0;
+                    for(let i=0; i<_this.$.bdSelectedContens.childElementCount; i++){
+                        for(let j=0; j<_this.$.bdSelectedContens.children[i].children[1].children[1].childElementCount; j++){
+                            let selectedBodypart = _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].value;
+                            let result = _this.checkInputBodypart(selectedBodypart,readingTemplate);
+                            if(result){
+                                for (let k = 0; k < _this.$.bodypartField.childElementCount; k++) {
+                                    if (_this.$.bodypartField.children[k].innerText == _this.$.bdSelectedContens.children[i].children[0].innerText && !_this.$.bodypartField.children[k].checked){
+                                        _this.$.bodypartField.children[k].checked = true;
+                                    }
+                                }
+                                _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].checked = true;
+                                _this.$.bdSelectedContens.children[i].children[1].children[1].selectIndex(j);
+                            }
+                        }
+                        cnt++;
+                        if(cnt == _this.$.bdSelectedContens.childElementCount){
+                            _this.activeNextData();
+                        }
+                    }
                 }
 
+                checkInputBodypart(selectBodypart, readingTemplate){
+                    let bodypart = readingTemplate.bodypart;
+                    let cnt1 = 0;
+                    let result = false;
+                    for(let i=0; i<bodypart.length; i++){
+                        let cnt2 = 0;
+                        cnt1++;
+                        for(let j=0; j<bodypart[i].length; j++){
+                            if(bodypart[i][j] == selectBodypart){
+                                result = true;
+                                return result;
+                            }
+                            cnt2++;
+                            if(cnt2 == bodypart[i].length && cnt1 == bodypart.length){
+                                return result;
+                            }
+                        }
+                    }
+                }
             }
             window.customElements.define(HhReadingTemplateBodyPart.is, HhReadingTemplateBodyPart);
         })();

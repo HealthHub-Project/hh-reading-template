@@ -188,15 +188,10 @@
 </body>
 <script>
     let g_readingTemplate = new Object();
-    let _url = "http://127.0.0.1:8081";
-    // let _url = "http://localhost:8081";
+    // let _url = "http://127.0.0.1:8081";
+    let _url = "http://localhost:8081";
 
     document.addEventListener("DOMContentLoaded", () => {
-        if(window.struct) {
-            console.log("onload");
-            setReadingTemplate(window.struct);
-        }
-
         document.getElementById("closeBtn").addEventListener('click', function () {
             window.close();
         });
@@ -257,7 +252,6 @@
         });
 
         document.getElementById('studyDescTemplate').addEventListener('nextTabEvent', function () {
-            console.log(g_readingTemplate);
             nextTabEvent();
         });
 
@@ -274,19 +268,24 @@
             if(e.detail.finding){g_readingTemplate.finding = e.detail.finding;}
             if(e.detail.conclusion){g_readingTemplate.conclusion = e.detail.conclusion;}
             if(e.detail.recommendation){g_readingTemplate.recommendation = e.detail.recommendation;}
-            reportSaveEvent();
+            if(e.detail.seqNo){g_readingTemplate.seqNo = e.detail.seqNo;}
+            if(e.detail.displayOrder){g_readingTemplate.displayOrder = e.detail.displayOrder;}
+            if(e.detail.hotkey1){g_readingTemplate.hotkey1 = e.detail.hotkey1;}
+            if(e.detail.hotkey2){g_readingTemplate.hotkey2 = e.detail.hotkey2;}
 
+            if(e.detail.seqNo){
+                reportUpdateEvent();
+            }else{
+                reportSaveEvent();
+            }
         });
 
+        if(window.struct) {
+            setReadingTemplate(window.struct);
+        }
     });
 
-    function reload(){
-        console.log("reload");
-        setReadingTemplate(window.struct);
-    }
-
     function setReadingTemplate(readingTemplate){
-        console.log("set reading template");
         if(readingTemplate.modality){
             document.getElementById('modalityTemplate').setModality(readingTemplate);
         }
@@ -296,8 +295,11 @@
         if(readingTemplate.studyDescription){
             document.getElementById('studyDescTemplate').setStudyDesc(readingTemplate);
         }
-        if(readingTemplate.report){
+        if(readingTemplate.title || readingTemplate.finding || readingTemplate.conclusion || readingTemplate.recommendation){
             document.getElementById('reportTemplate').setReport(readingTemplate);
+        }
+        if(readingTemplate.g_readingTemplateList){
+            document.getElementById('reportTemplate').setReadingTemplateList(readingTemplate);
         }
     }
 
@@ -319,6 +321,34 @@
         studyDesc
         * */
 
+        document.getElementById("saveToast").style.backgroundColor = "#0087cb";
+        document.getElementById('saveToast').text = "Report save complate.";
+        document.getElementById('saveToast').open();
+        document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
+        let param = new Object();
+        param.readingTemplate = g_readingTemplate;
+        param.flag = "rtSaveEvent";
+        opener.window.postMessage(param, _url);
+        // window.close();
+    }
+
+    function reportUpdateEvent(){
+        /*
+             "seqNo" : 1,
+             "displayOrder" : 2,
+             "title" : "PNS WNL",
+             "finding" : "111. Normal paranasal sinuses",
+             "conclusion" : "111. Normal paranasal sinuses",
+             "recommendation" : "111. Normal paranasal sinuses",
+             "modality" : "CR",
+             "hotKey1" : "alt",
+             "hotKey2" : "1"
+             ----------
+             bodypart(multi select),
+             modality(multi select)
+             studyDesc
+             * */
+
         // console.log(g_readingTemplate);
         // if (!message.isErr) {
         //     document.getElementById("toast2").style.backgroundColor = "#0087cb";
@@ -326,13 +356,14 @@
         //     document.getElementById("toast2").style.backgroundColor = "#e46159";
         // }
         document.getElementById("saveToast").style.backgroundColor = "#0087cb";
-        document.getElementById('saveToast').text = "Report save complate.";
+        document.getElementById('saveToast').text = "Report update complate.";
         document.getElementById('saveToast').open();
         document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
         let param = new Object();
         param.readingTemplate = g_readingTemplate;
-        param.flag = "rtConfigure";
+        param.flag = "rtUpdateEvent";
         opener.window.postMessage(param, _url);
+        window.close();
     }
 
     function nextTabEvent() {
@@ -341,6 +372,11 @@
 
     function prevTabEvent() {
         document.getElementById("tabPage").selectPrevious();
+    }
+
+    function reload(){
+        console.log("reload");
+        setReadingTemplate(window.struct);
     }
 
 </script>
