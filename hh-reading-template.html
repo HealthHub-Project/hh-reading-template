@@ -142,7 +142,7 @@
                 ready() {
                     super.ready();
                     window.addEventListener("beforeunload", function (event) {
-                        if (g_popup) {
+                        if (!g_popup.closed) {
                             g_popup.close();
                         }
                     });
