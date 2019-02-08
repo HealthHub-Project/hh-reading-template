@@ -142,9 +142,9 @@
                 ready() {
                     super.ready();
                     window.addEventListener("beforeunload", function (event) {
-                        if (g_popup) {
-                            g_popup.close();
-                        }
+                        // if (g_popup.window) {
+                        //     g_popup.close();
+                        // }
                     });
                     window.addEventListener('message', event => {
                         if(event.data.flag =="rtSaveEvent"){
