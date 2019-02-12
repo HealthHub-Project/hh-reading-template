@@ -22,6 +22,40 @@
             ag-grid-polymer {
                 width: 100%;
                 height: 100%;
+                color: #aaaaaa !important;
+                font-size: 12px !important;
+                font-weight: normal !important;
+                background-color: #2d333f !important;
+                font-family: "NotoSansCJKLight" !important;
+            }
+
+            .ag-header {
+                background-color: #2d333f !important;
+                color: #cccccc !important;
+                border-bottom: 3px solid #0087cb !important;
+                font-weight: bold !important;
+                font-size: 12px !important;
+            }
+
+            .ag-row {
+                border-bottom: 1px solid #414a59 !important;
+            }
+
+            .ag-row-even {
+                background-color: rgba(76, 86, 103, 0.2) !important;
+            }
+
+            .ag-row-odd {
+                background-color: #2d333f !important;
+            }
+
+            .ag-row-selected {
+                background-color: #596072 !important;
+                color: #fff !important;
+            }
+
+            .ag-cell-focus {
+                border: 1px solid darkgrey !important;
             }
 
             .container {
@@ -88,9 +122,9 @@
                         <div class="class-sensitiveCheck">
                             <iron-selector attr-for-selected="value" id="sensitive" selected-values="{{selectSensitive}}"
                                            multi>
-                                <paper-checkbox value="modality" id="sensitiveModal" class="checkBox-style" noink>Modality Sensitive</paper-checkbox>
-                                <paper-checkbox value="bodypart" class="checkBox-style" noink>Bodypart Sensitive</paper-checkbox>
-                                <paper-checkbox value="studyDescription" class="checkBox-style" noink>Study description Sensitive</paper-checkbox>
+                                <paper-checkbox value="modality" id="modalitySensitive" class="checkBox-style" noink>Modality Sensitive</paper-checkbox>
+                                <paper-checkbox value="bodypart" id="bodypartSensitive" class="checkBox-style" noink>Bodypart Sensitive</paper-checkbox>
+                                <paper-checkbox value="studyDescription" id="studyDescSensitive" class="checkBox-style" noink>Study description Sensitive</paper-checkbox>
                             </iron-selector>
                         </div>
                     </div>
@@ -122,7 +156,9 @@
     <script>
         (function () {
             let _this;
+            let g_SelectedRow = new Object();
             let g_readingTemplateList = new Array();
+            let g_sortedTemplateList = new Array();
             let g_popup = new Object();
             let message = new Object();
 
@@ -156,8 +192,53 @@
                     });
 
                     this.$.sensitive.addEventListener('selected-items-changed',function(){
-                        console.log(_this.selectSensitive);
-                    })
+                        let modality, bodypart, studyDescription;
+                        let sensitiveArray = new Array();
+                        let cnt0 = 0;
+
+                        for(let i=0; i<this.childElementCount; i++){
+                            if(this.children[i].checked){
+                                sensitiveArray.push(this.children[i].value);
+                            }
+
+                            cnt0++;
+                            if(cnt0 == this.childElementCount){
+                                if(Boolean(g_SelectedRow.id && sensitiveArray.length > 0)){
+                                    let cnt1 = 0;
+                                    for(let i=0 ;i<sensitiveArray.length; i++){
+                                        if(sensitiveArray[i] == "modality"){
+                                            for(let j=0; j<g_readingTemplateList.length; j++){
+                                                if(g_readingTemplateList[j].modality.includes(g_SelectedRow.modality)){
+                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                                }
+                                            }
+                                        }
+                                        if(sensitiveArray[i] = "bodypart"){
+                                            for(let j=0; j<g_readingTemplateList.length; j++){
+                                                if(g_readingTemplateList[j].bodypart== g_SelectedRow.bodypart){
+                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                                }
+                                            }
+                                        }
+                                        if(sensitiveArray[i] =="studyDescription"){
+                                            for(let j=0; j<g_readingTemplateList.length; j++){
+                                                if(g_readingTemplateList[j].studyDescription== g_SelectedRow.studyDescription){
+                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                                }
+                                            }
+                                        }
+                                        cnt1++;
+                                        if(cnt1 == sensitiveArray.length){;
+                                            _this.gridOptions.api.setRowData(g_sortedTemplateList);
+                                            g_sortedTemplateList = new Array();
+                                        }
+                                    }
+                                }else{
+                                    _this.gridOptions.api.setRowData(g_readingTemplateList);
+                                }
+                            }
+                        }
+                    });
 
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
                         let g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
@@ -285,11 +366,32 @@
                     }
                 }
 
-                getReadingTemplateList(readingTemplateList){
-                    if(readingTemplateList){
-                        for(let i=0; i<readingTemplateList.length; i++){
-                            g_readingTemplateList[i].push(readingTemplateList[i]);
+                setSensitiveCheckedDefault(){
+                    let cnt = 0;
+                    for(let i=0; i<this.$.sensitive.childElementCount; i++){
+                        this.$.sensitive.children[i].checked = false;
+                        cnt++;
+                        if(cnt == this.$.sensitive.childElementCount && (g_readingTemplateList.length > 0)){
+                            _this.gridOptions.api.setRowData(g_readingTemplateList);
                         }
+                    }
+                }
+
+
+                getReadingTemplateList(params){
+                    if(params.readingTemplateList && !params.selectedRow){
+                        let cnt =0;
+                        let readingTemplateList = params.readingTemplateList;
+                        g_readingTemplateList = new Array();
+                        for(let i=0; i<readingTemplateList.length; i++){
+                            g_readingTemplateList.push(readingTemplateList[i]);
+                            cnt++;
+                            if(cnt == readingTemplateList.length){
+                                _this.gridOptions.api.setRowData(g_readingTemplateList);
+                            }
+                        }
+                    }else if(params){
+                        g_SelectedRow = params.selectedRow;
                     }
                 }
 
@@ -298,6 +400,11 @@
                     // console.log(data);
                     g_readingTemplateList.pop(data.seqNo);
                     _this.gridOptions.api.setRowData(g_readingTemplateList);
+                    let param = new Object();
+                    let detail = new Object();
+                    detail.readingTemplate= data;
+                    param.detail = detail;
+                    this.dispatchEvent(new CustomEvent('deleteReadingTemplateEvent', param));
                 }
 
                 saveReadingTemplate(readingTemplate){
@@ -311,14 +418,48 @@
 
                     g_readingTemplateList.push(readingTemplate);
                     _this.gridOptions.api.setRowData(g_readingTemplateList);
+
+                    let param = new Object();
+                    let detail = new Object();
+                    detail.readingTemplate = readingTemplate;
+                    param.detail = detail;
+                    _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', param));
                 }
 
                 updateReadingTemplate(readingTemplate){
                     console.log("update");
-                    console.log(readingTemplate);
-
-                    // g_readingTemplateList.push(readingTemplate);
-                    // _this.gridOptions.api.setRowData(g_readingTemplateList);
+                    for(let i=0; i<g_readingTemplateList.length; i++){
+                        console.log(i);
+                        if(g_readingTemplateList[i].seqNo == readingTemplate.seqNo){
+                            if(readingTemplate.modality){
+                                g_readingTemplateList[i].modality = readingTemplate.modality;
+                            }
+                            if(readingTemplate.bodypart){
+                                g_readingTemplateList[i].bodypart = readingTemplate.bodypart;
+                            }
+                            if(readingTemplate.studyDescription){
+                                g_readingTemplateList[i].studyDescription = readingTemplate.studyDescription;
+                            }
+                            if(readingTemplate.title){
+                                g_readingTemplateList[i].title = readingTemplate.title;
+                            }
+                            if(readingTemplate.finding){
+                                g_readingTemplateList[i].finding = readingTemplate.finding;
+                            }
+                            if(readingTemplate.conclusion){
+                                g_readingTemplateList[i].conclusion = readingTemplate.conclusion;
+                            }
+                            if(readingTemplate.recommendation){
+                                g_readingTemplateList[i].recommendation = readingTemplate.recommendation;
+                            }
+                            _this.gridOptions.api.setRowData(g_readingTemplateList);
+                            let param = new Object();
+                            let detail = new Object();
+                            detail.readingTemplate = g_readingTemplateList[i];
+                            param.detail = detail;
+                            _this.dispatchEvent(new CustomEvent('updateReadingTemplateEvent', param));
+                        }
+                    }
                 }
 
                 exportRedingTemplateToJson(){
@@ -335,7 +476,7 @@
                  * Import ReadingTemplate from Json
                  *
                  * Create by BohyunJang on 2019-01-24 오후 12:30
-                **/
+                 **/
                 importRedingTemplateToJson(readFile) {
                     let reader = new FileReader();
                     reader.readAsText(readFile[0]);
@@ -349,10 +490,13 @@
                                 let cnt2 = 0;
                                 for(let j=0; j<g_readingTemplateList.length; j++) {
                                     g_readingTemplateList[j].seqNo = j+1;
+                                    let param = new Object();
+                                    let detail = new Object();
+                                    detail.readingTemplate = g_readingTemplateList[j];
+                                    param.detail = detail;
+                                    _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', param));
                                     cnt2++;
                                     if (cnt2 == g_readingTemplateList.length) {
-                                        // console.log(g_readingTemplateList);
-                                        //TODO : 파일 업로드 이후 디비 업데이트
                                         _this.gridOptions.api.setRowData(g_readingTemplateList);
                                     }
                                 }
@@ -365,7 +509,7 @@
                  * Export ReadingTemlate to Josn
                  *
                  * Create by BohyunJang on 2019-01-24 오후 12:33
-                **/
+                 **/
                 writeJsonFile(readingTemplateList){
                     let contents =JSON.stringify(readingTemplateList);
                     this.saveToFile_Chrome("ReadingTemplate",contents);

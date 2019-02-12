@@ -329,7 +329,10 @@
         param.readingTemplate = g_readingTemplate;
         param.flag = "rtSaveEvent";
         opener.window.postMessage(param, _url);
-        // window.close();
+        param.flag = "rtSaveEvent_expand";
+        opener.window.postMessage(param, _url);
+
+        window.close();
     }
 
     function reportUpdateEvent(){
