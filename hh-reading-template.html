@@ -159,6 +159,7 @@
             let g_SelectedRow = new Object();
             let g_readingTemplateList = new Array();
             let g_sortedTemplateList = new Array();
+            let g_tempSensitiveTemplateList = new Array();
             let g_popup = new Object();
             let message = new Object();
 
@@ -191,52 +192,96 @@
                         }
                     });
 
-                    this.$.sensitive.addEventListener('selected-items-changed',function(){
-                        let modality, bodypart, studyDescription;
+                    this.$.sensitive.addEventListener('selected-items-changed',function(e){
                         let sensitiveArray = new Array();
                         let cnt0 = 0;
 
-                        for(let i=0; i<this.childElementCount; i++){
-                            if(this.children[i].checked){
-                                sensitiveArray.push(this.children[i].value);
-                            }
+                        if(e.detail.value.length > 0){
+                            for(let i=0; i<e.detail.value.length; i++){
+                                if(e.detail.value[i].value =="modality"){
+                                    sensitiveArray.push("modality");
+                                }
+                                if(e.detail.value[i].value =="bodypart"){
+                                    sensitiveArray.push("bodypart");
+                                }
+                                if(e.detail.value[i].value == "studyDescription"){
+                                    sensitiveArray.push("studyDescriptiont");
+                                }
 
-                            cnt0++;
-                            if(cnt0 == this.childElementCount){
-                                if(Boolean(g_SelectedRow.id && sensitiveArray.length > 0)){
-                                    let cnt1 = 0;
-                                    for(let i=0 ;i<sensitiveArray.length; i++){
-                                        if(sensitiveArray[i] == "modality"){
-                                            for(let j=0; j<g_readingTemplateList.length; j++){
-                                                if(g_readingTemplateList[j].modality.includes(g_SelectedRow.modality)){
-                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                cnt0++;
+                                if(cnt0 == e.detail.value.length){
+                                    if(Boolean(g_SelectedRow.id && sensitiveArray.length > 0)){
+                                        let cnt1 = 0;
+                                        for(let i=0 ;i<sensitiveArray.length; i++){
+                                            if(sensitiveArray[i].includes("modality")){
+                                                for(let j=0; j<g_readingTemplateList.length; j++){
+                                                    let modalityArr = new Array();
+                                                    modalityArr = g_readingTemplateList[j].modality;
+                                                    if(modalityArr.length > 0){
+                                                        for(let k=0; k<modalityArr.length; k++){
+                                                            for(let l = 0; l<modalityArr[k].length; l++){
+                                                                if(modalityArr[k][l] === g_SelectedRow.modality){
+                                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                                                    if(!g_tempSensitiveTemplateList){
+                                                                        g_tempSensitiveTemplateList.push(g_readingTemplateList[j]);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }else{
+                                                        g_sortedTemplateList = new Array();
+                                                    }
                                                 }
                                             }
-                                        }
-                                        if(sensitiveArray[i] = "bodypart"){
-                                            for(let j=0; j<g_readingTemplateList.length; j++){
-                                                if(g_readingTemplateList[j].bodypart== g_SelectedRow.bodypart){
-                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+
+                                            if(sensitiveArray[i].includes("bodypart")){
+                                                for(let j=0; j<g_readingTemplateList.length; j++){
+                                                    let bodypartArr = new Array();
+                                                    bodypartArr  = g_readingTemplateList[j].bodypart;
+                                                    if(bodypartArr.length > 0){
+                                                        for(let k=0; k<bodypartArr.length; k++){
+                                                            for(let l=0; l<bodypartArr[k].length; l++){
+                                                                if(typeof(bodypartArr[k]) != "number" && bodypartArr[k][j] === g_SelectedRow.bodypart){
+                                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                                                    if(!g_tempSensitiveTemplateList){
+                                                                        g_tempSensitiveTemplateList.push(g_readingTemplateList[j]);
+                                                                    }
+                                                                }
+                                                            }
+                                                        }
+                                                    }else{
+                                                        g_sortedTemplateList = new Array();
+                                                    }
                                                 }
                                             }
-                                        }
-                                        if(sensitiveArray[i] =="studyDescription"){
-                                            for(let j=0; j<g_readingTemplateList.length; j++){
-                                                if(g_readingTemplateList[j].studyDescription== g_SelectedRow.studyDescription){
-                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
+
+                                            if(sensitiveArray[i].includes("studyDescription")){
+                                                for(let j=0; j<g_readingTemplateList.length; j++){
+                                                    if(g_readingTemplateList[j].studyDescription.includes( g_SelectedRow.studyDescription)){
+                                                        g_sortedTemplateList.push(g_readingTemplateList[j]);
+                                                        if(!g_tempSensitiveTemplateList){
+                                                            g_tempSensitiveTemplateList.push(g_readingTemplateList[j]);
+                                                        }
+                                                    }else{
+                                                        g_sortedTemplateList = new Array();
+                                                    }
                                                 }
                                             }
+
+                                            cnt1++;
+                                            if(cnt1 == sensitiveArray.length){;
+                                                e.target.__dataHost.gridOptions.api.setRowData(g_sortedTemplateList);
+                                                g_sortedTemplateList = new Array();
+                                            }
                                         }
-                                        cnt1++;
-                                        if(cnt1 == sensitiveArray.length){;
-                                            _this.gridOptions.api.setRowData(g_sortedTemplateList);
-                                            g_sortedTemplateList = new Array();
-                                        }
+                                    }else{
+                                        e.target.__dataHost.gridOptions.api.setRowData(g_readingTemplateList);
                                     }
-                                }else{
-                                    _this.gridOptions.api.setRowData(g_readingTemplateList);
                                 }
                             }
+                        }else{
+                            g_tempSensitiveTemplateList = new Array();
+                            e.target.__dataHost.gridOptions.api.setRowData(g_readingTemplateList);
                         }
                     });
 
@@ -263,7 +308,7 @@
 
                     this.$.importBtn.addEventListener('change', function (event) {
                         if(this.files[0].name.includes("ReadingTemplate") && this.files[0].type == "text/plain"){
-                            _this.importRedingTemplateToJson(this.files);
+                            this.importRedingTemplateToJson(this.files);
                             event.target.value = "";
                         }else{
                             event.target.value = "";
@@ -368,11 +413,53 @@
 
                 setSensitiveCheckedDefault(){
                     let cnt = 0;
+                    this.selectSensitive = new Array();
                     for(let i=0; i<this.$.sensitive.childElementCount; i++){
                         this.$.sensitive.children[i].checked = false;
                         cnt++;
                         if(cnt == this.$.sensitive.childElementCount && (g_readingTemplateList.length > 0)){
                             _this.gridOptions.api.setRowData(g_readingTemplateList);
+                        }
+                    }
+                }
+
+                setSensitiveChectedExpand(param){
+                    let sensitiveArr= param;
+                    if(sensitiveArr.length > 0) {
+                        this.selectSensitive = new Array();
+                        if (sensitiveArr.includes('modality')) {
+                            this.$.modalitySensitive.checked = true;
+                            this.selectSensitive.push("modality");
+                        }else if(!sensitiveArr.includes('modality') && this.$.modalitySensitive.checked){
+                            this.$.modalitySensitive.checked = false;
+                            this.selectSensitive.pop("modality");
+                        }
+                        if (sensitiveArr.includes('bodypart')) {
+                            this.$.bodypartSensitive.checked = true;
+                            this.selectSensitive.push("bodypart");
+                        }else if(!sensitiveArr.includes('bodypart') && this.$.bodypartSensitive.checked){
+                            this.$.bodypartSensitive.checked = false;
+                            this.selectSensitive.pop("bodypart");
+                        }
+                        if (sensitiveArr.includes('studyDescription')) {
+                            this.$.studyDescSensitive.checked = true;
+                            this.selectSensitive.push("studyDescription");
+                        }else if(!sensitiveArr.includes('studyDescription') && this.$.studyDescSensitive.checked){
+                            this.$.studyDescSensitive.checked = false;
+                            this.selectSensitive.pop("studyDescription");
+                        }
+                    }else {
+                        if(this.$.modalitySensitive.checked){
+                            this.$.modalitySensitive.checked = false;
+                            this.selectSensitive.pop("modality");
+                        }
+                        if(this.$.bodypartSensitive.checked){
+                            this.$.bodypartSensitive.checked = false;
+                            this.selectSensitive.pop("bodypart");
+                        }
+                        if(this.$.studyDescSensitive.checked){
+                            this.$.studyDescSensitive.checked = false;
+                            this.selectSensitive.pop("studyDescription");
                         }
                     }
                 }
@@ -387,7 +474,7 @@
                             g_readingTemplateList.push(readingTemplateList[i]);
                             cnt++;
                             if(cnt == readingTemplateList.length){
-                                _this.gridOptions.api.setRowData(g_readingTemplateList);
+                                this.gridOptions.api.setRowData(g_readingTemplateList);
                             }
                         }
                     }else if(params){
