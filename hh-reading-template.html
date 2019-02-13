@@ -514,9 +514,7 @@
                 }
 
                 updateReadingTemplate(readingTemplate){
-                    console.log("update");
                     for(let i=0; i<g_readingTemplateList.length; i++){
-                        console.log(i);
                         if(g_readingTemplateList[i].seqNo == readingTemplate.seqNo){
                             if(readingTemplate.modality){
                                 g_readingTemplateList[i].modality = readingTemplate.modality;
