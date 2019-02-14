@@ -771,14 +771,19 @@
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
                         _this.$.nextBtn.disabled = false;
                         detail.nextBtn = true;
-                        if(_this.radiology.length){modality.push(_this.radiology)}
-                        if(_this.opthalmology.length){modality.push(_this.opthalmology)}
-                        if(_this.nuclearMedicine.length){modality.push(_this.nuclearMedicine)}
-                        if(_this.radiationOncology.length){modality.push(_this.radiationOncology)}
-                        if(_this.dental.length){modality.push(_this.dental)}
-                        if(_this.waveform.length){modality.push(_this.waveform)}
-                        if(_this.pathology.length){modality.push(_this.pathology)}
-                        if(_this.other.length){modality.push(_this.other)}
+                        if(_this.radiology.length){
+                            // modality.push(_this.radiology);
+                            for(let i=0; i<_this.radiology.length; i++){
+                                modality.push(_this.radiology[i]);
+                            }
+                        }
+                        // if(_this.opthalmology.length){modality.push(_this.opthalmology)}
+                        // if(_this.nuclearMedicine.length){modality.push(_this.nuclearMedicine)}
+                        // if(_this.radiationOncology.length){modality.push(_this.radiationOncology)}
+                        // if(_this.dental.length){modality.push(_this.dental)}
+                        // if(_this.waveform.length){modality.push(_this.waveform)}
+                        // if(_this.pathology.length){modality.push(_this.pathology)}
+                        // if(_this.other.length){modality.push(_this.other)}
                         detail.modality = modality;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
@@ -789,6 +794,10 @@
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
                     }
+                }
+
+                getOtherModalityList(modalityList){
+                    console.log(modalityList);
                 }
 
                 setModality(readingTemplate){

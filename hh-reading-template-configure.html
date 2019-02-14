@@ -192,6 +192,11 @@
     let _url = "http://localhost:8081";
 
     document.addEventListener("DOMContentLoaded", () => {
+        if(window.struct.facilitySensitive){
+            document.getElementById('modalityTemplate').getOtherModalityList(window.struct.facilitySensitive.modalityList);
+            document.getElementById('bodypartTemplate').getOtherBodypartList(window.struct.facilitySensitive.bodypartList);
+        }
+
         document.getElementById("closeBtn").addEventListener('click', function () {
             window.close();
         });
@@ -232,10 +237,12 @@
             if(e.detail.studyDesc && e.detail.shortcut){
                 g_readingTemplate.studyDescription = e.detail.studyDesc;
                 g_readingTemplate.shortcut = e.detail.shortcut;
-            }else if(e.detail.studyDesc){
-                g_readingTemplate.studyDescription = e.detail.studyDesc;
-            }else if(e.detail.shortcut){
-                g_readingTemplate.shortcut = e.detail.shortcut;
+            }else {
+                if(e.detail.studyDesc){
+                    g_readingTemplate.studyDescription = e.detail.studyDesc;
+                }else if(e.detail.shortcut){
+                    g_readingTemplate.shortcut = e.detail.shortcut;
+                }
             }
         });
 
@@ -328,8 +335,6 @@
         let param = new Object();
         param.readingTemplate = g_readingTemplate;
         param.flag = "rtSaveEvent";
-        opener.window.postMessage(param, _url);
-        param.flag = "rtSaveEvent_expand";
         opener.window.postMessage(param, _url);
 
         window.close();
