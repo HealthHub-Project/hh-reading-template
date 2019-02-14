@@ -212,7 +212,7 @@
         (function () {
             let _this;
             let g_humiicDesc = new Array();
-            let g_resultDesc = new Array();
+            let g_resultDesc = "";
 
             class HhReadingTemplateStudyDesc extends Polymer.Element {
                 static get is() {
@@ -290,8 +290,8 @@
                         let param = new Object();
                         let detail = new Object();
                         detail.shortcut = _this.$.inputShortcut.value;
-                        if (g_resultDesc) {
-                            detail.studyDesc = g_resultDesc;
+                        if(_this.studyDesc){
+                            detail.studyDesc = _this.studyDesc;
                         }
                         param.detail = detail;
                         if (_this.$.inputShortcut.value) {

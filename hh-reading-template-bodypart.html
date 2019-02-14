@@ -147,7 +147,6 @@
                             <iron-selector attr-for-selected="value" id="bodypartField" selected-values="{{bodypartField}}" multi>
                                 <paper-checkbox id ="bdFieldAbdomen" value="abdomen" class="checkBox-style" noink>Abdomen</paper-checkbox>
                                 <paper-checkbox id ="bdFieldBreast" value="breast" class="checkBox-style" noink>Breast</paper-checkbox>
-                                <paper-checkbox id ="bdFieldPediatric" value="pediatric" class="checkBox-style" noink>Pediatric</paper-checkbox>
                                 <paper-checkbox id ="bdFieldChest" value="chest" class="checkBox-style" noink>Chest</paper-checkbox>
                                 <paper-checkbox id ="bdFieldCardiovascular" value="cardiovascular" class="checkBox-style" noink>Cardiovascular</paper-checkbox>
                                 <paper-checkbox id ="bdFieldDental" value="dental" class="checkBox-style" noink>Dental</paper-checkbox>
@@ -157,6 +156,7 @@
                                 <paper-checkbox id ="bdFieldMusculoskeletal" value="musculoskeletal" class="checkBox-style" noink>Musculoskeletal</paper-checkbox>
                                 <paper-checkbox id ="bdFieldNeuro" value="neuro" class="checkBox-style" noink>Neuro</paper-checkbox>
                                 <paper-checkbox id ="bdFieldGeneral" value="general" class="checkBox-style" noink>General</paper-checkbox>
+                                <!--<paper-checkbox id ="bdFieldPediatric" value="pediatric" class="checkBox-style" hidden noink>Pediatric</paper-checkbox>-->
                             </iron-selector>
                         </div>
                     </div>
@@ -563,7 +563,7 @@
                      * FIELD AREA CHECK BOX
                      *
                      * Create by BohyunJang on 2019-01-14 오후 4:26
-                    **/
+                     **/
 
                     this.$.bodypartFieldAll.addEventListener('change', function (e) {
                         _this.activeNextData();
@@ -610,17 +610,17 @@
                         }
                     });
 
-                    this.$.bdFieldPediatric.addEventListener('checked-changed',function (e) {
-                        // _this.activeNextData();
-                        if(_this.$.bdFieldPediatric.checked){
-                            _this.$.bdsPediatric.hidden = false;
-                            _this.$.bdSelected12.value = 15;
-                        }else{
-                            _this.pedantic = null;
-                            _this.$.bodypartFieldAll.checked = false;
-                            _this.$.bdsPediatric.hidden = true;
-                        }
-                    });
+                    // this.$.bdFieldPediatric.addEventListener('checked-changed',function (e) {
+                    //     // _this.activeNextData();
+                    //     if(_this.$.bdFieldPediatric.checked){
+                    //         _this.$.bdsPediatric.hidden = false;
+                    //         _this.$.bdSelected12.value = 15;
+                    //     }else{
+                    //         _this.pedantic = null;
+                    //         _this.$.bodypartFieldAll.checked = false;
+                    //         _this.$.bdsPediatric.hidden = true;
+                    //     }
+                    // });
 
                     this.$.bdFieldChest.addEventListener('checked-changed',function (e) {
                         _this.activeNextData();
@@ -795,7 +795,7 @@
                      * SELECTED AREA CHECKBOX
                      *
                      * Create by BohyunJang on 2019-01-14 오후 4:26
-                    **/
+                     **/
 
                     this.$.bdSelected1All.addEventListener('checked-changed', function (e) {
                         let cnt = 0;
@@ -1008,7 +1008,7 @@
                             validationFieldCheckbox = true;
                         }
                     }
-                    let validationSelectedChecbox = Boolean(_this.abdomen.length > 0 || _this.breast.length > 0 || _this.$.bdFieldPediatric.checked || _this.chest.length > 0 ||
+                    let validationSelectedChecbox = Boolean(_this.abdomen.length > 0 || _this.breast.length > 0 || _this.chest.length > 0 ||
                         _this.cardiovascular.length > 0 || _this.dental.length > 0 || _this.genitourinary.length > 0 || _this.angioAndIntervention.length > 0|| _this.headAndNeck.length > 0 ||
                         _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0);
 
@@ -1016,18 +1016,66 @@
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
                         _this.$.nextBtn.disabled = false;
                         detail.nextBtn = true;
-                        if(_this.abdomen.length){bodypart.push(_this.abdomen);}
-                        if(_this.breast.length){bodypart.push(_this.breast);}
-                        if(_this.pediatric){bodypart.push(_this.pediatric);}
-                        if(_this.chest.length){bodypart.push(_this.chest);}
-                        if(_this.cardiovascular.length){bodypart.push(_this.cardiovascular);}
-                        if(_this.dental.length){bodypart.push(_this.dental);}
-                        if(_this.genitourinary.length){bodypart.push(_this.genitourinary);}
-                        if(_this.angioAndIntervention.length){bodypart.push(_this.angioAndIntervention);}
-                        if(_this.headAndNeck.length){bodypart.push(_this.headAndNeck);}
-                        if(_this.musculoskeletal.length){bodypart.push(_this.musculoskeletal);}
-                        if(_this.neuro.length){bodypart.push(_this.neuro);}
-                        if(_this.general.length){bodypart.push(_this.general);}
+                        if(_this.abdomen.length){
+                            for(let i=0; i<_this.abdomen.length; i++){
+                                bodypart.push(_this.abdomen[i]);
+                            }
+                        }
+                        if(_this.breast.length){
+                            for(let i=0; i<_this.breast.length; i++){
+                                bodypart.push(_this.breast[i]);
+                            }
+                        }
+                        if(_this.pediatric){
+                            for(let i=0; i<_this.pediatric.length; i++){
+                                bodypart.push(_this.pediatric[i]);
+                            }
+                        }
+                        if(_this.chest.length){
+                            for(let i=0; i<_this.chest.length; i++){
+                                bodypart.push(_this.chest[i]);
+                            }
+                        }
+                        if(_this.cardiovascular.length){
+                            for(let i=0; i<_this.cardiovascular.length; i++){
+                                bodypart.push(_this.cardiovascular[i]);
+                            }
+                        }
+                        if(_this.dental.length){
+                            for(let i=0; i<_this.dental.length; i++){
+                                bodypart.push(_this.dental[i]);
+                            }
+                        }
+                        if(_this.genitourinary.length){
+                            for(let i=0; i<_this.genitourinary.length; i++){
+                                bodypart.push(_this.genitourinary[i]);
+                            }
+                        }
+                        if(_this.angioAndIntervention.length){
+                            for(let i=0; i<_this.angioAndIntervention.length; i++){
+                                bodypart.push(_this.angioAndIntervention[i]);
+                            }
+                        }
+                        if(_this.headAndNeck.length){
+                            for(let i=0; i<_this.headAndNeck.length; i++){
+                                bodypart.push(_this.headAndNeck[i]);
+                            }
+                        }
+                        if(_this.musculoskeletal.length){
+                            for(let i=0; i<_this.musculoskeletal.length; i++){
+                                bodypart.push(_this.musculoskeletal[i]);
+                            }
+                        }
+                        if(_this.neuro.length){
+                            for(let i=0; i<_this.neuro.length; i++){
+                                bodypart.push(_this.neuro[i]);
+                            }
+                        }
+                        if(_this.general.length){
+                            for(let i=0; i<_this.general.length; i++){
+                                bodypart.push(_this.general[i]);
+                            }
+                        }
                         detail.bodypart = bodypart;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
@@ -1038,6 +1086,10 @@
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
                     }
+                }
+
+                getOtherBodypartList(bodypartList){
+                    console.log(bodypartList);
                 }
 
                 setBodypart(readingTemplate){
@@ -1065,20 +1117,16 @@
 
                 checkInputBodypart(selectBodypart, readingTemplate){
                     let bodypart = readingTemplate.bodypart;
-                    let cnt1 = 0;
+                    let cnt = 0;
                     let result = false;
                     for(let i=0; i<bodypart.length; i++){
-                        let cnt2 = 0;
-                        cnt1++;
-                        for(let j=0; j<bodypart[i].length; j++){
-                            if(bodypart[i][j] == selectBodypart){
-                                result = true;
-                                return result;
-                            }
-                            cnt2++;
-                            if(cnt2 == bodypart[i].length && cnt1 == bodypart.length){
-                                return result;
-                            }
+                        cnt++;
+                        if(bodypart[i] == selectBodypart){
+                            result = true;
+                            return result;
+                        }
+                        if(cnt == bodypart.length){
+                            return result;
                         }
                     }
                 }

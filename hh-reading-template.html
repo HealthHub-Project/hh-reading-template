@@ -157,11 +157,13 @@
         (function () {
             let _this;
             let g_SelectedRow = new Object();
+            let g_facilitySensitive = new Object();
             let g_readingTemplateList = new Array();
             let g_sortedTemplateList = new Array();
             let g_tempSensitiveTemplateList = new Array();
             let g_popup = new Object();
             let message = new Object();
+
 
             class HhReadingTemplate extends Polymer.Element {
                 static get is() {
@@ -187,7 +189,6 @@
                         if(event.data.flag =="rtSaveEvent"){
                             _this.saveReadingTemplate(event.data.readingTemplate);
                         }else if(event.data.flag =="rtUpdateEvent"){
-                            console.log(event.data);
                             _this.updateReadingTemplate(event.data.readingTemplate);
                         }
                     });
@@ -288,14 +289,20 @@
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
                         let g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        let struct = new Object();
                         if(g_readingTemplateList){
                             let param = new Object
                             let data = new Object;
                             data.g_readingTemplateList = g_readingTemplateList;
                             param.data = data;
-                            let struct = param.data;
+                            struct = param.data;
+                            struct.facilitySensitive = g_facilitySensitive;
+                            g_popup.struct = struct;
+                        }else{
+                            struct.facilitySensitive = g_facilitySensitive;
                             g_popup.struct = struct;
                         }
+
                         g_popup.focus();
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {
@@ -380,7 +387,6 @@
                     };
 
                     this.gridOptions.onRowDoubleClicked = (event) => {
-                        console.log(event.data);
                         if(g_readingTemplateList.length>0){
                             let data = event.data;
                             data.g_readingTemplateList = g_readingTemplateList;
@@ -464,6 +470,9 @@
                     }
                 }
 
+                setSensitiveForFacility(param){
+                    g_facilitySensitive = param.detail;
+                }
 
                 getReadingTemplateList(params){
                     if(params.readingTemplateList && !params.selectedRow){
@@ -483,8 +492,6 @@
                 }
 
                 deleteReadingTemplate(data){
-                    console.log("delete");
-                    // console.log(data);
                     g_readingTemplateList.pop(data.seqNo);
                     _this.gridOptions.api.setRowData(g_readingTemplateList);
                     let param = new Object();
@@ -524,6 +531,9 @@
                             }
                             if(readingTemplate.studyDescription){
                                 g_readingTemplateList[i].studyDescription = readingTemplate.studyDescription;
+                            }
+                            if(readingTemplate.shortcut){
+                                g_readingTemplateList[i].shortcut = readingTemplate.shortcut;
                             }
                             if(readingTemplate.title){
                                 g_readingTemplateList[i].title = readingTemplate.title;
@@ -624,10 +634,6 @@
                     if(message.isErr){
                         return false;
                     }
-                }
-
-                test(){
-                    console.log("hello");
                 }
 
             }
