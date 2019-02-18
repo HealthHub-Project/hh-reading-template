@@ -81,7 +81,7 @@
 
             .bd-select{
                 margin: 10px;
-                height: 444px;
+                /*height: 444px;*/
                 width: 23%;
                 overflow: auto;
                 overflow-x: hidden;
@@ -143,7 +143,7 @@
                     <div style="margin: 10px; height: 60%">
                         <div class="bd-field-title">BODY PART</div>
                         <div class="class-bd-filed">
-                            <paper-checkbox id="bodypartFieldAll" class="checkBox-style" noink >All</paper-checkbox>
+                            <paper-checkbox id="bodypartFieldAll" class="checkBox-style" noink hidden>All</paper-checkbox>
                             <iron-selector attr-for-selected="value" id="bodypartField" selected-values="{{bodypartField}}" multi>
                                 <paper-checkbox id ="bdFieldAbdomen" value="abdomen" class="checkBox-style" noink>Abdomen</paper-checkbox>
                                 <paper-checkbox id ="bdFieldBreast" value="breast" class="checkBox-style" noink>Breast</paper-checkbox>
@@ -157,6 +157,7 @@
                                 <paper-checkbox id ="bdFieldNeuro" value="neuro" class="checkBox-style" noink>Neuro</paper-checkbox>
                                 <paper-checkbox id ="bdFieldGeneral" value="general" class="checkBox-style" noink>General</paper-checkbox>
                                 <!--<paper-checkbox id ="bdFieldPediatric" value="pediatric" class="checkBox-style" hidden noink>Pediatric</paper-checkbox>-->
+                                <paper-checkbox id ="bdFieldNotRadrex" value="notRadrex" class="checkBox-style" hidden noink>Others</paper-checkbox>
                             </iron-selector>
                         </div>
                     </div>
@@ -490,6 +491,21 @@
                                 </iron-selector>
                             </div>
                         </div>
+                        <div class="bd-select" id="bdsNotRadrex" hidden>
+                            <div class="bd-select-title">Others</div>
+                            <div class="bd-select-selected">
+                                <paper-checkbox id="bdSelectedNotRadrexAll" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="bdSelectedNotRadrex" selected-values="{{checkedNotRadrex}}"
+                                               multi>
+                                    <dom-repeat items="{{notRadrex}}">
+                                        <template>
+                                            <paper-checkbox value="[[item]]" id="bdSelectedNotRadrex" class="checkBox-style" noink>{{item}}
+                                            </paper-checkbox>
+                                        </template>
+                                    </dom-repeat>
+                                </iron-selector>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -552,6 +568,12 @@
                         },
                         general: {
                             type: Array
+                        },
+                        notRadrex:{
+                            type:Array
+                        },
+                        checkedNotRadrex:{
+                            type:Array
                         }
                     }
                 }
@@ -785,9 +807,24 @@
                             for(let i=0; i<_this.$.bdSelected11.childElementCount; i++){
                                 _this.$.bdSelected11.children[i].checked = false;
                             }
-                            _this.general;
+                            _this.general =[];
                             _this.$.bodypartFieldAll.checked = false;
                             _this.$.bdsGeneral.hidden = true;
+                        }
+                    });
+
+                    this.$.bdFieldNotRadrex.addEventListener('checked-changed',function (e) {
+                        _this.activeNextData();
+                        if(_this.$.bdFieldNotRadrex.checked){
+                            _this.$.bdsNotRadrex.hidden = false;
+                        }else{
+                            _this.$.bdSelectedNotRadrexAll.checked = false;
+                            for(let i=0; i<_this.$.bdSelectedNotRadrex.childElementCount; i++){
+                                _this.$.bdSelectedNotRadrex.children[i].checked = false;
+                            }
+                            _this.checkedNotRadrex = new Array();
+                            _this.$.bodypartFieldAll.checked = false;
+                            _this.$.bdsNotRadrex.hidden = true;
                         }
                     });
 
@@ -963,6 +1000,21 @@
                             }
                         }
                     });
+                    this.$.bdSelectedNotRadrexAll.addEventListener('change', function (e) {
+                        let cnt = 0;
+                        for (let i = 0; i < _this.$.bdSelectedNotRadrex.childElementCount; i++) {
+                            _this.$.bdSelectedNotRadrex.children[i].checked = e.target.checked;
+                            if(_this.$.bdSelectedNotRadrex.children[i].checked){
+                                _this.checkedNotRadrex.push(_this.$.bdSelectedNotRadrex.children[i].value);
+                            }else{
+                                _this.checkedNotRadrex= [];
+                            }
+                            cnt++;
+                            if(cnt == _this.$.bdSelectedNotRadrex.childElementCount){
+                                _this.activeNextData();
+                            }
+                        }
+                    });
 
                     this.$.bdSelected1.addEventListener('selected-items-changed', function () {
                         _this.activeNextData();
@@ -989,6 +1041,10 @@
                         _this.activeNextData();
                     })
 
+                    this.$.bdSelectedNotRadrex.addEventListener('selected-items-changed', function () {
+                        _this.activeNextData();
+                    })
+
                     this.$.prevBtn.addEventListener('click', function () {
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
                     });
@@ -1010,7 +1066,7 @@
                     }
                     let validationSelectedChecbox = Boolean(_this.abdomen.length > 0 || _this.breast.length > 0 || _this.chest.length > 0 ||
                         _this.cardiovascular.length > 0 || _this.dental.length > 0 || _this.genitourinary.length > 0 || _this.angioAndIntervention.length > 0|| _this.headAndNeck.length > 0 ||
-                        _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0);
+                        _this.musculoskeletal.length > 0|| _this.neuro.length > 0|| _this.general.length > 0 || _this.checkedNotRadrex.length > 0);
 
                     if (validationFieldCheckbox && validationSelectedChecbox) {
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
@@ -1076,6 +1132,12 @@
                                 bodypart.push(_this.general[i]);
                             }
                         }
+                        if(_this.checkedNotRadrex.length){
+                            for(let i=0; i<_this.checkedNotRadrex.length; i++){
+                                bodypart.push(_this.checkedNotRadrex[i]);
+                            }
+                        }
+
                         detail.bodypart = bodypart;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
@@ -1089,29 +1151,69 @@
                 }
 
                 getOtherBodypartList(bodypartList){
-                    console.log(bodypartList);
+                    if(bodypartList.length > 0){
+                        this.notRadrex = bodypartList;
+                        this.cssHidden();
+                    }
+
+                }
+
+                cssHidden(){
+                    // 기존 radrex hidden
+                    this.$.bdFieldAbdomen.hidden = true;
+                    this.$.bdFieldBreast.hidden = true;
+                    this.$.bdFieldChest.hidden = true;
+                    this.$.bdFieldCardiovascular.hidden = true;
+                    this.$.bdFieldDental.hidden = true;
+                    this.$.bdFieldGenitourinary.hidden = true;
+                    this.$.bdFieldAngioAndIntervention.hidden = true;
+                    this.$.bdFieldHeadAndNeck.hidden = true;
+                    this.$.bdFieldMusculoskeletal.hidden = true;
+                    this.$.bdFieldNeuro.hidden = true;
+                    this.$.bdFieldGeneral.hidden = true;
+
+                    // c_case의 bodypart 가져오기
+                    this.$.bdFieldNotRadrex.hidden = false;
                 }
 
                 setBodypart(readingTemplate){
-                    let cnt = 0;
-                    for(let i=0; i<_this.$.bdSelectedContens.childElementCount; i++){
-                        for(let j=0; j<_this.$.bdSelectedContens.children[i].children[1].children[1].childElementCount; j++){
-                            let selectedBodypart = _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].value;
+                    if(readingTemplate.isRadrex){
+                        let cnt = 0;
+                        for(let i=0; i<_this.$.bdSelectedContens.childElementCount; i++){
+                            for(let j=0; j<_this.$.bdSelectedContens.children[i].children[1].children[1].childElementCount; j++){
+                                let selectedBodypart = _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].value;
+                                let result = _this.checkInputBodypart(selectedBodypart,readingTemplate);
+                                if(result){
+                                    for (let k = 0; k < _this.$.bodypartField.childElementCount; k++) {
+                                        if (_this.$.bodypartField.children[k].innerText == _this.$.bdSelectedContens.children[i].children[0].innerText && !_this.$.bodypartField.children[k].checked){
+                                            _this.$.bodypartField.children[k].checked = true;
+                                        }
+                                    }
+                                    _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].checked = true;
+                                    _this.$.bdSelectedContens.children[i].children[1].children[1].selectIndex(j);
+                                }
+                            }
+                            cnt++;
+                            if(cnt == _this.$.bdSelectedContens.childElementCount){
+                                _this.activeNextData();
+                            }
+                        }
+                    }else{
+                        this.$.bdFieldNotRadrex.checked = true
+                        for(let j=0; j<_this.$.bdSelectedContens.children[12].children[1].children[1].childElementCount; j++){
+                            let selectedBodypart = _this.$.bdSelectedContens.children[12].children[1].children[1].children[j].value;
                             let result = _this.checkInputBodypart(selectedBodypart,readingTemplate);
                             if(result){
                                 for (let k = 0; k < _this.$.bodypartField.childElementCount; k++) {
-                                    if (_this.$.bodypartField.children[k].innerText == _this.$.bdSelectedContens.children[i].children[0].innerText && !_this.$.bodypartField.children[k].checked){
+                                    if (_this.$.bodypartField.children[k].innerText == _this.$.bdSelectedContens.children[12].children[0].innerText && !_this.$.bodypartField.children[k].checked){
                                         _this.$.bodypartField.children[k].checked = true;
                                     }
                                 }
-                                _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].checked = true;
-                                _this.$.bdSelectedContens.children[i].children[1].children[1].selectIndex(j);
+                                _this.$.bdSelectedContens.children[12].children[1].children[1].children[j].checked = true;
+                                _this.$.bdSelectedContens.children[12].children[1].children[1].selectIndex(j);
                             }
                         }
-                        cnt++;
-                        if(cnt == _this.$.bdSelectedContens.childElementCount){
-                            _this.activeNextData();
-                        }
+                        _this.activeNextData();
                     }
                 }
 

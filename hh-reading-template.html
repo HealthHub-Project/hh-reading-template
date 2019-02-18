@@ -493,7 +493,6 @@
 
                 deleteReadingTemplate(data){
                     g_readingTemplateList.pop(data.seqNo);
-                    _this.gridOptions.api.setRowData(g_readingTemplateList);
                     let param = new Object();
                     let detail = new Object();
                     detail.readingTemplate= data;
