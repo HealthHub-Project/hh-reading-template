@@ -194,96 +194,24 @@
                     });
 
                     this.$.sensitive.addEventListener('selected-items-changed',function(e){
-                        let sensitiveArray = new Array();
-                        let cnt0 = 0;
-
-                        if(e.detail.value.length > 0){
-                            for(let i=0; i<e.detail.value.length; i++){
-                                if(e.detail.value[i].value =="modality"){
-                                    sensitiveArray.push("modality");
-                                }
-                                if(e.detail.value[i].value =="bodypart"){
-                                    sensitiveArray.push("bodypart");
-                                }
-                                if(e.detail.value[i].value == "studyDescription"){
-                                    sensitiveArray.push("studyDescriptiont");
-                                }
-
-                                cnt0++;
-                                if(cnt0 == e.detail.value.length){
-                                    if(Boolean(g_SelectedRow.id && sensitiveArray.length > 0)){
-                                        let cnt1 = 0;
-                                        for(let i=0 ;i<sensitiveArray.length; i++){
-                                            if(sensitiveArray[i].includes("modality")){
-                                                for(let j=0; j<g_readingTemplateList.length; j++){
-                                                    let modalityArr = new Array();
-                                                    modalityArr = g_readingTemplateList[j].modality;
-                                                    if(modalityArr.length > 0){
-                                                        for(let k=0; k<modalityArr.length; k++){
-                                                            for(let l = 0; l<modalityArr[k].length; l++){
-                                                                if(modalityArr[k][l] === g_SelectedRow.modality){
-                                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
-                                                                    if(!g_tempSensitiveTemplateList){
-                                                                        g_tempSensitiveTemplateList.push(g_readingTemplateList[j]);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }else{
-                                                        g_sortedTemplateList = new Array();
-                                                    }
-                                                }
-                                            }
-
-                                            if(sensitiveArray[i].includes("bodypart")){
-                                                for(let j=0; j<g_readingTemplateList.length; j++){
-                                                    let bodypartArr = new Array();
-                                                    bodypartArr  = g_readingTemplateList[j].bodypart;
-                                                    if(bodypartArr.length > 0){
-                                                        for(let k=0; k<bodypartArr.length; k++){
-                                                            for(let l=0; l<bodypartArr[k].length; l++){
-                                                                if(typeof(bodypartArr[k]) != "number" && bodypartArr[k][j] === g_SelectedRow.bodypart){
-                                                                    g_sortedTemplateList.push(g_readingTemplateList[j]);
-                                                                    if(!g_tempSensitiveTemplateList){
-                                                                        g_tempSensitiveTemplateList.push(g_readingTemplateList[j]);
-                                                                    }
-                                                                }
-                                                            }
-                                                        }
-                                                    }else{
-                                                        g_sortedTemplateList = new Array();
-                                                    }
-                                                }
-                                            }
-
-                                            if(sensitiveArray[i].includes("studyDescription")){
-                                                for(let j=0; j<g_readingTemplateList.length; j++){
-                                                    if(g_readingTemplateList[j].studyDescription.includes( g_SelectedRow.studyDescription)){
-                                                        g_sortedTemplateList.push(g_readingTemplateList[j]);
-                                                        if(!g_tempSensitiveTemplateList){
-                                                            g_tempSensitiveTemplateList.push(g_readingTemplateList[j]);
-                                                        }
-                                                    }else{
-                                                        g_sortedTemplateList = new Array();
-                                                    }
-                                                }
-                                            }
-
-                                            cnt1++;
-                                            if(cnt1 == sensitiveArray.length){;
-                                                e.target.__dataHost.gridOptions.api.setRowData(g_sortedTemplateList);
-                                                g_sortedTemplateList = new Array();
-                                            }
-                                        }
-                                    }else{
-                                        e.target.__dataHost.gridOptions.api.setRowData(g_readingTemplateList);
-                                    }
-                                }
+                        if(e.detail.value.length > 0 && g_SelectedRow.id){
+                            let params = new Object();
+                            let detail = new Object();
+                            if(e.target.__dataHost.selectSensitive.includes("modality")){
+                                detail.modality = g_SelectedRow.modality;
                             }
+                            if(e.target.__dataHost.selectSensitive.includes("bodypart")){
+                                detail.bodypart = g_SelectedRow.bodypart;
+                            }
+                            if(e.target.__dataHost.selectSensitive.includes("studyDescription")){
+                                detail.studyDescription = g_SelectedRow.studyDescription;
+                            }
+                            params.detail = detail;
+                            e.target.__dataHost.dispatchEvent(new CustomEvent('getReadingTemplateListBySensitiveEvent', params));
                         }else{
-                            g_tempSensitiveTemplateList = new Array();
                             e.target.__dataHost.gridOptions.api.setRowData(g_readingTemplateList);
                         }
+
                     });
 
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
@@ -362,10 +290,10 @@
                         {headerName: "Conclusion", field: "conclusion"},
                         {headerName: "Recommendation", field: "recommendation"}
                     ];
+
                     this.rowData = [
                         // {seqNo:"0", title: "TEST", shortcut: "TEST SHORTCUT", modality: "CT, MR", bodypart: "CHEST, FOOT", studyDescription: "TEST STUDY DESCRIPTION", finding: "FINDING", conclusion: "CONCLUSION", recommendation: "RECOMMENDATION"},
                     ];
-
 
                     this.gridOptions.onGridReady = (params) => {
                         // params.api.sizeColumnsToFit();
@@ -397,6 +325,7 @@
 
                             g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                             // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                            struct.facilitySensitive = g_facilitySensitive;
                             g_popup.struct = struct;
                             g_popup.focus();
                         }else{
@@ -404,12 +333,14 @@
                                 g_popup.close();
                                 g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                struct.facilitySensitive = g_facilitySensitive;
                                 g_popup.struct = struct;
                                 g_popup.focus();
                                 // g_popup.reload();
                             }else{
                                 g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                struct.facilitySensitive = g_facilitySensitive;
                                 g_popup.struct = struct;
                                 g_popup.focus();
                             }
@@ -475,7 +406,7 @@
                 }
 
                 getReadingTemplateList(params){
-                    if(params.readingTemplateList && !params.selectedRow){
+                    if(params.readingTemplateList.length && !params.selectedRow){
                         let cnt =0;
                         let readingTemplateList = params.readingTemplateList;
                         g_readingTemplateList = new Array();
@@ -488,12 +419,22 @@
                         }
                     }else if(params){
                         g_SelectedRow = params.selectedRow;
+                        if(params.readingTemplateList.length == 0){
+                            this.gridOptions.api.setRowData(null);
+                        }
+                    }
+                }
+
+                getSensitiveTemplateList(params){
+                    if(params.readingTemplateList.length > 0){
+                        this.gridOptions.api.setRowData(params.readingTemplateList);
+                    }else{
+                        this.gridOptions.api.setRowData(null);
                     }
                 }
 
                 deleteReadingTemplate(data){
                     g_readingTemplateList.pop(data.seqNo);
-                    _this.gridOptions.api.setRowData(g_readingTemplateList);
                     let param = new Object();
                     let detail = new Object();
                     detail.readingTemplate= data;

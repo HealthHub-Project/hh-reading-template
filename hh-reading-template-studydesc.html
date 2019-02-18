@@ -164,6 +164,7 @@
 
         </style>
         <div class="container">
+            <paper-toast id="studyDescToast" duration="1000" class="studyDesc-toast"></paper-toast>
             <div class="class-input">
                 <div class="class-wrap">
                     <div class="class-studyDescription">
@@ -213,6 +214,7 @@
             let _this;
             let g_humiicDesc = new Array();
             let g_resultDesc = "";
+            let g_readingTemplateList = new Array();
 
             class HhReadingTemplateStudyDesc extends Polymer.Element {
                 static get is() {
@@ -290,12 +292,20 @@
                         let param = new Object();
                         let detail = new Object();
                         detail.shortcut = _this.$.inputShortcut.value;
-                        if(_this.studyDesc){
-                            detail.studyDesc = _this.studyDesc;
-                        }
-                        param.detail = detail;
-                        if (_this.$.inputShortcut.value) {
-                            _this.dispatchEvent(new CustomEvent('activeTab', param));
+                        if(_this.validationShortcut(_this.$.inputShortcut.value)){
+                            let message = new Object();
+                            message.text = "Shortcut can not be duplicated.";
+                            message.isErr = true;
+                            _this.openToast(message);
+
+                        }else{
+                            if(_this.studyDesc){
+                                detail.studyDesc = _this.studyDesc;
+                            }
+                            param.detail = detail;
+                            if (_this.$.inputShortcut.value ) {
+                                _this.dispatchEvent(new CustomEvent('activeTab', param));
+                            }
                         }
                     });
 
@@ -315,6 +325,42 @@
                         _this.$.inputStudyDesc.value = "";
                         _this.$.inputShortcut.value = "";
                     });
+                }
+
+                openToast(message){
+                    if (!message.isErr) {
+                        _this.$.studyDescToast.style.backgroundColor = "#0087cb";
+                    } else {
+                        _this.$.studyDescToast.style.backgroundColor = "#e46159";
+                    }
+                    this.$.studyDescToast.text = message.text;
+                    this.$.studyDescToast.open();
+                    if(message.isErr){
+                        return false;
+                    }
+                }
+
+                setReadingTemplateList(readingTemplate){
+                    g_readingTemplateList = readingTemplate.g_readingTemplateList;
+                }
+
+                validationShortcut(shortcut){
+                    if(g_readingTemplateList){
+                        let result = false;
+                        let cnt = 0;
+                        for(let i=0; i<g_readingTemplateList.length; i++){
+                            if(shortcut == g_readingTemplateList[i].shortcut && !_this.seqNo){
+                                result = true;
+                                return result
+                            }
+                            cnt++;
+                            if(!result && cnt == g_readingTemplateList.length){
+                                return result
+                            }
+                        }
+                    }else{
+                        return false;
+                    }
                 }
 
                 searchStudyDesc() {

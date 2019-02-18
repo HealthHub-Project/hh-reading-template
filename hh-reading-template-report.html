@@ -203,7 +203,7 @@
                 ready() {
                     super.ready();
                     this.$.saveBtn.addEventListener('click',function(){
-                        if(this.seqNo){
+                        if(_this.seqNo){
                             _this.saveValidation("update");
                         }else{
                             _this.saveValidation("save");
@@ -260,12 +260,12 @@
                     }
                 }
 
-                validationTitle(){
+                validationTitle(title){
                     if(g_readingTemplateList){
                         let result = false;
                         let cnt = 0;
                         for(let i=0; i<g_readingTemplateList.length; i++){
-                            if(_this.title == g_readingTemplateList[i].title && !_this.seqNo){
+                            if(title == g_readingTemplateList[i].title && !_this.seqNo){
                                 result = true;
                                 return result
                             }

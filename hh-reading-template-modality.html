@@ -128,12 +128,12 @@
             }
         </style>
         <div class="container">
-            <div class="class-md">
+            <div class="class-md" id="mdRadrex">
                 <div class="class-md-field">
                     <div style="margin: 10px; height: 42%">
                         <div class="m-field-title">MODALITY</div>
                         <div class="m-field">
-                            <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink>All</paper-checkbox>
+                            <paper-checkbox id="modalityFieldAll" class="checkBox-style" noink hidden>All</paper-checkbox>
                             <iron-selector attr-for-selected="value" id="modalityField"
                                            selected-values="{{modalityField}}" multi>
                                 <paper-checkbox value="radiology" id="mdFiledRadiology" class="checkBox-style" noink>
@@ -157,6 +157,8 @@
                                     Pathology
                                 </paper-checkbox>
                                 <paper-checkbox value="other" id="mdFiledOther" class="checkBox-style" hidden noink>Other
+                                </paper-checkbox>
+                                <paper-checkbox value="nonRadrex" id="mdFiledNonRadrex" class="checkBox-style" hidden noink>Radiology
                                 </paper-checkbox>
                             </iron-selector>
                         </div>
@@ -369,7 +371,7 @@
                             </div>
                         </div>
                         <div class="m-select" id="mdsOthers" hidden>
-                            <div class="m-select-title">Others</div>
+                            <div class="m-select-title">Other</div>
                             <div class="m-select-selected">
                                 <paper-checkbox id="mdSelected8All" class="checkBox-style" noink>All</paper-checkbox>
                                 <iron-selector attr-for-selected="value" id="mdSelected8" selected-values="{{other}}"
@@ -401,6 +403,21 @@
                                 </iron-selector>
                             </div>
                         </div>
+                        <div class="m-select" id="mdsNotRadrex" hidden>
+                            <div class="m-select-title">Radiology</div>
+                            <div class="m-select-selected">
+                                <paper-checkbox id="mdSelectedNotRadrexAll" class="checkBox-style" noink>All</paper-checkbox>
+                                <iron-selector attr-for-selected="value" id="mdSelectedNotRadrex" selected-values="{{checkedNotRadrex}}"
+                                               multi>
+                                    <dom-repeat items="{{notRadrex}}">
+                                        <template>
+                                            <paper-checkbox value="[[item]]" class="checkBox-style" noink>{{item}}
+                                            </paper-checkbox>
+                                        </template>
+                                    </dom-repeat>
+                                </iron-selector>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -412,6 +429,7 @@
     <script>
         (function () {
             let _this;
+            let g_modalityList = new Array();
             class HhReadingTemplateModality extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-modality';
@@ -445,6 +463,12 @@
                         },
                         other: {
                             type: Array
+                        },
+                        notRadrex:{
+                            type: Array
+                        },
+                        checkedNotRadrex:{
+                            type:Array
                         }
                     }
                 }
@@ -581,6 +605,22 @@
                             _this.$.mdsOthers.hidden = true;
                         }
                     })
+
+                    this.$.mdFiledNonRadrex.addEventListener('checked-changed', function (e) {
+                        _this.activeNextData();
+                        if (_this.$.mdFiledNonRadrex.checked) {
+                            _this.$.mdsNotRadrex.hidden = false;
+                        } else {
+                            _this.$.mdSelectedNotRadrexAll.checked = false;
+                            for (let i = 0; i < _this.$.mdSelectedNotRadrex.childElementCount; i++) {
+                                _this.$.mdSelectedNotRadrex.children[i].checked = false;
+                            }
+                            _this.checkedNotRadrex = [];
+                            _this.$.modalityFieldAll.checked = false;
+                            _this.$.mdsNotRadrex.hidden = true;
+                        }
+                    })
+
 
                     /**
                      * SELECTED AREA CHECKBOX
@@ -725,6 +765,24 @@
                         }
                     });
 
+                    this.$.mdSelectedNotRadrexAll.addEventListener('checked-changed', function (e) {
+                        let cnt = 0;
+                        let totCnt = _this.$.mdSelectedNotRadrex.childElementCount;
+                        for (let i = 0; i < totCnt; i++) {
+                            _this.$.mdSelectedNotRadrex.children[i].checked = e.target.checked;
+                            if(_this.$.mdSelectedNotRadrex.children[i].checked){
+                                _this.checkedNotRadrex.push(_this.$.mdSelectedNotRadrex.children[i].value);
+                            }else{
+                                _this.checkedNotRadrex = [];
+                            }
+                            cnt++;
+                            if(cnt == totCnt){
+                                console.log("test");
+                                _this.activeNextData();
+                            }
+                        }
+                    });
+
                     this.$.mdSelected1.addEventListener('selected-items-changed', function () {
                         _this.activeNextData();
                     })
@@ -748,6 +806,9 @@
                     })
                     this.$.mdSelected8.addEventListener('selected-items-changed', function () {
                         _this.activeNextData();
+                    });
+                    this.$.mdSelectedNotRadrex.addEventListener('selected-items-changed', function (e) {
+                        _this.activeNextData();
                     })
 
                     this.$.nextBtn.addEventListener('click', function () {
@@ -766,7 +827,7 @@
                         }
                     }
                     let validationSelectedChecbox = Boolean(_this.radiology.length > 0 || _this.opthalmology.length > 0 || _this.nuclearMedicine.length > 0 || _this.radiationOncology.length > 0 ||
-                        _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0);
+                        _this.dental.length > 0 || _this.waveform.length > 0 || _this.pathology.length > 0 || _this.other.length > 0 || _this.checkedNotRadrex.length > 0);
                     if ( validationFieldCheckbox && validationSelectedChecbox ) {
                         _this.$.nextBtn.style.backgroundColor = "#0087cb";
                         _this.$.nextBtn.disabled = false;
@@ -777,6 +838,13 @@
                                 modality.push(_this.radiology[i]);
                             }
                         }
+
+                        if(_this.checkedNotRadrex.length){
+                            for(let i=0; i<_this.checkedNotRadrex.length; i++){
+                                modality.push(_this.checkedNotRadrex[i]);
+                            }
+                        }
+
                         // if(_this.opthalmology.length){modality.push(_this.opthalmology)}
                         // if(_this.nuclearMedicine.length){modality.push(_this.nuclearMedicine)}
                         // if(_this.radiationOncology.length){modality.push(_this.radiationOncology)}
@@ -797,30 +865,53 @@
                 }
 
                 getOtherModalityList(modalityList){
-                    console.log(modalityList);
+                    g_modalityList = modalityList;
+                    if(g_modalityList.length > 0){
+                        this.notRadrex = g_modalityList;
+                        this.modalCssHidden();
+                    }
+                }
+
+                modalCssHidden(){
+                    this.$.mdFiledRadiology.hidden = true;
+                    this.$.mdFiledNonRadrex.hidden = false;
                 }
 
                 setModality(readingTemplate){
                     let cnt = 0;
-                    for (let i = 0; i < _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount; i++) {
+                    if(readingTemplate.isRadrex){
+                        for (let i = 0; i < _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount; i++) {
+                            for (let k = 0; k < readingTemplate.modality.length; k++) {
+                                if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value)) {
+                                    for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
+                                        if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[0].children[0].innerText && !_this.$.modalityField.children[j].checked) {
+                                            _this.$.modalityField.children[j].checked = true;
+                                        }
+                                    }
+                                    _this.$.mdSelectedContens.children[0].children[1].children[1].children[i].checked = true;
+                                    _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(i);
+                                }
+                            }
+                            cnt++;
+                            if(cnt == _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount){
+                                _this.activeNextData();
+                            }
+                        }
+                    }else{
+                        this.$.mdFiledNonRadrex.checked = true;
                         for (let k = 0; k < readingTemplate.modality.length; k++) {
-                            if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value)) {
+                            if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[8].value)) {
                                 for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
                                     if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[0].children[0].innerText && !_this.$.modalityField.children[j].checked) {
                                         _this.$.modalityField.children[j].checked = true;
                                     }
                                 }
-                                _this.$.mdSelectedContens.children[0].children[1].children[1].children[i].checked = true;
-                                _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(i);
+                                _this.$.mdSelectedContens.children[0].children[1].children[1].children[8].checked = true;
+                                _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(8);
                             }
-                        }
-                        cnt++;
-                        if(cnt == _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount){
-                            _this.activeNextData();
                         }
                     }
                 }
-
             }
 
             window.customElements.define(HhReadingTemplateModality.is, HhReadingTemplateModality);
