@@ -188,10 +188,15 @@
 </body>
 <script>
     let g_readingTemplate = new Object();
-    let _url = "http://127.0.0.1:8081";
-    // let _url = "http://localhost:8081";
+    // let _url = "http://127.0.0.1:8081";
+    let _url = "http://localhost:8081";
 
     document.addEventListener("DOMContentLoaded", () => {
+        if(window.struct.facilitySensitive){
+            document.getElementById('modalityTemplate').getOtherModalityList(window.struct.facilitySensitive.modalityList);
+            document.getElementById('bodypartTemplate').getOtherBodypartList(window.struct.facilitySensitive.bodypartList);
+        }
+
         document.getElementById("closeBtn").addEventListener('click', function () {
             window.close();
         });
@@ -274,6 +279,7 @@
             if(e.detail.displayOrder){g_readingTemplate.displayOrder = e.detail.displayOrder;}
             if(e.detail.hotkey1){g_readingTemplate.hotkey1 = e.detail.hotkey1;}
             if(e.detail.hotkey2){g_readingTemplate.hotkey2 = e.detail.hotkey2;}
+
             if(e.detail.seqNo){
                 reportUpdateEvent();
             }else{
@@ -281,21 +287,12 @@
             }
         });
 
-        if(window.struct){
-            if(window.struct.facilitySensitive){
-                g_readingTemplate.idRadrex= false;
-                document.getElementById('modalityTemplate').getOtherModalityList(window.struct.facilitySensitive.modalityList);
-                document.getElementById('bodypartTemplate').getOtherBodypartList(window.struct.facilitySensitive.bodypartList);
-                setReadingTemplate(window.struct);
-            }else{
-                g_readingTemplate.isRadrex= true;
-                setReadingTemplate(window.struct);
-            }
+        if(window.struct) {
+            setReadingTemplate(window.struct);
         }
     });
 
     function setReadingTemplate(readingTemplate){
-        // console.log(readingTemplate)
         if(readingTemplate.modality){
             document.getElementById('modalityTemplate').setModality(readingTemplate);
         }
@@ -310,7 +307,6 @@
         }
         if(readingTemplate.g_readingTemplateList){
             document.getElementById('reportTemplate').setReadingTemplateList(readingTemplate);
-            document.getElementById('studyDescTemplate').setReadingTemplateList(readingTemplate);
         }
     }
 
