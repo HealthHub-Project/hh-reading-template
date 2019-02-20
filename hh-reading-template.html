@@ -194,24 +194,25 @@
                     });
 
                     this.$.sensitive.addEventListener('selected-items-changed',function(e){
-                        if(e.detail.value.length > 0 && g_SelectedRow.id){
-                            let params = new Object();
-                            let detail = new Object();
-                            if(e.target.__dataHost.selectSensitive.includes("modality")){
-                                detail.modality = g_SelectedRow.modality;
+                        if(e.detail.value.length > 0 && Boolean(g_SelectedRow)){
+                            if(g_SelectedRow.id){
+                                let params = new Object();
+                                let detail = new Object();
+                                if(e.target.__dataHost.selectSensitive.includes("modality")){
+                                    detail.modality = g_SelectedRow.modality;
+                                }
+                                if(e.target.__dataHost.selectSensitive.includes("bodypart")){
+                                    detail.bodypart = g_SelectedRow.bodypart;
+                                }
+                                if(e.target.__dataHost.selectSensitive.includes("studyDescription")){
+                                    detail.studyDescription = g_SelectedRow.studyDescription;
+                                }
+                                params.detail = detail;
+                                e.target.__dataHost.dispatchEvent(new CustomEvent('getReadingTemplateListBySensitiveEvent', params));
                             }
-                            if(e.target.__dataHost.selectSensitive.includes("bodypart")){
-                                detail.bodypart = g_SelectedRow.bodypart;
-                            }
-                            if(e.target.__dataHost.selectSensitive.includes("studyDescription")){
-                                detail.studyDescription = g_SelectedRow.studyDescription;
-                            }
-                            params.detail = detail;
-                            e.target.__dataHost.dispatchEvent(new CustomEvent('getReadingTemplateListBySensitiveEvent', params));
                         }else{
                             e.target.__dataHost.gridOptions.api.setRowData(g_readingTemplateList);
                         }
-
                     });
 
                     this.$.newTemplateBtn.addEventListener('click', function (event) {

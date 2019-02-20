@@ -518,6 +518,7 @@
     <script>
         (function () {
             let _this;
+            let g_bodypartList = new Array();
             class HhReadingTemplateBodyPart extends Polymer.Element {
                 static get is() {
                     return 'hh-reading-template-badypart';
@@ -1057,7 +1058,7 @@
                 activeNextData() {
                     let param = new Object();
                     let detail = new Object();
-                    let bodypart = new Array();
+                    let bodypartList  = new Array();
                     let validationFieldCheckbox = false;
                     for(let i=0; i<this.$.bodypartField.childElementCount; i++){
                         if(_this.$.bodypartField.children[i].checked){
@@ -1074,71 +1075,71 @@
                         detail.nextBtn = true;
                         if(_this.abdomen.length){
                             for(let i=0; i<_this.abdomen.length; i++){
-                                bodypart.push(_this.abdomen[i]);
+                                bodypartList.push(_this.abdomen[i]);
                             }
                         }
                         if(_this.breast.length){
                             for(let i=0; i<_this.breast.length; i++){
-                                bodypart.push(_this.breast[i]);
+                                bodypartList.push(_this.breast[i]);
                             }
                         }
                         if(_this.pediatric){
                             for(let i=0; i<_this.pediatric.length; i++){
-                                bodypart.push(_this.pediatric[i]);
+                                bodypartList.push(_this.pediatric[i]);
                             }
                         }
                         if(_this.chest.length){
                             for(let i=0; i<_this.chest.length; i++){
-                                bodypart.push(_this.chest[i]);
+                                bodypartList.push(_this.chest[i]);
                             }
                         }
                         if(_this.cardiovascular.length){
                             for(let i=0; i<_this.cardiovascular.length; i++){
-                                bodypart.push(_this.cardiovascular[i]);
+                                bodypartList.push(_this.cardiovascular[i]);
                             }
                         }
                         if(_this.dental.length){
                             for(let i=0; i<_this.dental.length; i++){
-                                bodypart.push(_this.dental[i]);
+                                bodypartList.push(_this.dental[i]);
                             }
                         }
                         if(_this.genitourinary.length){
                             for(let i=0; i<_this.genitourinary.length; i++){
-                                bodypart.push(_this.genitourinary[i]);
+                                bodypartList.push(_this.genitourinary[i]);
                             }
                         }
                         if(_this.angioAndIntervention.length){
                             for(let i=0; i<_this.angioAndIntervention.length; i++){
-                                bodypart.push(_this.angioAndIntervention[i]);
+                                bodypartList.push(_this.angioAndIntervention[i]);
                             }
                         }
                         if(_this.headAndNeck.length){
                             for(let i=0; i<_this.headAndNeck.length; i++){
-                                bodypart.push(_this.headAndNeck[i]);
+                                bodypartList.push(_this.headAndNeck[i]);
                             }
                         }
                         if(_this.musculoskeletal.length){
                             for(let i=0; i<_this.musculoskeletal.length; i++){
-                                bodypart.push(_this.musculoskeletal[i]);
+                                bodypartList.push(_this.musculoskeletal[i]);
                             }
                         }
                         if(_this.neuro.length){
                             for(let i=0; i<_this.neuro.length; i++){
-                                bodypart.push(_this.neuro[i]);
+                                bodypartList.push(_this.neuro[i]);
                             }
                         }
                         if(_this.general.length){
                             for(let i=0; i<_this.general.length; i++){
-                                bodypart.push(_this.general[i]);
+                                bodypartList.push(_this.general[i]);
                             }
                         }
                         if(_this.checkedNotRadrex.length){
                             for(let i=0; i<_this.checkedNotRadrex.length; i++){
-                                bodypart.push(_this.checkedNotRadrex[i]);
+                                bodypartList.push(_this.checkedNotRadrex[i]);
                             }
                         }
 
-                        detail.bodypart = bodypart;
+                        detail.bodypart = bodypartList;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
                     } else {
@@ -1150,12 +1151,33 @@
                     }
                 }
 
-                getOtherBodypartList(bodypartList){
-                    if(bodypartList.length > 0){
-                        this.notRadrex = bodypartList;
-                        this.cssHidden();
+                getOtherBodypartList(param){
+                    let category = param.category;
+                    if(param.bodypartList){
+                        g_bodypartList = param.bodypartList;
+                        if(g_bodypartList.length > 0){
+                            if(category == "nomal"){
+                                this.notRadrex = g_bodypartList;
+                                this.cssHidden();
+                            }else if(category == "loinc"){
+                                console.log("bodypart loinc");
+                            }else if(category == "radrex"){
+                                console.log("bodypart radrex");
+                            }
+                        }
+                    }else{
+                        g_bodypartList = param.facilitySensitive.bodypartList
+                        if(g_bodypartList.length > 0){
+                            if(category == "nomal"){
+                                this.notRadrex = g_bodypartList;
+                                this.cssHidden();
+                            }else if(category == "loinc"){
+                                console.log("bodypart loinc");
+                            }else if(category == "radrex"){
+                                console.log("bodypart radrex");
+                            }
+                        }
                     }
-
                 }
 
                 cssHidden(){
@@ -1177,7 +1199,7 @@
                 }
 
                 setBodypart(readingTemplate){
-                    if(readingTemplate.isRadrex){
+                    if(readingTemplate.category =="radrex"){
                         let cnt = 0;
                         for(let i=0; i<_this.$.bdSelectedContens.childElementCount; i++){
                             for(let j=0; j<_this.$.bdSelectedContens.children[i].children[1].children[1].childElementCount; j++){
@@ -1198,6 +1220,8 @@
                                 _this.activeNextData();
                             }
                         }
+                    }else if(readingTemplate.category =="loinc"){
+
                     }else{
                         this.$.bdFieldNotRadrex.checked = true
                         for(let j=0; j<_this.$.bdSelectedContens.children[12].children[1].children[1].childElementCount; j++){
