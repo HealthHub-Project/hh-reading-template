@@ -192,9 +192,18 @@
     let _url = "http://localhost:8081";
 
     document.addEventListener("DOMContentLoaded", () => {
-        if(window.struct.facilitySensitive){
-            document.getElementById('modalityTemplate').getOtherModalityList(window.struct.facilitySensitive.modalityList);
-            document.getElementById('bodypartTemplate').getOtherBodypartList(window.struct.facilitySensitive.bodypartList);
+
+        if(window.struct){
+            if(window.struct.facilitySensitive){
+                let param = new Object();
+                param.modalityList = window.struct.facilitySensitive.modalityList;
+                param.bodypartList = window.struct.facilitySensitive.bodypartList;
+                param.category = "nomal";
+                // param.category = "radrex";
+                document.getElementById('modalityTemplate').getOtherModalityList(param);
+                document.getElementById('bodypartTemplate').getOtherBodypartList(param);
+            }
+            setReadingTemplate(window.struct);
         }
 
         document.getElementById("closeBtn").addEventListener('click', function () {
@@ -214,7 +223,9 @@
         document.getElementById('modalityTemplate').addEventListener('activeTab', function (e) {
             if(e.detail.nextBtn == true){
                 let modality = e.detail.modality;
+                let category = e.detail.category;
                 g_readingTemplate.modality = modality;
+                g_readingTemplate.category = category;
                 document.getElementById('bodypartTab').disabled = false;
             }else{
                 document.getElementById('bodypartTab').disabled = true;
@@ -286,10 +297,6 @@
                 reportSaveEvent();
             }
         });
-
-        if(window.struct) {
-            setReadingTemplate(window.struct);
-        }
     });
 
     function setReadingTemplate(readingTemplate){
@@ -336,7 +343,6 @@
         param.readingTemplate = g_readingTemplate;
         param.flag = "rtSaveEvent";
         opener.window.postMessage(param, _url);
-
         window.close();
     }
 

@@ -852,6 +852,12 @@
                         // if(_this.waveform.length){modality.push(_this.waveform)}
                         // if(_this.pathology.length){modality.push(_this.pathology)}
                         // if(_this.other.length){modality.push(_this.other)}
+
+                        // TODO :: radrex, loinc에 대한 정립이 명확하면 수정.
+                        // reading Template를 저장할때 무슨 기준으로 저장할 것인가?
+                        detail.category = "nomal";
+                        // detail.category = "radrex";
+
                         detail.modality = modality;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
@@ -864,11 +870,33 @@
                     }
                 }
 
-                getOtherModalityList(modalityList){
-                    g_modalityList = modalityList;
+                getOtherModalityList(param){
+                    g_modalityList = param.modalityList;
+                    this.notRadrex = new Array();
+                    let category = param.category;
                     if(g_modalityList.length > 0){
-                        this.notRadrex = g_modalityList;
-                        this.modalCssHidden();
+                        if(category == "nomal"){
+                            this.modalCssHidden();
+                            for(let i=0; i<g_modalityList.length; i++){
+                                this.notRadrex.push( g_modalityList[i])
+                            }
+                        }else if(category == "loinc"){
+                            console.log("loinc");
+                        }else if(category == "radrex"){
+                            console.log("radrex");
+                        }
+                    }else{
+                        g_modalityList = param.facilitySensitive.modalityList;
+                        if(category == "nomal"){
+                            this.modalCssHidden();
+                            for(let i=0; i<g_modalityList.length; i++){
+                                this.notRadrex.push( g_modalityList[i])
+                            }
+                        }else if(category == "loinc"){
+                            console.log("loinc");
+                        }else if(category == "radrex"){
+                            console.log("radrex");
+                        }
                     }
                 }
 
@@ -879,17 +907,17 @@
 
                 setModality(readingTemplate){
                     let cnt = 0;
-                    if(readingTemplate.isRadrex){
-                        for (let i = 0; i < _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount; i++) {
+                    if(readingTemplate.category == "nomal"){
+                        for (let i = 0; i < _this.$.mdSelectedContens.children[8].children[1].children[1].childElementCount; i++) {
                             for (let k = 0; k < readingTemplate.modality.length; k++) {
-                                if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value)) {
+                                if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[8].children[1].children[1].children[8].value)) {
                                     for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
-                                        if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[0].children[0].innerText && !_this.$.modalityField.children[j].checked) {
+                                        if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[8].children[0].innerText && !_this.$.modalityField.children[j].checked) {8
                                             _this.$.modalityField.children[j].checked = true;
                                         }
                                     }
-                                    _this.$.mdSelectedContens.children[0].children[1].children[1].children[i].checked = true;
-                                    _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(i);
+                                    _this.$.mdSelectedContens.children[8].children[1].children[1].children[i].checked = true;
+                                    _this.$.mdSelectedContens.children[8].children[1].children[1].selectIndex(i);
                                 }
                             }
                             cnt++;
@@ -897,19 +925,23 @@
                                 _this.activeNextData();
                             }
                         }
-                    }else{
+                    }else if(readingTemplate.category == "radrex"){
                         this.$.mdFiledNonRadrex.checked = true;
                         for (let k = 0; k < readingTemplate.modality.length; k++) {
-                            if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[8].value)) {
+                            if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[0].children[1].children[1].children[i].value)) {
                                 for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
                                     if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[0].children[0].innerText && !_this.$.modalityField.children[j].checked) {
                                         _this.$.modalityField.children[j].checked = true;
                                     }
                                 }
-                                _this.$.mdSelectedContens.children[0].children[1].children[1].children[8].checked = true;
-                                _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(8);
+                                _this.$.mdSelectedContens.children[0].children[1].children[1].children[k].checked = true;
+                                _this.$.mdSelectedContens.children[0].children[1].children[1].selectIndex(k);
                             }
                         }
+                    }else if(readingTemplate.category == "loinc"){
+                        console.log("loinc");
+                        console.log(readingTemplate);
+
                     }
                 }
             }
