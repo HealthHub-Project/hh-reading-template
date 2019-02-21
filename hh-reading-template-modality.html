@@ -409,12 +409,14 @@
                                 <paper-checkbox id="mdSelectedNotRadrexAll" class="checkBox-style" noink>All</paper-checkbox>
                                 <iron-selector attr-for-selected="value" id="mdSelectedNotRadrex" selected-values="{{checkedNotRadrex}}"
                                                multi>
-                                    <dom-repeat items="{{notRadrex}}">
-                                        <template>
-                                            <paper-checkbox value="[[item]]" class="checkBox-style" noink>{{item}}
-                                            </paper-checkbox>
+                                    <template is="dom-repeat" items="{{notRadrex}}">
+                                        <template is="dom-if" if="{{item.checked}}">
+                                            <paper-checkbox value="[[item.modality]]" checked class="checkBox-style" noink>{{item.modality}}</paper-checkbox>
                                         </template>
-                                    </dom-repeat>
+                                        <template is="dom-if" if="{{!item.checked}}">
+                                            <paper-checkbox value="[[item.modality]]" class="checkBox-style" noink>{{item.modality}}</paper-checkbox>
+                                        </template>
+                                    </template>
                                 </iron-selector>
                             </div>
                         </div>
@@ -777,7 +779,6 @@
                             }
                             cnt++;
                             if(cnt == totCnt){
-                                console.log("test");
                                 _this.activeNextData();
                             }
                         }
@@ -878,7 +879,10 @@
                         if(category == "nomal"){
                             this.modalCssHidden();
                             for(let i=0; i<g_modalityList.length; i++){
-                                this.notRadrex.push( g_modalityList[i])
+                                let rt = new Object();
+                                rt.modality = g_modalityList[i];
+                                rt.checked = false;
+                                this.notRadrex.push(rt);
                             }
                         }else if(category == "loinc"){
                             console.log("loinc");
@@ -908,21 +912,31 @@
                 setModality(readingTemplate){
                     let cnt = 0;
                     if(readingTemplate.category == "nomal"){
-                        for (let i = 0; i < _this.$.mdSelectedContens.children[8].children[1].children[1].childElementCount; i++) {
-                            for (let k = 0; k < readingTemplate.modality.length; k++) {
-                                if (readingTemplate.modality[k].includes(_this.$.mdSelectedContens.children[8].children[1].children[1].children[8].value)) {
-                                    for (let j = 0; j < _this.$.modalityField.childElementCount; j++) {
-                                        if (_this.$.modalityField.children[j].innerText == _this.$.mdSelectedContens.children[8].children[0].innerText && !_this.$.modalityField.children[j].checked) {8
-                                            _this.$.modalityField.children[j].checked = true;
+                        this.notRadrex = new Array();
+                        this.$.mdFiledNonRadrex.checked = true;
+                        for(let i=0; i<g_modalityList.length; i++){
+                            let rt = new Object();
+                            rt.modality = g_modalityList[i];
+                            this.notRadrex.push(rt);
+                            cnt++;
+                            if(cnt == g_modalityList.length){
+                                let cnt2 = 0;
+                                for(let j=0; j<this.notRadrex.length; j++){
+                                    for(let k=0; k<readingTemplate.modality.length; k++){
+                                        // console.log(this.notRadrex[j].modality);
+                                        // console.log(readingTemplate.modality[k]);
+                                        if(this.notRadrex[j].modality.includes(readingTemplate.modality[k])){
+                                            this.notRadrex[j].checked = true;
+                                            this.checkedNotRadrex.push(this.notRadrex[j].modality);
+                                        }else if(!this.notRadrex[j].checked){
+                                            this.notRadrex[j].checked = false;
                                         }
                                     }
-                                    _this.$.mdSelectedContens.children[8].children[1].children[1].children[i].checked = true;
-                                    _this.$.mdSelectedContens.children[8].children[1].children[1].selectIndex(i);
+                                    cnt2++;
+                                    if(cnt2 == this.notRadrex.length){
+                                        this.activeNextData();
+                                    }
                                 }
-                            }
-                            cnt++;
-                            if(cnt == _this.$.mdSelectedContens.children[0].children[1].children[1].childElementCount){
-                                _this.activeNextData();
                             }
                         }
                     }else if(readingTemplate.category == "radrex"){
@@ -941,7 +955,6 @@
                     }else if(readingTemplate.category == "loinc"){
                         console.log("loinc");
                         console.log(readingTemplate);
-
                     }
                 }
             }
