@@ -244,7 +244,7 @@
 
                     this.$.importBtn.addEventListener('change', function (event) {
                         if(this.files[0].name.includes("ReadingTemplate") && this.files[0].type == "text/plain"){
-                            this.importRedingTemplateToJson(this.files);
+                            _this.importRedingTemplateToJson(this.files);
                             event.target.value = "";
                         }else{
                             event.target.value = "";
