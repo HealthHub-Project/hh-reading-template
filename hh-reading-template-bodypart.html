@@ -497,12 +497,16 @@
                                 <paper-checkbox id="bdSelectedNotRadrexAll" class="checkBox-style" noink>All</paper-checkbox>
                                 <iron-selector attr-for-selected="value" id="bdSelectedNotRadrex" selected-values="{{checkedNotRadrex}}"
                                                multi>
-                                    <dom-repeat items="{{notRadrex}}">
-                                        <template>
-                                            <paper-checkbox value="[[item]]" id="bdSelectedNotRadrex" class="checkBox-style" noink>{{item}}
+                                    <template is="dom-repeat" items="{{notRadrex}}">
+                                        <template is="dom-if" if="{{item.checked}}">
+                                            <paper-checkbox value="[[item.bodypart]]" checked id="bdSelectedNotRadrex" class="checkBox-style" noink>{{item.bodypart}}
                                             </paper-checkbox>
                                         </template>
-                                    </dom-repeat>
+                                        <template is="dom-if" if="{{!item.checked}}">
+                                            <paper-checkbox value="[[item.bodypart]]" id="bdSelectedNotRadrex" class="checkBox-style" noink>{{item.bodypart}}
+                                            </paper-checkbox>
+                                        </template>
+                                    </template>
                                 </iron-selector>
                             </div>
                         </div>
@@ -1153,12 +1157,18 @@
 
                 getOtherBodypartList(param){
                     let category = param.category;
+                    this.notRadrex = new Array();
                     if(param.bodypartList){
                         g_bodypartList = param.bodypartList;
                         if(g_bodypartList.length > 0){
                             if(category == "nomal"){
-                                this.notRadrex = g_bodypartList;
                                 this.cssHidden();
+                                for(let i =0; i<g_bodypartList.length; i++){
+                                    let rt = new Object();
+                                    rt.bodypart = g_bodypartList[i];
+                                    rt.checked = false;
+                                    this.notRadrex.push(rt);
+                                }
                             }else if(category == "loinc"){
                                 console.log("bodypart loinc");
                             }else if(category == "radrex"){
@@ -1199,8 +1209,34 @@
                 }
 
                 setBodypart(readingTemplate){
-                    if(readingTemplate.category =="radrex"){
-                        let cnt = 0;
+                    let cnt = 0;
+                    if(readingTemplate.category =="nomal"){
+                        this.notRadrex = new Array();
+                        this.$.bdFieldNotRadrex.checked = true;
+                        for(let i=0; i<g_bodypartList.length; i++){
+                            let rt = new Object();
+                            rt.bodypart = g_bodypartList[i];
+                            this.notRadrex.push(rt);
+                            cnt++;
+                            if(cnt == g_bodypartList.length){
+                                let cnt2 = 0;
+                                for(let j=0; j<this.notRadrex.length; j++){
+                                    for(let k=0; k<readingTemplate.bodypart.length; k++){
+                                        if(this.notRadrex[j].bodypart.includes(readingTemplate.bodypart[k])){
+                                            this.notRadrex[j].checked = true;
+                                            this.checkedNotRadrex.push(this.notRadrex[j].bodypart);
+                                        }else if(!this.notRadrex[j].checked){
+                                            this.notRadrex[j].checked = false;
+                                        }
+                                    }
+                                    cnt2++;
+                                    if(cnt2 == this.notRadrex.length){
+                                        _this.activeNextData();
+                                    }
+                                }
+                            }
+                        }
+                    }else if(readingTemplate.category =="radrex"){
                         for(let i=0; i<_this.$.bdSelectedContens.childElementCount; i++){
                             for(let j=0; j<_this.$.bdSelectedContens.children[i].children[1].children[1].childElementCount; j++){
                                 let selectedBodypart = _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].value;
@@ -1222,22 +1258,6 @@
                         }
                     }else if(readingTemplate.category =="loinc"){
 
-                    }else{
-                        this.$.bdFieldNotRadrex.checked = true
-                        for(let j=0; j<_this.$.bdSelectedContens.children[12].children[1].children[1].childElementCount; j++){
-                            let selectedBodypart = _this.$.bdSelectedContens.children[12].children[1].children[1].children[j].value;
-                            let result = _this.checkInputBodypart(selectedBodypart,readingTemplate);
-                            if(result){
-                                for (let k = 0; k < _this.$.bodypartField.childElementCount; k++) {
-                                    if (_this.$.bodypartField.children[k].innerText == _this.$.bdSelectedContens.children[12].children[0].innerText && !_this.$.bodypartField.children[k].checked){
-                                        _this.$.bodypartField.children[k].checked = true;
-                                    }
-                                }
-                                _this.$.bdSelectedContens.children[i].children[1].children[1].children[j].checked = true;
-                                _this.$.bdSelectedContens.children[i].children[1].children[1].selectIndex(j);
-                            }
-                        }
-                        _this.activeNextData();
                     }
                 }
 
