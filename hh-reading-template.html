@@ -216,8 +216,8 @@
                     });
 
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
-                        let g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        let g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         let struct = new Object();
                         if(g_readingTemplateList){
                             let param = new Object
@@ -324,23 +324,23 @@
                         let struct = event.data;
                         if(g_popup.window == null){
 
-                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                            // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                            // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                             struct.facilitySensitive = g_facilitySensitive;
                             g_popup.struct = struct;
                             g_popup.focus();
                         }else{
                             if(!g_popup.window.closed){
                                 g_popup.close();
-                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 struct.facilitySensitive = g_facilitySensitive;
                                 g_popup.struct = struct;
                                 g_popup.focus();
                                 // g_popup.reload();
                             }else{
-                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                // g_popup = window.open("/hh-reading-template-configure.html", "popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                 struct.facilitySensitive = g_facilitySensitive;
                                 g_popup.struct = struct;
                                 g_popup.focus();
