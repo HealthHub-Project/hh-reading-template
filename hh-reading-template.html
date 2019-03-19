@@ -159,8 +159,6 @@
             let g_SelectedRow = new Object();
             let g_facilitySensitive = new Object();
             let g_readingTemplateList = new Array();
-            let g_sortedTemplateList = new Array();
-            let g_tempSensitiveTemplateList = new Array();
             let g_popup = new Object();
             let message = new Object();
 
@@ -180,11 +178,12 @@
 
                 ready() {
                     super.ready();
-                    window.addEventListener("beforeunload", function (event) {
-                        // if (g_popup.window) {
-                        //     g_popup.close();
-                        // }
-                    });
+                    window.onbeforeunload = function (event) {
+                        if (g_popup.struct) {
+                            g_popup.close();
+                        }
+                    };
+
                     window.addEventListener('message', event => {
                         if(event.data.flag =="rtSaveEvent"){
                             _this.saveReadingTemplate(event.data.readingTemplate);
