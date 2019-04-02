@@ -466,9 +466,13 @@
                         if(g_readingTemplateList[i].seqNo == readingTemplate.seqNo){
                             if(readingTemplate.modality){
                                 g_readingTemplateList[i].modality = readingTemplate.modality;
+                            }else{
+                                g_readingTemplateList[i].modality = null;
                             }
                             if(readingTemplate.bodypart){
                                 g_readingTemplateList[i].bodypart = readingTemplate.bodypart;
+                            }else{
+                                g_readingTemplateList[i].bodypart = null;
                             }
                             if(readingTemplate.studyDescription){
                                 g_readingTemplateList[i].studyDescription = readingTemplate.studyDescription;

@@ -160,9 +160,9 @@
     <div class="class-paper-tabs">
         <paper-tabs id="reportTempalteConfigTab" selected="0" noink>
             <paper-tab id="modalityTab" value="modalityTab">Modality</paper-tab>
-            <paper-tab id="bodypartTab" value="bodypartTab" disabled>Bodypart</paper-tab>
-            <paper-tab id="studyDescTab" value="studyDescriptionTab" disabled>Study Description & Shortcut</paper-tab>
-            <paper-tab id="reportTab" value="reportTemplateTab" disabled>Report Template</paper-tab>
+            <paper-tab id="bodypartTab" value="bodypartTab" >Bodypart</paper-tab>
+            <paper-tab id="studyDescTab" value="studyDescriptionTab" >Study Description & Shortcut</paper-tab>
+            <paper-tab id="reportTab" value="reportTemplateTab" >Report Template</paper-tab>
         </paper-tabs>
     </div>
     <div class="class-ironPage">
@@ -189,22 +189,27 @@
 <script>
     let g_readingTemplate = new Object();
     // let _url = "http://127.0.0.1";
-    // let _url = "http://localhost";
+    // let _url = "http://localhost:8081";
     let _url = "https://www.hpacsweb.com";
+
 
     document.addEventListener("DOMContentLoaded", () => {
 
         if(window.struct){
+            // console.log(window.struct);
             if(window.struct.facilitySensitive){
                 let param = new Object();
                 param.modalityList = window.struct.facilitySensitive.modalityList;
                 param.bodypartList = window.struct.facilitySensitive.bodypartList;
                 param.category = "nomal";
                 // param.category = "radrex";
+                // param.category = "loinc";
                 document.getElementById('modalityTemplate').getOtherModalityList(param);
                 document.getElementById('bodypartTemplate').getOtherBodypartList(param);
             }
-            setReadingTemplate(window.struct);
+            if(window.struct.seqNo){
+                setReadingTemplate(window.struct);
+            }
         }
 
         document.getElementById("closeBtn").addEventListener('click', function () {
@@ -219,6 +224,16 @@
         document.getElementById("tabPage").addEventListener('selected-changed', function (e) {
             let tabIndex = e.detail.value;
             document.getElementById("reportTempalteConfigTab").selectIndex(tabIndex);
+        });
+
+        document.getElementById('modalityTemplate').addEventListener('checkedModality', function (e) {
+            let modality = e.detail;
+            g_readingTemplate.modality = modality;
+        });
+
+        document.getElementById('bodypartTemplate').addEventListener('checkedBodypart', function (e) {
+            let bodypart = e.detail;
+            g_readingTemplate.bodypart = bodypart;
         });
 
         document.getElementById('modalityTemplate').addEventListener('activeTab', function (e) {
@@ -301,11 +316,18 @@
     });
 
     function setReadingTemplate(readingTemplate){
+        if(readingTemplate.category){
+            g_readingTemplate.category = readingTemplate.category;
+        }
         if(readingTemplate.modality){
             document.getElementById('modalityTemplate').setModality(readingTemplate);
+        }else{
+            document.getElementById('modalityTemplate').setAllModality(readingTemplate);
         }
         if(readingTemplate.bodypart){
             document.getElementById('bodypartTemplate').setBodypart(readingTemplate);
+        }else{
+            document.getElementById('bodypartTemplate').setAllBodypart(readingTemplate);
         }
         if(readingTemplate.studyDescription){
             document.getElementById('studyDescTemplate').setStudyDesc(readingTemplate);

@@ -61,7 +61,8 @@
             }
 
             #nextBtn {
-                background: #dddddd;
+                /*background: #dddddd;*/
+                background: #0087cb;
             }
 
             #bdSelected12{
@@ -515,7 +516,7 @@
             </div>
             <div class="class-bd-btn">
                 <button id="prevBtn" class="btn">Prev</button>
-                <button id="nextBtn" class="btn" disabled>Next</button>
+                <button id="nextBtn" class="btn">Next</button>
             </div>
         </div>
     </template>
@@ -593,14 +594,14 @@
                      **/
 
                     this.$.bodypartFieldAll.addEventListener('change', function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         for (let i = 0; i < _this.$.bodypartField.childElementCount; i++) {
                             _this.$.bodypartField.children[i].checked = e.target.checked;
                         }
                     });
 
                     this.$.bdFieldAbdomen.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldAbdomen.checked){
                             _this.$.bdsAbdomen.hidden = false;
                             // _this.$.bdSelected1All.checked = true;
@@ -619,7 +620,7 @@
                     });
 
                     this.$.bdFieldBreast.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldBreast.checked){
                             _this.$.bdsBreast.hidden = false;
                             // _this.$.bdSelected2All.checked = true;
@@ -650,7 +651,7 @@
                     // });
 
                     this.$.bdFieldChest.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldChest.checked){
                             _this.$.bdsChest.hidden = false;
                             // _this.$.bdSelected3All.checked = true;
@@ -668,7 +669,7 @@
                     });
 
                     this.$.bdFieldCardiovascular.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldCardiovascular.checked){
                             _this.$.bdsCardiovascular.hidden = false;
                             // _this.$.bdSelected4All.checked = true;
@@ -687,7 +688,7 @@
                     });
 
                     this.$.bdFieldDental.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldDental.checked){
                             _this.$.bdsDental.hidden = false;
                             // _this.$.bdSelected5All.checked = true;
@@ -706,7 +707,7 @@
                     });
 
                     this.$.bdFieldGenitourinary.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldGenitourinary.checked){
                             _this.$.bdsGenitourinary.hidden = false;
                             // _this.$.bdSelected6All.checked = true;
@@ -725,7 +726,7 @@
                     });
 
                     this.$.bdFieldAngioAndIntervention.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldAngioAndIntervention.checked){
                             _this.$.bdsAngioAndIntervention.hidden = false;
                             // _this.$.bdSelected7All.checked = true;
@@ -743,7 +744,7 @@
                     });
 
                     this.$.bdFieldHeadAndNeck.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldHeadAndNeck.checked){
                             _this.$.bdsHeadAndNeck.hidden = false;
                             // _this.$.bdSelected8All.checked = true;
@@ -762,7 +763,7 @@
                     });
 
                     this.$.bdFieldMusculoskeletal.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldMusculoskeletal.checked){
                             _this.$.bdsMusculoskeletal.hidden = false;
                             // _this.$.bdSelected9All.checked = true;
@@ -781,7 +782,7 @@
                     });
 
                     this.$.bdFieldNeuro.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldNeuro.checked){
                             _this.$.bdsNeuro.hidden = false;
                             // _this.$.bdSelected10All.checked = true;
@@ -800,7 +801,7 @@
                     });
 
                     this.$.bdFieldGeneral.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldGeneral.checked){
                             _this.$.bdsGeneral.hidden = false;
                             // _this.$.bdSelected11All.checked = true;
@@ -819,7 +820,7 @@
                     });
 
                     this.$.bdFieldNotRadrex.addEventListener('checked-changed',function (e) {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                         if(_this.$.bdFieldNotRadrex.checked){
                             _this.$.bdsNotRadrex.hidden = false;
                         }else{
@@ -1022,33 +1023,45 @@
                     });
 
                     this.$.bdSelected1.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected2.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected3.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected4.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected5.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected6.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected7.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
                     this.$.bdSelected8.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
+                        // _this.activeNextData();
                     })
 
-                    this.$.bdSelectedNotRadrex.addEventListener('selected-items-changed', function () {
-                        _this.activeNextData();
-                    })
+                    this.$.bdSelectedNotRadrex.addEventListener('selected-items-changed', function (e) {
+                        if(e.detail.value.length > 0){
+                            let cntBody =0
+                            let param = new Object()
+                            let bodypart = new Array();
+                            for(let i=0; i<e.detail.value.length; i++){
+                                bodypart.push(e.detail.value[i].innerText);
+                                cntBody++;
+                                if(cntBody == e.detail.value.length){
+                                    param.detail = bodypart;
+                                    _this.dispatchEvent(new CustomEvent('checkedBodypart',param));
+                                }
+                            }
+                        }
+                    });
 
                     this.$.prevBtn.addEventListener('click', function () {
                         _this.dispatchEvent(new CustomEvent('prevTabEvent'));
@@ -1147,8 +1160,8 @@
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
                     } else {
-                        _this.$.nextBtn.style.backgroundColor = "#dddddd";
-                        _this.$.nextBtn.disabled = true;
+                        // _this.$.nextBtn.style.backgroundColor = "#dddddd";
+                        // _this.$.nextBtn.disabled = true;
                         detail.nextBtn = false;
                         param.detail = detail;
                         _this.dispatchEvent(new CustomEvent('activeTab', param));
@@ -1206,6 +1219,10 @@
 
                     // c_case의 bodypart 가져오기
                     this.$.bdFieldNotRadrex.hidden = false;
+                }
+
+                setAllBodypart(){
+                    console.log("ALL BODYPART");
                 }
 
                 setBodypart(readingTemplate){
