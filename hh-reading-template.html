@@ -306,6 +306,7 @@
                             {
                                 name: 'delete',
                                 action: function () {
+                                    console.log("ddddd");
                                     _this.deleteReadingTemplate(params.node.data);
                                 }
                             }
@@ -484,19 +485,30 @@
                             }
                             if(readingTemplate.shortcut){
                                 g_readingTemplateList[i].shortcut = readingTemplate.shortcut;
+                            }else{
+                                g_readingTemplateList[i].shortcut  = "";
                             }
                             if(readingTemplate.title){
                                 g_readingTemplateList[i].title = readingTemplate.title;
+                            }else{
+                                g_readingTemplateList[i].title  = "";
                             }
                             if(readingTemplate.finding){
                                 g_readingTemplateList[i].finding = readingTemplate.finding;
+                            }else{
+                                g_readingTemplateList[i].finding  = "";
                             }
                             if(readingTemplate.conclusion){
                                 g_readingTemplateList[i].conclusion = readingTemplate.conclusion;
+                            }else{
+                                g_readingTemplateList[i].conclusion  = "";
                             }
                             if(readingTemplate.recommendation){
                                 g_readingTemplateList[i].recommendation = readingTemplate.recommendation;
+                            }else{
+                                g_readingTemplateList[i].recommendation  = "";
                             }
+
                             _this.gridOptions.api.setRowData(g_readingTemplateList);
                             let param = new Object();
                             let detail = new Object();
