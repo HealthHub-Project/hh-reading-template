@@ -39,7 +39,7 @@
 
             .class-studyDescription {
                 height: 40px;
-                width: 70%;
+                width: 75%;
                 margin-top: 1%;
                 color: #aaaaaa;
                 background-color: #2c333f;
@@ -88,23 +88,6 @@
                 margin: 5px;
             }
 
-            #prevBtn {
-                background: #ff646b;
-            }
-
-            #nextBtn {
-                background: #0087cb;
-            }
-
-            #clearBtn {
-                background: #4c5667;
-            }
-
-            .class-search {
-                width: 90%;
-                margin-left: 5%;
-            }
-
             .class-wrap {
                 display: flex;
                 height: calc(100% - 100px);
@@ -131,31 +114,13 @@
                 color: #aaaaaa;
                 font-size: 13px;
             }
-
-            .class-wrap-shortcut{
-                height: 100px;
-                width: 140px;
-                display: flex;
-                align-items: center;
-                padding-left: 20px;
-                background-color: #252934;
-                font-weight: bold;
-                box-shadow: 0px 3px 9px -2px #000000;
-                color: #aaaaaa;
-                font-size: 13px;
-            }
             .class-select-desc{
                 margin-left: 5%;
                 width: 90%;
             }
-            .class-warp-textarea{
-                height: 40%;
-                width: 80%;
-                padding: 5px;
-            }
             .context-textarea{
                 width: 91%;
-                height: 185px;
+                height: 70px;
                 margin: 4% 4% 0 4%;
             }
             .studyDesc-inputBox{
@@ -168,23 +133,23 @@
             <div class="class-input">
                 <div class="class-wrap">
                     <div class="class-studyDescription">
-                        <div class="class-sd-wrap" style="height: 165px; width: 75%; background-color: #252b36; margin: 2% 10% 2% 20%">
-                            <div class="studyDesc-title">Study Description</div>
+                        <div class="class-sd-wrap" style="height: 140px; width: 75%; background-color: #252b36; margin: 2% 10% 2% 10%">
+                            <div class="studyDesc-title">Search Study Description</div>
                             <div class="studyDesc-inputBox">
-                                <paper-input id="inputStudyDesc" label="INPUT STUDY DESCRIPTION" class="class-select-desc"
+                                <paper-input id="inputStudyDesc" label="Search Study Description" class="class-select-desc"
                                              char-counter maxlength="50"></paper-input>
                             </div>
                         </div>
-                        <div class="class-sd-selected-wrap" style="height: 280px; width: 75%; background-color: #252b36; margin: 3% 10% 10% 20%">
+                        <div class="class-sd-selected-wrap" style="height: 130px; width: 75%; background-color: #252b36; margin: 3% 10% 10% 10%">
                             <div style="border-top: #aaaaaa; color: #aaaaaa;">
-                                <div class="studyDesc-title">Selected Study Description</div>
-                                <iron-autogrow-textarea class="context-textarea" id="selectStudyDesc" placeholder="Selected Study Description" readonly
+                                <div class="studyDesc-title">Input Study Description</div>
+                                <iron-autogrow-textarea class="context-textarea" id="selectStudyDesc" placeholder="Selected Study Description"
                                                         value="{{studyDesc}}"></iron-autogrow-textarea>
                             </div>
                         </div>
                     </div>
                     <div class="class-studyDescription-list">
-                        <div class="studyDesc-list" style="height: 92%; width: 82%; background-color: #252b36; margin: 2% 10% 10% 0%">
+                        <div class="studyDesc-list" style="height: 275px; width: 82%; background-color: #252b36; margin: 2% 10% 10% 0%">
                             <ag-grid-polymer
                                     class="ag-theme-balham-dark"
                                     rowData="{{rowData}}"
@@ -194,18 +159,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="class-shortcut">
-                    <div class="class-wrap-shortcut">
-                        Report-template<Br>Shortcut
-                    </div>
-                    <paper-input class="class-search" id="inputShortcut" label="INPUT REPORT-TEMPLATE SHORTCUT" style="width: 80%; margin-left: 2%"
-                                 value="{{shortcut}}"char-counter maxlength="30"></paper-input>
-                </div>
-            </div>
-            <div class="class-sd-btn">
-                <button id="clearBtn" class="btn">Clear</button>
-                <button id="prevBtn" class="btn">Prev</button>
-                <button id="nextBtn" class="btn">Next</button>
             </div>
         </div>
     </template>
@@ -272,59 +225,17 @@
 
                         g_resultDesc = event.data.studyDescription;
                         param.detail = detail;
-                        _this.dispatchEvent(new CustomEvent('activeTab', param));
+                        _this.dispatchEvent(new CustomEvent('selectedStudDesc', param));
                     }
                 }
 
                 ready() {
                     super.ready();
                     this.readJsonFile();
-
-                    this.$.prevBtn.addEventListener('click', function () {
-                        _this.dispatchEvent(new CustomEvent('prevTabEvent'));
-                    });
-
                     this.$.inputStudyDesc.addEventListener('keyup', function (e) {
                         _this.searchStudyDesc();
                     });
 
-                    this.$.inputShortcut.addEventListener('focused-changed', function (e) {
-                        let param = new Object();
-                        let detail = new Object();
-                        detail.shortcut = _this.$.inputShortcut.value;
-                        if(_this.validationShortcut(_this.$.inputShortcut.value)){
-                            let message = new Object();
-                            message.text = "Shortcut can not be duplicated.";
-                            message.isErr = true;
-                            _this.openToast(message);
-                            _this.$.inputShortcut.value = "";
-                        }else{
-                            if(_this.studyDesc){
-                                detail.studyDesc = _this.studyDesc;
-                            }
-                            param.detail = detail;
-                            if (_this.$.inputShortcut.value ) {
-                                _this.dispatchEvent(new CustomEvent('activeTab', param));
-                            }
-                        }
-                    });
-
-                    this.$.nextBtn.addEventListener('click', function () {
-                        let param = new Object();
-                        let detail = new Object();
-                        let desc = _this.studyDesc;
-                        let shortcut = _this.shortcut;
-                        detail.studyDesc = desc;
-                        detail.shortcut = shortcut;
-                        param.detail = detail;
-                        _this.dispatchEvent(new CustomEvent('activeTab', param));
-                        _this.dispatchEvent(new CustomEvent('nextTabEvent'));
-                    });
-
-                    this.$.clearBtn.addEventListener('click', function () {
-                        _this.$.inputStudyDesc.value = "";
-                        _this.$.inputShortcut.value = "";
-                    });
                 }
 
                 openToast(message){
@@ -404,6 +315,13 @@
                     }
                     if(readingTemplate.shortcut){
                         this.shortcut = readingTemplate.shortcut;
+                    }
+
+                }
+
+                getInputStudyDesc(){
+                    if(this.$.selectStudyDesc.value){
+                        return this.$.selectStudyDesc.value;
                     }
                 }
 

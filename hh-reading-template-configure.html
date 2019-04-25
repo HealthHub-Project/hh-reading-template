@@ -12,6 +12,7 @@
 <link rel="import" href="../paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../paper-tabs/paper-tabs.html">
+<link rel="import" href="../paper-button/paper-button.html">
 <link rel="import" href="../iron-pages/iron-pages.html">
 <link rel="import" href="../paper-toast/paper-toast.html">
 <link rel="import" href="../paper-checkbox/paper-checkbox.html">
@@ -31,10 +32,8 @@
 <!--<link rel="import" href="./bower_components/iron-selector/iron-selector.html">-->
 <!--<link rel="import" href="./bower_components/paper-input/paper-input.html">-->
 
-<link rel="import" href="hh-reading-template-modality.html">
-<link rel="import" href="hh-reading-template-bodypart.html">
 <link rel="import" href="hh-reading-template-studydesc.html">
-<link rel="import" href="hh-reading-template-report.html">
+<link rel="import" href="hh-reading-template-sensitive.html">
 <custom-style>
     <style is="custom-style">
         paper-tabs {
@@ -70,12 +69,13 @@
     .container {
         height: 100%;
         width: 100%;
-        background-color: #35363d;
+        background-color: #333a47;
     }
 
     .class-paper-tabs {
         height: 40px;
         width: 100%;
+        margin-bottom: 10px;
     }
 
     .class-ironPage {
@@ -84,7 +84,7 @@
     }
 
     .class-btn {
-        height: 40px;
+        height: 47px;
         width: 100%;
         text-align: center;
         background-color: #14171c;
@@ -153,188 +153,434 @@
         --paper-toast-background-color: #0087cb;
     }
 
+    .class-sensitive{
+        background-color: #333a47;
+        height: 600px;
+        width: 100%;
+        display: flex;
+        align-content: center;
+        margin-bottom: 15px;
+    }
+
+    .class-modality{
+        height: 65%;
+        width: 90%;
+        margin-top: 20px; // TODO : 카테고리 처리시 제거
+    margin-right: 5%;
+    }
+
+    .class-bodypart{
+        height: 65%;
+        width: 90%;
+    }
+
+    .class-studyDescription{
+        background-color: #333a47;
+        height: 52%;
+        width: 90%;
+        margin-bottom: 10px;
+    }
+
+    .class-report{
+        background-color: #333a47;
+        height: 70%;
+        width: 90%;
+        margin-bottom: 15px;
+    }
+    /*.class-context{*/
+    /*height: calc(100% - 40px);*/
+    /*width: 100%;*/
+    /*}*/
+    .class-btn{
+        background-color: #252934;
+        height: 45px;
+        width: 100%;
+    }
+
+    .class-title {
+        height: 30px;
+        display: flex;
+        align-items: center;
+        padding-left: 10px;
+        background-color: #252934;
+        font-weight: bold;
+        font-size: 18px;
+        box-shadow: 0px 3px 9px -2px #000000;
+        color: #aaaaaa;
+        font-size: 13px;
+    }
+
+    .class-context {
+        height: 85%;
+        width: calc(100% - 19px);
+        padding: 10px;
+        color: #aaaaaa;
+        background-color: #2c333f;
+        font-size: 14px;
+    }
+
+    paper-input {
+        --paper-input-container-focus-color: #0087cb;
+        --paper-input-container-input-color: #aaaaaa;
+        --paper-input-container-input-text-align: initial;
+        --paper-input-container-label-color: #aaaaaa;
+    }
+
+    iron-autogrow-textarea{
+        font-size: 15px;
+        background-color: #252934;
+        color: #aaaaaa;
+        resize: none;
+        margin-top: 10px;
+    }
+    .wrap-report-content-context{
+        width: 88%;
+        height: 420px;
+        margin: 1% 0 0 4%;
+    }
+    .context-textarea{
+        width: 100%;
+        height: 27%;
+    }
+    .textarea-titleShortcut{
+        /*width: 50%;*/
+    }
+    .class-contents{
+        /*height: calc(100% - 95px);;*/
+        height: calc(95% - 5px);
+        overflow-y:auto;
+        padding-left: 9%;
+    }
+    .class-templateSensitive{
+        height: 80%;
+        width: 96%;
+        margin-left: 10px;
+        background-color: #252b36;
+    }
+    .class-templateStudyDesc{
+        height: 100px;
+        width: 100px;
+    }
+    .class-wrap-title{
+        width: 88%;
+        margin-left:4%;
+        margin-bottom: 5%;
+    }
+    .class-input{
+        width: 85%;
+        margin-left: 5%;
+    }
+    .class-template{
+        width: 100%;
+        /*height: 76%;*/
+        height: 78%;
+    }
 </style>
 <body style="background-color: deepskyblue">
-<div class="container">
+<div class="container" style="color: #aaaa">
     <paper-toast id="saveToast" duration="1000" class="save-toast"></paper-toast>
-    <div class="class-paper-tabs">
-        <paper-tabs id="reportTempalteConfigTab" selected="0" noink>
-            <paper-tab id="modalityTab" value="modalityTab">Modality</paper-tab>
-            <paper-tab id="bodypartTab" value="bodypartTab" >Bodypart</paper-tab>
-            <paper-tab id="studyDescTab" value="studyDescriptionTab" >Study Description & Shortcut</paper-tab>
-            <paper-tab id="reportTab" value="reportTemplateTab" >Report Template</paper-tab>
-        </paper-tabs>
-    </div>
-    <div class="class-ironPage">
-        <iron-pages id="tabPage" class="class-tabPage" selected="0">
-            <div>
-                <hh-reading-template-modality id="modalityTemplate"></hh-reading-template-modality>
+    <!--<div class="class-paper-tabs" hidden>-->
+    <!--<paper-tabs id="reportTempalteConfigTab" selected="0" noink>-->
+    <!--<paper-tab id="modalityTab" value="modalityTab">Modality</paper-tab>-->
+    <!--<paper-tab id="bodypartTab" value="bodypartTab" >Bodypart</paper-tab>-->
+    <!--<paper-tab id="studyDescTab" value="studyDescriptionTab" >Study Description & Shortcut</paper-tab>-->
+    <!--<paper-tab id="reportTab" value="reportTemplateTab" >Report Template</paper-tab>-->
+    <!--</paper-tabs>-->
+    <!--</div>-->
+    <div class="class-contents">
+        <div class="class-modality">
+            <div class="class-title">Modality</div>
+            <div class="class-context" >
+                <div class="class-input">
+                    <paper-input id="inputSearchModality" label="Search Modality" class="class-search-input"
+                                 char-counter maxlength="50" hidden></paper-input>
+                </div>
+                <div class="class-template">
+                    <hh-reading-template-sensitive id="hhTemplateModalitySensitive" class="class-templateSensitive">
+                    </hh-reading-template-sensitive>
+                </div>
             </div>
-            <div>
-                <hh-reading-template-badypart id="bodypartTemplate"></hh-reading-template-badypart>
+        </div>
+        <div class="class-bodypart">
+            <div class="class-title">Bodypart</div>
+            <div class="class-context">
+                <div class="class-input">
+                    <paper-input id="inputSearchBodypart" label="Search Bodypart" class="class-search-input"
+                                 char-counter maxlength="50" hidden></paper-input>
+                </div>
+                <div class="class-template">
+                    <hh-reading-template-sensitive id="hhTemplateBodypartSensitive" class="class-templateSensitive">
+                    </hh-reading-template-sensitive>
+                </div>
             </div>
-            <div>
-                <hh-reading-template-studydesc id="studyDescTemplate"></hh-reading-template-studydesc>
+        </div>
+        <div class="class-studyDescription">
+            <div class="class-title">StudyDescription</div>
+            <div class="class-context">
+                <hh-reading-template-studydesc id="hhTemplateStudyDescription" class="class-templateStudyDesc"></hh-reading-template-studydesc>
             </div>
-            <div>
-                <hh-reading-template-report id="reportTemplate"></hh-reading-template-report>
+        </div>
+        <div class="class-report">
+            <div class="class-title">Report</div>
+            <div class="class-context" style="height: 560px;">
+                <div class="wrap-report-content">
+                    <div class="class-wrap-title">
+                        <input type="hidden" id="seqNo">
+                        <input type="hidden" id="hotKey1">
+                        <input type="hidden" id="hotKey2">
+                        <paper-input label="Title" id="title" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>
+                        <paper-input label="Shortcut" id="shortcut" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>
+                    </div>
+                    <div class="wrap-report-content-context">
+                        <iron-autogrow-textarea class="context-textarea" id="finding" placeholder="Finding"></iron-autogrow-textarea>
+                        <iron-autogrow-textarea class="context-textarea" id="conclusion" placeholder="Conclusion"></iron-autogrow-textarea>
+                        <iron-autogrow-textarea class="context-textarea" id="recommendation" placeholder="Recommendation"></iron-autogrow-textarea>
+                    </div>
+                </div>
             </div>
-        </iron-pages>
+        </div>
     </div>
     <div class="class-btn">
+        <button id="saveBtn" class="btn">Save</button>
         <button id="closeBtn" class="btn">Close</button>
     </div>
 </div>
 </body>
 <script>
+    let g_tempSelected = new Array();
     let g_readingTemplate = new Object();
+    let g_readingTemplateList = new Object();
+    let g_param = new Object();
     let _url = document.location.href;
-
 
     document.addEventListener("DOMContentLoaded", () => {
 
+        // let modality = [1,2,3];
+        // document.getElementById("hhTemplateModalitySensitive").sensitiveList.push(modality);
         if(window.struct){
             // console.log(window.struct);
             if(window.struct.facilitySensitive){
-                let param = new Object();
-                param.modalityList = window.struct.facilitySensitive.modalityList;
-                param.bodypartList = window.struct.facilitySensitive.bodypartList;
-                param.category = "nomal";
-                // param.category = "radrex";
+                if(window.struct.facilitySensitive.modalityList && !window.struct.facilitySensitive.bodypartList){
+                    let param = new Object();
+                    param.modalityList = window.struct.facilitySensitive.modalityList;
+
+                    setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                }
+                if(!window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
+                    let param = new Object();
+                    param.modalityList = window.struct.facilitySensitive.modalityList;
+                    param.bodypartList = window.struct.facilitySensitive.bodypartList;
+
+                    setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                    setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
+                }
+                if(window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
+                    let param = new Object();
+                    param.modalityList = window.struct.facilitySensitive.modalityList;
+                    param.bodypartList = window.struct.facilitySensitive.bodypartList;
+
+                    setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                    setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
+                }
+
                 // param.category = "loinc";
-                document.getElementById('modalityTemplate').getOtherModalityList(param);
-                document.getElementById('bodypartTemplate').getOtherBodypartList(param);
+                // param.category = "radrex";
+                // param.category = "noaml";
+                // document.getElementById('modalityTemplate').getOtherModalityList(param);
+                // document.getElementById('bodypartTemplate').getOtherBodypartList(param);
+            }else{
+                console.log("")
             }
             if(window.struct.seqNo){
                 setReadingTemplate(window.struct);
             }
         }
 
+        document.getElementById("saveBtn").addEventListener('click', function () {
+            getSensitiveList()
+            getInputStudyDesc();
+            if(setReadingTemplateReport()){
+                console.log("readingTemplate Save");
+                console.log(g_readingTemplate);
+                if(g_readingTemplate.seqNo){
+                    reportUpdateEvent();
+                }else{
+                    reportSaveEvent();
+                }
+            }else{
+                // console.log(g_readingTemplate);
+                // console.log("readingTemplate Failed");
+            }
+        });
+
         document.getElementById("closeBtn").addEventListener('click', function () {
             window.close();
         });
 
-        document.getElementById("reportTempalteConfigTab").addEventListener('selected-changed', function (e) {
-            let pageIndex = e.detail.value;
-            document.getElementById("tabPage").selectIndex(pageIndex);
+        document.getElementById('inputSearchModality').addEventListener('keyup',function (e) {
+            let inputString = document.getElementById('inputSearchModality').value;
+            document.getElementById('hhTemplateModalitySensitive').searchSensitive(inputString);
         });
 
-        document.getElementById("tabPage").addEventListener('selected-changed', function (e) {
-            let tabIndex = e.detail.value;
-            document.getElementById("reportTempalteConfigTab").selectIndex(tabIndex);
+        document.getElementById('inputSearchBodypart').addEventListener('keyup',function (e) {
+            let inputString = document.getElementById('inputSearchBodypart').value;
+            document.getElementById('hhTemplateBodypartSensitive').searchSensitive(inputString);
         });
 
-        document.getElementById('modalityTemplate').addEventListener('checkedModality', function (e) {
-            let modality = e.detail;
-            g_readingTemplate.modality = modality;
-        });
-
-        document.getElementById('bodypartTemplate').addEventListener('checkedBodypart', function (e) {
-            let bodypart = e.detail;
-            g_readingTemplate.bodypart = bodypart;
-        });
-
-        document.getElementById('modalityTemplate').addEventListener('activeTab', function (e) {
-            if(e.detail.nextBtn == true){
-                let modality = e.detail.modality;
-                let category = e.detail.category;
-                g_readingTemplate.modality = modality;
-                g_readingTemplate.category = category;
-                document.getElementById('bodypartTab').disabled = false;
-            }else{
-                document.getElementById('bodypartTab').disabled = true;
-            }
-        });
-
-        document.getElementById('bodypartTemplate').addEventListener('activeTab', function (e) {
-            if(e.detail.nextBtn == true){
-                let bodypart = e.detail.bodypart;
-                g_readingTemplate.bodypart = bodypart;
-                document.getElementById('studyDescTab').disabled = false;
-                document.getElementById('reportTab').disabled = false;
-            }else{
-                document.getElementById('studyDescTab').disabled = true;
-                document.getElementById('reportTab').disabled = true;
-            }
-        });
-
-        document.getElementById('studyDescTemplate').addEventListener('activeTab', function (e) {
-            if(e.detail.studyDesc && e.detail.shortcut){
-                g_readingTemplate.studyDescription = e.detail.studyDesc;
-                g_readingTemplate.shortcut = e.detail.shortcut;
-            }else {
-                if(e.detail.studyDesc){
-                    g_readingTemplate.studyDescription = e.detail.studyDesc;
-                }else if(e.detail.shortcut){
-                    g_readingTemplate.shortcut = e.detail.shortcut;
+        document.getElementById('hhTemplateModalitySensitive').addEventListener('selectedSensitive',function (e) {
+            if(e.detail.modalityList){
+                g_readingTemplate.modality = e.detail.modalityList;
+                if(e.detail.modalityList.length > 0){
+                    g_readingTemplate.modality = e.detail.modalityList;
+                }else if(e.detail.modalityList.length == 0){
+                    delete g_readingTemplate['modality'];
                 }
+            }else if(!e.detail.modalityList){
+                delete g_readingTemplate['modality'];
             }
         });
 
-        document.getElementById('modalityTemplate').addEventListener('nextTabEvent', function () {
-            nextTabEvent();
+        document.getElementById('hhTemplateBodypartSensitive').addEventListener('selectedSensitive',function (e) {
+            if(e.detail.bodypartList){
+                if(e.detail.bodypartList.length > 0){
+                    g_readingTemplate.bodypart = e.detail.bodypartList;
+                }else if(e.detail.bodypartList.length == 0){
+                    delete g_readingTemplate['bodypart'];
+                }
+            }else if(!e.detail.bodypartList){
+                delete g_readingTemplate['bodypart'];
+            }
         });
 
-        document.getElementById('bodypartTemplate').addEventListener('prevTabEvent', function () {
-            prevTabEvent();
-        });
+        document.getElementById('hhTemplateStudyDescription').addEventListener('selectedStudDesc',function (e) {
+            g_readingTemplate.studyDescription = e.detail.studyDesc;
+        })
 
-        document.getElementById('bodypartTemplate').addEventListener('nextTabEvent', function () {
-            nextTabEvent();
-        });
+        window.onload = function(){
+            // document.getElementById('hhTemplateModalitySensitive').setCheckSensitiveList(g_param.modality);
+            // document.getElementById('hhTemplateBodypartSensitive').setCheckSensitiveList(g_param.bodypart);
+        }
 
-        document.getElementById('studyDescTemplate').addEventListener('nextTabEvent', function () {
-            nextTabEvent();
-        });
+    }); // ready
 
-        document.getElementById('studyDescTemplate').addEventListener('prevTabEvent', function () {
-            prevTabEvent();
-        });
+    function getSensitiveList(){
+        let modality = document.getElementById('hhTemplateModalitySensitive').getSensitiveList();
+        let bodypart =document.getElementById('hhTemplateBodypartSensitive').getSensitiveList();
 
-        document.getElementById('reportTemplate').addEventListener('prevTabEvent', function () {
-            prevTabEvent();
-        });
+        if(modality){
+            g_readingTemplate.modality =modality;
+        }
+        if(bodypart){
+            g_readingTemplate.bodypart = bodypart;
+        }
+    }
 
-        document.getElementById('reportTemplate').addEventListener('saveReportEvent', function (e) {
-            g_readingTemplate.title = e.detail.title;
-            if(e.detail.finding){g_readingTemplate.finding = e.detail.finding;}
-            if(e.detail.conclusion){g_readingTemplate.conclusion = e.detail.conclusion;}
-            if(e.detail.recommendation){g_readingTemplate.recommendation = e.detail.recommendation;}
-            if(e.detail.seqNo){g_readingTemplate.seqNo = e.detail.seqNo;}
-            if(e.detail.displayOrder){g_readingTemplate.displayOrder = e.detail.displayOrder;}
-            if(e.detail.hotkey1){g_readingTemplate.hotkey1 = e.detail.hotkey1;}
-            if(e.detail.hotkey2){g_readingTemplate.hotkey2 = e.detail.hotkey2;}
+    function getInputStudyDesc(){
+        let studyDescription = document.getElementById('hhTemplateStudyDescription').getInputStudyDesc();
+        if(studyDescription){
+            g_readingTemplate.studyDescription = studyDescription;
+        }
+    }
 
-            if(e.detail.seqNo){
-                reportUpdateEvent();
+    function setReadingTemplateReport(){
+        let title = document.getElementById('title').value;
+        let finding = document.getElementById('finding').value;
+        let conclusion = document.getElementById('conclusion').value;
+        let recommendation = document.getElementById('recommendation').value;
+        let flagReport = Boolean((finding) || (conclusion) || (recommendation));
+        if((title.length == 0) || !(flagReport)){
+            document.getElementById("saveToast").style.backgroundColor = "#ff646b";
+            if(title.length == 0){
+                document.getElementById('saveToast').text = "Please input title";
+                document.getElementById('saveToast').open();
+                return false;
+            }else if(!flagReport){
+                document.getElementById('saveToast').text = "Please input report";
+                document.getElementById('saveToast').open();
+                return false;
+            }
+        }else{
+            if(document.getElementById('shortcut').value.length > 0){
+                g_readingTemplate.shortcut = document.getElementById('shortcut').value;
             }else{
-                reportSaveEvent();
+                delete g_readingTemplate['shortcut'];
             }
-        });
-    });
+
+            g_readingTemplate.title = title;
+
+            if(finding){
+                g_readingTemplate.finding = finding;
+            }else if(g_readingTemplate.finding){
+                delete g_readingTemplate['finding'];
+            }
+            if(conclusion){
+                g_readingTemplate.conclusion = conclusion;
+            }else if(g_readingTemplate.conclusion){
+                delete g_readingTemplate['conclusion'];
+            }
+            if(recommendation){
+                g_readingTemplate.recommendation = recommendation;
+            }else if(g_readingTemplate.recommendation){
+                delete g_readingTemplate['recommendation'];
+            }
+            return true;
+        }
+    }
+
+    function setModalitySensitiveList(modalityList){
+        let param = new Object();
+        param.sensitiveList = modalityList;
+        document.getElementById("hhTemplateModalitySensitive").setSensitiveList(param);
+    }
+
+    function setBodypartSensitiveList(bodypartList){
+        let param = new Object();
+        param.sensitiveList = bodypartList;
+        document.getElementById("hhTemplateBodypartSensitive").setSensitiveList(param);
+    }
 
     function setReadingTemplate(readingTemplate){
-        if(readingTemplate.category){
+        if (readingTemplate.seqNo) {
+            g_readingTemplate.seqNo = readingTemplate.seqNo;
+            g_readingTemplate.displayOrder = readingTemplate.displayOrder;
+        }
+
+        if (readingTemplate.shortcut) {
+            document.getElementById('shortcut').value = readingTemplate.shortcut;
+        }
+
+        if (readingTemplate.category) {
             g_readingTemplate.category = readingTemplate.category;
         }
-        if(readingTemplate.modality){
-            document.getElementById('modalityTemplate').setModality(readingTemplate);
+        if (readingTemplate.modality) {
+            document.getElementById('hhTemplateModalitySensitive').setSensitiveDB(readingTemplate.modality);
         }else{
-            document.getElementById('modalityTemplate').setAllModality(readingTemplate);
+            document.getElementById('hhTemplateModalitySensitive').clickAllBtn();
         }
-        if(readingTemplate.bodypart){
-            document.getElementById('bodypartTemplate').setBodypart(readingTemplate);
+        if (readingTemplate.bodypart) {
+            document.getElementById('hhTemplateBodypartSensitive').setSensitiveDB(readingTemplate.bodypart);
         }else{
-            document.getElementById('bodypartTemplate').setAllBodypart(readingTemplate);
+            document.getElementById('hhTemplateBodypartSensitive').clickAllBtn();
         }
-        if(readingTemplate.studyDescription){
-            document.getElementById('studyDescTemplate').setStudyDesc(readingTemplate);
+        if (readingTemplate.studyDescription) {
+            document.getElementById('hhTemplateStudyDescription').setStudyDesc(readingTemplate);
         }
-        if(readingTemplate.title || readingTemplate.finding || readingTemplate.conclusion || readingTemplate.recommendation){
-            document.getElementById('reportTemplate').setReport(readingTemplate);
+        if (readingTemplate.title || readingTemplate.finding || readingTemplate.conclusion || readingTemplate.recommendation) {
+            document.getElementById('title').value = readingTemplate.title;
+            if (readingTemplate.finding) {
+                document.getElementById('finding').value = readingTemplate.finding;
+            }
+            if (readingTemplate.finding) {
+                document.getElementById('finding').value = readingTemplate.finding;
+            }
+            if (readingTemplate.finding) {
+                document.getElementById('finding').value = readingTemplate.finding;
+            }
         }
-        if(readingTemplate.g_readingTemplateList){
-            document.getElementById('reportTemplate').setReadingTemplateList(readingTemplate);
+        if (readingTemplate.g_readingTemplateList) {
+            g_readingTemplateList = readingTemplate.g_readingTemplateList;
+            g_param.modality = readingTemplate.modality;
+            g_param.bodypart = readingTemplate.bodypart;
         }
     }
 
@@ -359,11 +605,12 @@
         document.getElementById("saveToast").style.backgroundColor = "#0087cb";
         document.getElementById('saveToast').text = "Report save complate.";
         document.getElementById('saveToast').open();
-        document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
+        // document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
         let param = new Object();
         param.readingTemplate = g_readingTemplate;
         param.flag = "rtSaveEvent";
         opener.window.postMessage(param, _url);
+        // console.log(g_readingTemplate);
         window.close();
     }
 
@@ -384,29 +631,15 @@
              studyDesc
              * */
 
-        // console.log(g_readingTemplate);
-        // if (!message.isErr) {
-        //     document.getElementById("toast2").style.backgroundColor = "#0087cb";
-        // } else {
-        //     document.getElementById("toast2").style.backgroundColor = "#e46159";
-        // }
         document.getElementById("saveToast").style.backgroundColor = "#0087cb";
         document.getElementById('saveToast').text = "Report update complate.";
         document.getElementById('saveToast').open();
-        document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
         let param = new Object();
         param.readingTemplate = g_readingTemplate;
         param.flag = "rtUpdateEvent";
         opener.window.postMessage(param, _url);
+        // console.log(g_readingTemplate);
         window.close();
-    }
-
-    function nextTabEvent() {
-        document.getElementById("tabPage").selectNext();
-    }
-
-    function prevTabEvent() {
-        document.getElementById("tabPage").selectPrevious();
     }
 
     function reload(){
