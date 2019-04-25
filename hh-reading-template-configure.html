@@ -484,6 +484,7 @@
 
     function setReadingTemplateReport(){
         let title = document.getElementById('title').value;
+        let shortcut = document.getElementById('shortcut').value;
         let finding = document.getElementById('finding').value;
         let conclusion = document.getElementById('conclusion').value;
         let recommendation = document.getElementById('recommendation').value;
@@ -500,10 +501,37 @@
                 return false;
             }
         }else{
-            if(document.getElementById('shortcut').value.length > 0){
+
+            g_readingTemplate.title = title;
+
+            if(shortcut){
+                g_readingTemplate.shortcut = shortcut;
+            }else{
+                g_readingTemplate.shortcut = "";
+            }
+
+            if(finding){
+                g_readingTemplate.finding = finding;
+            }else{
+                g_readingTemplate.finding = "";
+            }
+
+            if(conclusion){
+                g_readingTemplate.conclusion = conclusion;
+            }else{
+                g_readingTemplate.conclusion = "";
+            }
+
+            if(recommendation){
+                g_readingTemplate.recommendation = recommendation;
+            }else{
+                g_readingTemplate.recommendation = "";
+            }
+
+            /*if(document.getElementById('shortcut').value.length > 0){
                 g_readingTemplate.shortcut = document.getElementById('shortcut').value;
             }else{
-                delete g_readingTemplate['shortcut'];
+                g_readingTemplate.shortcut = document.getElementById('shortcut').value;
             }
 
             g_readingTemplate.title = title;
@@ -522,7 +550,7 @@
                 g_readingTemplate.recommendation = recommendation;
             }else if(g_readingTemplate.recommendation){
                 delete g_readingTemplate['recommendation'];
-            }
+            }*/
             return true;
         }
     }
@@ -602,9 +630,9 @@
         studyDesc
         * */
 
-        document.getElementById("saveToast").style.backgroundColor = "#0087cb";
-        document.getElementById('saveToast').text = "Report save complate.";
-        document.getElementById('saveToast').open();
+        // document.getElementById("saveToast").style.backgroundColor = "#0087cb";
+        // document.getElementById('saveToast').text = "Report save complate.";
+        // document.getElementById('saveToast').open();
         // document.dispatchEvent(new CustomEvent('readingTemplateSaveEvent', g_readingTemplate));
         let param = new Object();
         param.readingTemplate = g_readingTemplate;
@@ -631,9 +659,9 @@
              studyDesc
              * */
 
-        document.getElementById("saveToast").style.backgroundColor = "#0087cb";
-        document.getElementById('saveToast').text = "Report update complate.";
-        document.getElementById('saveToast').open();
+        // document.getElementById("saveToast").style.backgroundColor = "#0087cb";
+        // document.getElementById('saveToast').text = "Report update complate.";
+        // document.getElementById('saveToast').open();
         let param = new Object();
         param.readingTemplate = g_readingTemplate;
         param.flag = "rtUpdateEvent";
