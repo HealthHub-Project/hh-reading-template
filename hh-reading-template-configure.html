@@ -400,8 +400,38 @@
             getSensitiveList()
             getInputStudyDesc();
             if(setReadingTemplateReport()){
-                console.log("readingTemplate Save");
-                console.log(g_readingTemplate);
+                if(window.struct.g_readingTemplateList){
+                    let readingTemplateList = window.struct.g_readingTemplateList;
+                    let shortcut_flag = false;
+                    let title_flag = false;
+                    for(let i=0; i<readingTemplateList.length; i++){
+                        if(readingTemplateList[i].shortcut == g_readingTemplate.shortcut){
+                            shortcut_flag = true;
+                        }
+
+                        if(readingTemplateList[i].title == g_readingTemplate.title){
+                            title_flag = true;
+                        }
+                    }
+
+                    if(shortcut_flag && title_flag){
+                        document.getElementById("saveToast").style.backgroundColor = "#ff646b";
+                        document.getElementById('saveToast').text = "Duplication Title, Shortcut";
+                        document.getElementById('saveToast').open();
+                        return false;
+                    }else if(shortcut_flag){
+                        document.getElementById("saveToast").style.backgroundColor = "#ff646b";
+                        document.getElementById('saveToast').text = "Duplication Shortcut";
+                        document.getElementById('saveToast').open();
+                        return false;
+                    }else if(title_flag){
+                        document.getElementById("saveToast").style.backgroundColor = "#ff646b";
+                        document.getElementById('saveToast').text = "Duplication Title";
+                        document.getElementById('saveToast').open();
+                        return false;
+                    }
+                }
+
                 if(g_readingTemplate.seqNo){
                     reportUpdateEvent();
                 }else{
@@ -495,7 +525,11 @@
                 document.getElementById('saveToast').text = "Please input title";
                 document.getElementById('saveToast').open();
                 return false;
-            }else if(!flagReport){
+            }else if(shortcut.length == 0){
+                document.getElementById('saveToast').text = "Please input shortcut";
+                document.getElementById('saveToast').open();
+                return false;
+            } else if(!flagReport){
                 document.getElementById('saveToast').text = "Please input report";
                 document.getElementById('saveToast').open();
                 return false;
