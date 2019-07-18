@@ -211,7 +211,7 @@
     }
 
     .class-context {
-        height: 85%;
+        height: 100%;
         width: calc(100% - 19px);
         padding: 10px;
         color: #aaaaaa;
@@ -264,7 +264,7 @@
     .class-wrap-title{
         width: 88%;
         margin-left:4%;
-        margin-bottom: 5%;
+        margin-bottom: 3%;
     }
     .class-input{
         width: 85%;
@@ -275,6 +275,21 @@
         /*height: 76%;*/
         height: 78%;
     }
+
+    .text-font-shortcut{
+        width: 85px;
+        padding: 0 0px;
+        font-size: 13pt;
+        color: #aaaaaa;
+        margin: 10px 0 0 0;
+        text-align: center;
+    }
+
+    .wrap {
+        display: flex;
+        margin-top: 10px;
+    }
+
 </style>
 <body style="background-color: deepskyblue">
 <div class="container" style="color: #aaaa">
@@ -322,14 +337,22 @@
         </div>
         <div class="class-report">
             <div class="class-title">Report</div>
-            <div class="class-context" style="height: 560px;">
+            <div class="class-context">
                 <div class="wrap-report-content">
                     <div class="class-wrap-title">
                         <input type="hidden" id="seqNo">
                         <input type="hidden" id="hotKey1">
                         <input type="hidden" id="hotKey2">
-                        <paper-input label="Title" id="title" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>
-                        <paper-input label="Shortcut" id="shortcut" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>
+                        <!--<paper-input label="Title" id="title" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>-->
+                        <paper-input id="title" style="width: 100%; text-align: center"  placeholder ="Enter Title (Small letter)"
+                                     onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" maxlength="40" char-counter
+                                     type="String" maxlength="20"></paper-input>
+                        <!--<paper-input label="Shortcut" id="shortcut" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>-->
+                        <div class="wrap">
+                            <paper-input id="shortcut" style="width: 100%; text-align: center"  placeholder ="Enter Text (Small letter)"
+                                         onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" maxlength="40" char-counter
+                                         type="String" maxlength="20"></paper-input><div class="text-font-shortcut"> + &nbsp;&nbsp;Enter</div>
+                        </div>
                     </div>
                     <div class="wrap-report-content-context">
                         <iron-autogrow-textarea class="context-textarea" id="finding" placeholder="Finding"></iron-autogrow-textarea>
@@ -354,6 +377,9 @@
     let _url = document.location.href;
 
     document.addEventListener("DOMContentLoaded", () => {
+
+        document.getElementById('title').noLabelFloat = true;
+        document.getElementById('shortcut').noLabelFloat = true;
 
         // let modality = [1,2,3];
         // document.getElementById("hhTemplateModalitySensitive").sensitiveList.push(modality);
