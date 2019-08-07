@@ -293,7 +293,7 @@
 </style>
 <body style="background-color: deepskyblue">
 <div class="container" style="color: #aaaa">
-    <paper-toast id="saveToast" duration="1000" class="save-toast"></paper-toast>
+    <paper-toast id="saveToast" duration="2000" class="save-toast"></paper-toast>
     <!--<div class="class-paper-tabs" hidden>-->
     <!--<paper-tabs id="reportTempalteConfigTab" selected="0" noink>-->
     <!--<paper-tab id="modalityTab" value="modalityTab">Modality</paper-tab>-->
@@ -344,13 +344,13 @@
                         <input type="hidden" id="hotKey1">
                         <input type="hidden" id="hotKey2">
                         <!--<paper-input label="Title" id="title" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>-->
-                        <paper-input id="title" style="width: 100%; text-align: center"  placeholder ="Enter Title (Small letter)"
-                                     onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" maxlength="40" char-counter
+                        <paper-input id="title" style="width: 100%; text-align: center"  placeholder ="Input title with small letter"
+                                     onkeyup="this.value=this.value.replace(/[^a-z]/g,'')" maxlength="40" char-counter
                                      type="String" maxlength="20"></paper-input>
                         <!--<paper-input label="Shortcut" id="shortcut" class="textarea-titleShortcut" char-counter maxlength="50"></paper-input>-->
                         <div class="wrap">
-                            <paper-input id="shortcut" style="width: 100%; text-align: center"  placeholder ="Enter Text (Small letter)"
-                                         onkeyup="this.value=this.value.replace(/[^a-zA-Z]/g,'')" maxlength="40" char-counter
+                            <paper-input id="shortcut" style="width: 100%; text-align: center"  placeholder ="Input shortcut with small letter"
+                                         onkeyup="this.value=this.value.replace(/[^a-z]/g,'')" maxlength="40" char-counter
                                          type="String" maxlength="20"></paper-input><div class="text-font-shortcut"> + &nbsp;&nbsp;Enter</div>
                         </div>
                     </div>
@@ -428,31 +428,34 @@
             if(setReadingTemplateReport()){
                 if(window.struct.g_readingTemplateList){
                     let readingTemplateList = window.struct.g_readingTemplateList;
+                    let seqNo = document.getElementById('seqNo').value;
                     let shortcut_flag = false;
                     let title_flag = false;
                     for(let i=0; i<readingTemplateList.length; i++){
-                        if(readingTemplateList[i].shortcut == g_readingTemplate.shortcut){
+                        if(readingTemplateList[i].shortcut == g_readingTemplate.shortcut && readingTemplateList[i].seqNo != seqNo){
                             shortcut_flag = true;
                         }
 
-                        if(readingTemplateList[i].title == g_readingTemplate.title){
-                            title_flag = true;
+                        for(let i=0; i<readingTemplateList.length; i++){
+                            if(readingTemplateList[i].title == g_readingTemplate.title && readingTemplateList[i].seqNo != seqNo){
+                                title_flag = true;
+                            }
                         }
                     }
 
                     if(shortcut_flag && title_flag){
                         document.getElementById("saveToast").style.backgroundColor = "#ff646b";
-                        document.getElementById('saveToast').text = "Duplication Title, Shortcut";
+                        document.getElementById('saveToast').text = "Title and Shortcut you entered is already existed";
                         document.getElementById('saveToast').open();
                         return false;
                     }else if(shortcut_flag){
                         document.getElementById("saveToast").style.backgroundColor = "#ff646b";
-                        document.getElementById('saveToast').text = "Duplication Shortcut";
+                        document.getElementById('saveToast').text = "Shortcut you entered is already existed";
                         document.getElementById('saveToast').open();
                         return false;
                     }else if(title_flag){
                         document.getElementById("saveToast").style.backgroundColor = "#ff646b";
-                        document.getElementById('saveToast').text = "Duplication Title";
+                        document.getElementById('saveToast').text = "Title you entered is already existed";
                         document.getElementById('saveToast').open();
                         return false;
                     }
@@ -548,15 +551,15 @@
         if((title.length == 0) || !(flagReport)){
             document.getElementById("saveToast").style.backgroundColor = "#ff646b";
             if(title.length == 0){
-                document.getElementById('saveToast').text = "Please input title";
+                document.getElementById('saveToast').text = "Please enter the title with small letter";
                 document.getElementById('saveToast').open();
                 return false;
             }else if(shortcut.length == 0){
-                document.getElementById('saveToast').text = "Please input shortcut";
+                document.getElementById('saveToast').text = "Please enter the shortcut you want with small letter";
                 document.getElementById('saveToast').open();
                 return false;
             } else if(!flagReport){
-                document.getElementById('saveToast').text = "Please input report";
+                document.getElementById('saveToast').text = "Please fill up your opinion on Report";
                 document.getElementById('saveToast').open();
                 return false;
             }
@@ -631,6 +634,7 @@
         if (readingTemplate.seqNo) {
             g_readingTemplate.seqNo = readingTemplate.seqNo;
             g_readingTemplate.displayOrder = readingTemplate.displayOrder;
+            document.getElementById('seqNo').value = readingTemplate.seqNo;
         }
 
         if (readingTemplate.shortcut) {
