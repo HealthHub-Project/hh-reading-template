@@ -54,9 +54,22 @@
                 color: #fff !important;
             }
 
-            .ag-cell-focus {
-                border: 1px solid darkgrey !important;
+            .ag-root ::-webkit-scrollbar {
+                width: 7px;
+                height: 7px;
+                background-color: rgba(0, 0, 0, 0.14);
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
             }
+
+            .ag-root ::-webkit-scrollbar-thumb {
+                background-color: #c2c2c2;
+                border-radius: 6px;
+            }​
+
+             .ag-cell-focus {
+                 border: 1px solid darkgrey !important;
+             }
 
             .container {
                 height: 100%;
