@@ -71,6 +71,19 @@
                  border: 1px solid darkgrey !important;
              }
 
+            .container::-webkit-scrollbar-thumb
+            {
+                background-color: #c2c2c2;
+                border-radius: 6px;
+            }
+            .container::-webkit-scrollbar
+            {
+                width: 7px;
+                background-color: rgba(0, 0, 0, 0.14);
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+            }
+
             .container {
                 height: 100%;
                 width: 100%;
@@ -89,7 +102,7 @@
 
             .template-configure-sensitive {
                 width: 100%;
-                margin-right: 5%;
+                overflow-y: auto;
             }
 
             .template-list {
@@ -135,9 +148,9 @@
                         <div class="class-sensitiveCheck">
                             <iron-selector attr-for-selected="value" id="sensitive" selected-values="{{selectSensitive}}"
                                            multi>
-                                <paper-checkbox value="modality" id="modalitySensitive" class="checkBox-style" noink>Modality Sensitive</paper-checkbox>
-                                <paper-checkbox value="bodypart" id="bodypartSensitive" class="checkBox-style" noink>Bodypart Sensitive</paper-checkbox>
-                                <paper-checkbox value="studyDescription" id="studyDescSensitive" class="checkBox-style" noink>Study description Sensitive</paper-checkbox>
+                                <paper-checkbox value="modality" id="modalitySensitive" class="checkBox-style" noink>Modality</paper-checkbox>
+                                <paper-checkbox value="bodypart" id="bodypartSensitive" class="checkBox-style" noink>Bodypart</paper-checkbox>
+                                <paper-checkbox value="studyDescription" id="studyDescSensitive" class="checkBox-style" noink>Study description</paper-checkbox>
                             </iron-selector>
                         </div>
                     </div>
@@ -174,7 +187,6 @@
             let g_readingTemplateList = new Array();
             let g_popup = new Object();
             let message = new Object();
-
 
             class HhReadingTemplate extends Polymer.Element {
                 static get is() {
