@@ -2,7 +2,7 @@
   "name": "hh-reading-template",
   "description": "HPACS-READING-TEMPLATE",
   "main": "hh-reading-template.html",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "dependencies": {
     "polymer": "Polymer/polymer#^2.0.0",
     "ag-grid-polymer": "17.1.0",
