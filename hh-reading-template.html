@@ -158,14 +158,26 @@
                         <iron-icon icon="vaadin:line-v" style="color: #aaaaaa; height: 15px; width: 15px"></iron-icon>
                         <paper-icon-button id="newTemplateBtn" icon="vaadin:plus-circle" class="icon-style">
                         </paper-icon-button>
+                        <paper-tooltip for="newTemplateBtn" offset="0" animation-delay="0"
+                                       animation-entry="scale-up-animation" animation-exit="fade-out-animation"
+                                       style="padding-left: 10px;">New Template
+                        </paper-tooltip>
                         <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog" class="icon-style" style="color: #282d37" disabled>
                         </paper-icon-button>
                         <iron-icon icon="vaadin:line-v" style="color: #aaaaaa; height: 15px; width: 15px"></iron-icon>
                         <input id="importBtn" type="file" style="display:none" />
                         <paper-icon-button id="iconFileBtn" icon="vaadin:cloud-upload" class="icon-style">
                         </paper-icon-button>
+                        <paper-tooltip for="iconFileBtn" offset="0" animation-delay="0"
+                                       animation-entry="scale-up-animation" animation-exit="fade-out-animation"
+                                       style="padding-left: 10px;">Upload Template File
+                        </paper-tooltip>
                         <paper-icon-button id="exportBtn" icon="vaadin:cloud-download" class="icon-style">
                         </paper-icon-button>
+                        <paper-tooltip for="exportBtn" offset="0" animation-delay="0"
+                                       animation-entry="scale-up-animation" animation-exit="fade-out-animation"
+                                       style="padding-left: 10px;">Download My Template File
+                        </paper-tooltip>
                     </div>
                 </div>
                 <div class="template-list">
@@ -635,6 +647,12 @@
                         return false;
                     }
                 }
+
+                clearSelectedRow(){
+                    this.gridOptions.api.deselectAll();
+                }
+
+
 
             }
 
