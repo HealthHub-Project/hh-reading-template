@@ -158,7 +158,7 @@
                         <iron-icon icon="vaadin:line-v" style="color: #aaaaaa; height: 15px; width: 15px"></iron-icon>
                         <paper-icon-button id="newTemplateBtn" icon="vaadin:plus-circle" class="icon-style">
                         </paper-icon-button>
-                        <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog" class="icon-style">
+                        <paper-icon-button id="settingBtn" icon="vaadin:vaadin:cog" class="icon-style" style="color: #282d37" disabled>
                         </paper-icon-button>
                         <iron-icon icon="vaadin:line-v" style="color: #aaaaaa; height: 15px; width: 15px"></iron-icon>
                         <input id="importBtn" type="file" style="display:none" />
@@ -261,7 +261,7 @@
                         g_popup.focus();
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {
-                        console.log("setting");
+                        // console.log("setting");
                     })
 
                     this.$.iconFileBtn.addEventListener('click',function () {
@@ -333,6 +333,40 @@
                                 action: function () {
                                     _this.deleteReadingTemplate(params.node.data);
                                 }
+                            },
+                            {
+                                name: 'update',
+                                action: function () {
+                                    if(g_readingTemplateList.length>0){
+                                        let data = params.node.data;
+                                        data.g_readingTemplateList = g_readingTemplateList;
+                                    }
+                                    let struct = params.node.data;
+                                    if(g_popup.window == null){
+                                        g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                        // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                        struct.facilitySensitive = g_facilitySensitive;
+                                        g_popup.struct = struct;
+                                        // console.log(g_popup)
+                                        g_popup.focus();
+                                    }else{
+                                        if(!g_popup.window.closed){
+                                            g_popup.close();
+                                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                            // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                            struct.facilitySensitive = g_facilitySensitive;
+                                            g_popup.struct = struct;
+                                            g_popup.focus();
+                                            // g_popup.reload();
+                                        }else{
+                                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                            // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                            struct.facilitySensitive = g_facilitySensitive;
+                                            g_popup.struct = struct;
+                                            g_popup.focus();
+                                        }
+                                    }
+                                }
                             }
                         ];
                         return result;
@@ -342,37 +376,17 @@
                     };
 
                     this.gridOptions.onRowDoubleClicked = (event) => {
-                        if(g_readingTemplateList.length>0){
-                            let data = event.data;
-                            data.g_readingTemplateList = g_readingTemplateList;
-                            event.data = data;
-                        }
-                        let struct = event.data;
-                        if(g_popup.window == null){
+                        let opinion = new Object();
+                        opinion.finding = event.data.finding;
+                        opinion.conclusion = event.data.conclusion;
+                        opinion.recommendation = event.data.recommendation;
 
-                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                            // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                            struct.facilitySensitive = g_facilitySensitive;
-                            g_popup.struct = struct;
-                            // console.log(g_popup)
-                            g_popup.focus();
-                        }else{
-                            if(!g_popup.window.closed){
-                                g_popup.close();
-                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                struct.facilitySensitive = g_facilitySensitive;
-                                g_popup.struct = struct;
-                                g_popup.focus();
-                                // g_popup.reload();
-                            }else{
-                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                struct.facilitySensitive = g_facilitySensitive;
-                                g_popup.struct = struct;
-                                g_popup.focus();
-                            }
-                        }
+                        let param = new Object();
+                        let detail = new Object();
+                        detail.opinion = opinion;
+                        param.detail = detail;
+                        this.dispatchEvent(new CustomEvent('doubleClickEventReadingTemplate', param));
+                        this.gridOptions.api.deselectAll();
                     }
                 }
 
