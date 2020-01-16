@@ -254,7 +254,11 @@
                     });
 
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
-                        let g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                        if(Object.keys(g_popup).length){
+                            g_popup.close();
+                        }
+
+                        g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                         let struct = new Object();
                         if(g_readingTemplateList){
