@@ -5,6 +5,8 @@
     <title>hh-reading-template configure</title>
 </head>
 
+<script src="../../bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+
 <!--bower component-->
 <link rel="import" href="../shadycss/apply-shim.html">
 <link rel="import" href="../polymer/lib/elements/custom-style.html">
@@ -368,7 +370,6 @@
         <button id="closeBtn" class="btn">Close</button>
     </div>
 </div>
-</body>
 <script>
     let g_tempSelected = new Array();
     let g_readingTemplate = new Object();
@@ -377,51 +378,11 @@
     let _url = document.location.href;
 
     document.addEventListener("DOMContentLoaded", () => {
-
         document.getElementById('title').noLabelFloat = true;
         document.getElementById('shortcut').noLabelFloat = true;
 
         // let modality = [1,2,3];
         // document.getElementById("hhTemplateModalitySensitive").sensitiveList.push(modality);
-        if(window.struct){
-            // console.log(window.struct);
-            if(window.struct.facilitySensitive){
-                if(window.struct.facilitySensitive.modalityList && !window.struct.facilitySensitive.bodypartList){
-                    let param = new Object();
-                    param.modalityList = window.struct.facilitySensitive.modalityList;
-
-                    setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
-                }
-                if(!window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
-                    let param = new Object();
-                    param.modalityList = window.struct.facilitySensitive.modalityList;
-                    param.bodypartList = window.struct.facilitySensitive.bodypartList;
-
-                    setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
-                    setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
-                }
-                if(window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
-                    let param = new Object();
-                    param.modalityList = window.struct.facilitySensitive.modalityList;
-                    param.bodypartList = window.struct.facilitySensitive.bodypartList;
-
-                    setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
-                    setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
-                }
-
-                // param.category = "loinc";
-                // param.category = "radrex";
-                // param.category = "noaml";
-                // document.getElementById('modalityTemplate').getOtherModalityList(param);
-                // document.getElementById('bodypartTemplate').getOtherBodypartList(param);
-            }else{
-                console.log("")
-            }
-            if(window.struct.seqNo){
-                setReadingTemplate(window.struct);
-            }
-        }
-
         document.getElementById("saveBtn").addEventListener('click', function () {
             getSensitiveList()
             getInputStudyDesc();
@@ -466,9 +427,6 @@
                 }else{
                     reportSaveEvent();
                 }
-            }else{
-                // console.log(g_readingTemplate);
-                // console.log("readingTemplate Failed");
             }
         });
 
@@ -500,13 +458,13 @@
         });
 
         document.getElementById('hhTemplateBodypartSensitive').addEventListener('selectedSensitive',function (e) {
-            if(e.detail.bodypartList){
-                if(e.detail.bodypartList.length > 0){
-                    g_readingTemplate.bodypart = e.detail.bodypartList;
-                }else if(e.detail.bodypartList.length == 0){
+            if(e.detail.modalityList){
+                if(e.detail.modalityList.length > 0){
+                    g_readingTemplate.bodypart = e.detail.modalityList;
+                }else if(e.detail.modalityList.length == 0){
                     delete g_readingTemplate['bodypart'];
                 }
-            }else if(!e.detail.bodypartList){
+            }else if(!e.detail.modalityList){
                 delete g_readingTemplate['bodypart'];
             }
         });
@@ -520,6 +478,37 @@
             // document.getElementById('hhTemplateBodypartSensitive').setCheckSensitiveList(g_param.bodypart);
         }
 
+        document.getElementById('hhTemplateBodypartSensitive').addEventListener('onReady', e => {
+            if(window.struct){
+                if(window.struct.facilitySensitive){
+                    if(window.struct.facilitySensitive.modalityList && !window.struct.facilitySensitive.bodypartList){
+                        let param = new Object();
+                        param.modalityList = window.struct.facilitySensitive.modalityList;
+                        setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                    }
+                    if(!window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
+                        let param = new Object();
+                        param.modalityList = window.struct.facilitySensitive.modalityList;
+                        param.bodypartList = window.struct.facilitySensitive.bodypartList;
+
+                        setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                        setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
+                    }
+                    if(window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
+                        let param = new Object();
+                        param.modalityList = window.struct.facilitySensitive.modalityList;
+                        param.bodypartList = window.struct.facilitySensitive.bodypartList;
+
+                        setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                        setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
+                    }
+                }
+
+                if(window.struct.seqNo){
+                    setReadingTemplate(window.struct);
+                }
+            }
+        });
     }); // ready
 
     function getSensitiveList(){
@@ -591,29 +580,6 @@
                 g_readingTemplate.recommendation = "";
             }
 
-            /*if(document.getElementById('shortcut').value.length > 0){
-                g_readingTemplate.shortcut = document.getElementById('shortcut').value;
-            }else{
-                g_readingTemplate.shortcut = document.getElementById('shortcut').value;
-            }
-
-            g_readingTemplate.title = title;
-
-            if(finding){
-                g_readingTemplate.finding = finding;
-            }else if(g_readingTemplate.finding){
-                delete g_readingTemplate['finding'];
-            }
-            if(conclusion){
-                g_readingTemplate.conclusion = conclusion;
-            }else if(g_readingTemplate.conclusion){
-                delete g_readingTemplate['conclusion'];
-            }
-            if(recommendation){
-                g_readingTemplate.recommendation = recommendation;
-            }else if(g_readingTemplate.recommendation){
-                delete g_readingTemplate['recommendation'];
-            }*/
             return true;
         }
     }
@@ -735,9 +701,9 @@
     }
 
     function reload(){
-        console.log("reload");
         setReadingTemplate(window.struct);
     }
-
 </script>
+</body>
+
 </html>

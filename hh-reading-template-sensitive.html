@@ -92,86 +92,175 @@
         </div>
     </template>
     <script>
-        (function () {
-            let _this;
-            let flagAllModal = false;
-            let flagBodyModal = false;
-            let g_resultModalityList = new Array();
-            let g_resultBodypartList = new Array();
+        class HhReadingTemplateSensitive extends Polymer.Element {
+            static get is() {
+                return 'hh-reading-template-sensitive';
+            }
 
-            class HhReadingTemplateSensitive extends Polymer.Element {
-                static get is() {
-                    return 'hh-reading-template-sensitive';
-                }
-
-                static get properties() {
-                    return {
-                        sensitiveList:{
-                            type:Array
-                        },
-                        initSensitiveList:{
-                            type:Array
-                        },
-                        resultSensitiveList:{
-                            type:Array
-                        }
+            static get properties() {
+                return {
+                    sensitiveList:{
+                        type:Array
+                    },
+                    initSensitiveList:{
+                        type:Array
+                    },
+                    resultSensitiveList:{
+                        type:Array
+                    },
+                    flagAllModal: {
+                        type: Boolean
+                    },
+                    flagBodyModal: {
+                        type: Boolean
+                    },
+                    g_resultModalityList: {
+                        type: Array
+                    },
+                    g_resultBodypartList: {
+                        type: Array
+                    },
+                    sensitive:{
+                        type: String
                     }
                 }
+            }
 
-                constructor() {
-                    super();
-                    _this = this;
-                }
+            constructor() {
+                super();
+                let _this = this;
+                this.g_resultModalityList = new Array();
+                this.g_resultBodypartList = new Array();
+            }
 
-                ready() {
-                    super.ready();
-                    this.$.allSensitiveBtn.addEventListener('click',function (e) {
-                        if(this.__dataHost.id.includes("Modality")){
-                            if(!flagAllModal){
-                                flagAllModal = true;
-                                g_resultModalityList = new Array();
-                                this.parentElement.children[1].hidden = true;
-                                let param = new Object();
-                                param.detail = new Object();
-                                e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                            }else{
-                                flagAllModal = false;
-                                this.parentElement.children[1].hidden = false;
-                            }
-                        }else if(this.__dataHost.id.includes("Bodypart")){
-                            if(!flagBodyModal){
-                                flagBodyModal = true;
-                                g_resultBodypartList = new Array();
-                                this.parentElement.children[1].hidden = true;
-                                let param = new Object();
-                                param.detail = new Object();
-                                e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                            }else{
-                                flagBodyModal = false;
-                                this.parentElement.children[1].hidden = false;
+            ready() {
+                super.ready();
+                this.$.allSensitiveBtn.addEventListener('click', (e) => {
+                    if(e.target.parentNode.id == "modalityBtnList" && e.target.parentNode.__dataHost.id != "hhTemplateBodypartSensitive") {
+                        if (!this.flagAllModal) {
+                            this.flagAllModal = true;
+                            this.g_resultModalityList = new Array();
+                            e.target.parentNode.children[1].hidden = true;
+                            let param = new Object();
+                            param.detail = new Object();
+                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive', param));
+                        } else {
+                            this.flagAllModal = false;
+                            e.target.parentNode.children[1].hidden = false;
+                        }
+                    }else if(e.target.parentNode.id == "bodypartBtnList" || e.target.parentNode.__dataHost.id == "hhTemplateBodypartSensitive"){
+                        if(!this.flagBodyModal){
+                            this.flagBodyModal = true;
+                            this.g_resultBodypartList = new Array();
+                            e.target.parentNode.children[1].hidden = true;
+                            let param = new Object();
+                            param.detail = new Object();
+                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                        }else{
+                            this.flagBodyModal = false;
+                            e.target.parentNode.children[1].hidden = false;
+
+                        }
+                    }
+                });
+
+
+                this.$.domSensitiveList.addEventListener('click', (e) => {
+                    let params = new Object();
+                    params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
+                    params.sensitive =  e.target.innerText;
+                    params.flag =e.target.active;
+                    if(e.target.parentElement.parentElement.id == "modalityBtnList") {
+                        if(e.target.tagName == "PAPER-BUTTON" && !this.g_resultModalityList.includes(e.target.innerText)){
+                            let param = new Object();
+                            let detail = new Object();
+                            this.g_resultModalityList.push(e.target.innerText);
+                            detail.modalityList = this.g_resultModalityList;
+                            param.detail = detail;
+                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                        }else if(this.g_resultModalityList.includes(e.target.innerText)){
+                            for(let i=0; i<this.g_resultModalityList.length; i++){
+                                if(this.g_resultModalityList[i] == e.target.innerText){
+                                    let param = new Object();
+                                    let detail = new Object();
+                                    this.g_resultModalityList.splice(i,1);
+                                    if(this.g_resultModalityList.length > 0){
+                                        detail.modalityList = this.g_resultModalityList;
+                                    }
+                                    param.detail = detail;
+                                    e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                }
                             }
                         }
-                    });
-
-
-                    this.$.domSensitiveList.addEventListener('click',function (e) {
-                        // console.log(e.target.active);
-                        let params = new Object();
-                        params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
-                        params.sensitive =  e.target.innerText;
-                        params.flag =e.target.active;
-                        // e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
-                        // console.log(e.target.parentElement.__dataHost.sensitiveList);
+                    }else if(e.target.parentElement.parentElement.id == "bodypartBtnList"){
+                        if(e.target.tagName == "PAPER-BUTTON" && !this.g_resultBodypartList.includes(e.target.innerText)){
+                            let param = new Object();
+                            let detail = new Object();
+                            this.g_resultBodypartList.push(e.target.innerText);
+                            detail.bodypartList = this.g_resultBodypartList;
+                            param.detail = detail;
+                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                        }else if(this.g_resultBodypartList.includes(e.target.innerText)){
+                            for(let i=0; i<this.g_resultBodypartList.length; i++){
+                                if(this.g_resultBodypartList[i] == e.target.innerText){
+                                    let param = new Object();
+                                    let detail = new Object();
+                                    this.g_resultBodypartList.splice(i,1);
+                                    if(this.g_resultBodypartList.length > 0){
+                                        detail.bodypartList = this.g_resultBodypartList;
+                                    }
+                                    param.detail = detail;
+                                    e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                }
+                            }
+                        }
+                    }
+                });
+                /*    this.$.domSensitiveList.addEventListener('click',function (e) {
                         if(this.__dataHost.id.includes("Modality")){
                             if(e.target.tagName == "PAPER-BUTTON" && !g_resultModalityList.includes(e.target.innerText)){
-                                let param = new Object();
-                                let detail = new Object();
-                                g_resultModalityList.push(e.target.innerText);
-                                detail.modalityList = g_resultModalityList;
-                                param.detail = detail;
+                                if(g_resultModalityList.length > 0){
+                                    let cntModal = 0;
+                                    let flagModal = false;
+                                    for(let i = 0; i<g_resultModalityList.length; i++){
+                                        cntModal++;
+                                        if(g_resultModalityList[i] == e.target.innerText){
+                                            g_resultModalityList[i].pop();
+                                            flagModal = true;
+                                        }
 
-                                e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                        if(cntModal == g_resultModalityList.length && !flagModal){
+                                            g_resultModalityList.push(e.target.innerText);
+                                            let params = new Object();
+                                            params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
+                                            params.selectedList =  g_resultModalityList;
+                                            e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
+                                            let param = new Object();
+                                            let detail = new Object();
+                                            detail.modalityList = g_resultModalityList;
+                                            param.detail = detail;
+                                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                        }else if(cntModal == g_resultModalityList.length && flagModal){
+                                            let params = new Object();
+                                            params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
+                                            params.selectedList =  g_resultModalityList;
+                                            e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
+                                            let param = new Object();
+                                            let detail = new Object();
+                                            detail.modalityList = g_resultModalityList;
+                                            param.detail = detail;
+                                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                        }
+                                    }
+                                }
                             }else if(g_resultModalityList.includes(e.target.innerText)){
+                                let params = new Object();
+                                params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
+                                params.sensitive =  e.target.innerText;
+                                params.flag = e.target.active;
+                                e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
+                                console.log(e.target.parentElement.__dataHost.sensitiveList);
+
                                 for(let i=0; i<g_resultModalityList.length; i++){
                                     if(g_resultModalityList[i] == e.target.innerText){
                                         let param = new Object();
@@ -181,261 +270,179 @@
                                             detail.modalityList = g_resultModalityList;
                                         }
                                         param.detail = detail;
-                                        // console.log(detail);
+                                        console.log(detail);
                                         e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
                                     }
                                 }
                             }
                         }else if(this.__dataHost.id.includes("Bodypart")){
                             if(e.target.tagName == "PAPER-BUTTON" && !g_resultBodypartList.includes(e.target.innerText)){
-                                let param = new Object();
-                                let detail = new Object();
-                                g_resultBodypartList.push(e.target.innerText);
-                                detail.bodypartList = g_resultBodypartList;
-                                param.detail = detail;
-                                e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                // let params = new Object();
+                                // params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
+                                // params.sensitive =  e.target.innerText;
+                                // params.flag = e.target.active;
+                                // e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
+                                // console.log(e.target.parentElement.__dataHost.sensitiveList);
+                                //
+                                // let param = new Object();
+                                // let detail = new Object();
+                                // g_resultBodypartList.push(e.target.innerText);
+                                // detail.bodypartList = g_resultBodypartList;
+                                // param.detail = detail;
+                                // e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
                             }else if(g_resultBodypartList.includes(e.target.innerText)){
-                                for(let i=0; i<g_resultBodypartList.length; i++){
-                                    if(g_resultBodypartList[i] == e.target.innerText){
-                                        let param = new Object();
-                                        let detail = new Object();
-                                        g_resultBodypartList.splice(i,1);
-                                        if(g_resultBodypartList.length > 0){
-                                            detail.bodypartList = g_resultBodypartList;
-                                        }
-                                        param.detail = detail;
-                                        e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                    }
-                                }
+                                // let params = new Object();
+                                // params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
+                                // params.sensitive =  e.target.innerText;
+                                // params.flag = e.target.active;
+                                // e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
+                                // console.log(e.target.parentElement.__dataHost.sensitiveList);c
+                                //
+                                // for(let i=0; i<g_resultBodypartList.length; i++){
+                                //     if(g_resultBodypartList[i] == e.target.innerText){
+                                //         let param = new Object();
+                                //         let detail = new Object();
+                                //         g_resultBodypartList.splice(i,1);
+                                //         if(g_resultBodypartList.length > 0){
+                                //             detail.bodypartList = g_resultBodypartList;
+                                //         }
+                                //         param.detail = detail;
+                                //         e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                                //     }
+                                // }
                             }
                         }
-                    });
-                    /*    this.$.domSensitiveList.addEventListener('click',function (e) {
-                            if(this.__dataHost.id.includes("Modality")){
-                                if(e.target.tagName == "PAPER-BUTTON" && !g_resultModalityList.includes(e.target.innerText)){
-                                    if(g_resultModalityList.length > 0){
-                                        let cntModal = 0;
-                                        let flagModal = false;
-                                        for(let i = 0; i<g_resultModalityList.length; i++){
-                                            cntModal++;
-                                            if(g_resultModalityList[i] == e.target.innerText){
-                                                g_resultModalityList[i].pop();
-                                                flagModal = true;
-                                            }
+                    });*/
 
-                                            if(cntModal == g_resultModalityList.length && !flagModal){
-                                                g_resultModalityList.push(e.target.innerText);
-                                                let params = new Object();
-                                                params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
-                                                params.selectedList =  g_resultModalityList;
-                                                e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
-                                                let param = new Object();
-                                                let detail = new Object();
-                                                detail.modalityList = g_resultModalityList;
-                                                param.detail = detail;
-                                                e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                            }else if(cntModal == g_resultModalityList.length && flagModal){
-                                                let params = new Object();
-                                                params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
-                                                params.selectedList =  g_resultModalityList;
-                                                e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
-                                                let param = new Object();
-                                                let detail = new Object();
-                                                detail.modalityList = g_resultModalityList;
-                                                param.detail = detail;
-                                                e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                            }
-                                        }
-                                    }
-                                }else if(g_resultModalityList.includes(e.target.innerText)){
-                                    let params = new Object();
-                                    params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
-                                    params.sensitive =  e.target.innerText;
-                                    params.flag = e.target.active;
-                                    e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
-                                    console.log(e.target.parentElement.__dataHost.sensitiveList);
+                this.dispatchEvent(new CustomEvent("onReady", {detail: this}))
+            }
 
-                                    for(let i=0; i<g_resultModalityList.length; i++){
-                                        if(g_resultModalityList[i] == e.target.innerText){
-                                            let param = new Object();
-                                            let detail = new Object();
-                                            g_resultModalityList.splice(i,1);
-                                            if(g_resultModalityList.length > 0){
-                                                detail.modalityList = g_resultModalityList;
-                                            }
-                                            param.detail = detail;
-                                            console.log(detail);
-                                            e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                        }
-                                    }
-                                }
-                            }else if(this.__dataHost.id.includes("Bodypart")){
-                                if(e.target.tagName == "PAPER-BUTTON" && !g_resultBodypartList.includes(e.target.innerText)){
-                                    // let params = new Object();
-                                    // params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
-                                    // params.sensitive =  e.target.innerText;
-                                    // params.flag = e.target.active;
-                                    // e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
-                                    // console.log(e.target.parentElement.__dataHost.sensitiveList);
-                                    //
-                                    // let param = new Object();
-                                    // let detail = new Object();
-                                    // g_resultBodypartList.push(e.target.innerText);
-                                    // detail.bodypartList = g_resultBodypartList;
-                                    // param.detail = detail;
-                                    // e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                }else if(g_resultBodypartList.includes(e.target.innerText)){
-                                    // let params = new Object();
-                                    // params.sensitiveList = e.target.parentElement.__dataHost.sensitiveList;
-                                    // params.sensitive =  e.target.innerText;
-                                    // params.flag = e.target.active;
-                                    // e.target.parentElement.__dataHost.sensitiveList = this.__dataHost.setCheckSensitiveList(params);
-                                    // console.log(e.target.parentElement.__dataHost.sensitiveList);c
-                                    //
-                                    // for(let i=0; i<g_resultBodypartList.length; i++){
-                                    //     if(g_resultBodypartList[i] == e.target.innerText){
-                                    //         let param = new Object();
-                                    //         let detail = new Object();
-                                    //         g_resultBodypartList.splice(i,1);
-                                    //         if(g_resultBodypartList.length > 0){
-                                    //             detail.bodypartList = g_resultBodypartList;
-                                    //         }
-                                    //         param.detail = detail;
-                                    //         e.target.parentElement.__dataHost.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                    //     }
-                                    // }
-                                }
-                            }
-                        });*/
+            searchSensitive(inputString){
+                if(inputString.length > 0 ){
+                    this.$.allSensitiveBtn.hidden = true;
+                }else{
+                    this.$.allSensitiveBtn.hidden = false;
                 }
-
-                searchSensitive(inputString){
-                    if(inputString.length > 0 ){
-                        this.$.allSensitiveBtn.hidden = true;
-                    }else{
-                        this.$.allSensitiveBtn.hidden = false;
+                let filterList = new Array();
+                let cnt= 0;
+                let sensitiveList = this.sensitiveList;
+                for(let i=0; i<sensitiveList.length; i++){
+                    cnt++;
+                    if(sensitiveList[i].type.match(inputString) && (inputString != "")){
+                        filterList.push(sensitiveList[i]);
                     }
-                    let filterList = new Array();
-                    let cnt= 0;
-                    let sensitiveList = this.sensitiveList;
-                    for(let i=0; i<sensitiveList.length; i++){
-                        cnt++;
-                        if(sensitiveList[i].type.match(inputString) && (inputString != "")){
-                            filterList.push(sensitiveList[i]);
-                        }
-                        if(cnt == sensitiveList.length && filterList.length > 0){
-                            this.sensitiveList = filterList;
-                        }else if(cnt == sensitiveList.length && inputString.length == 0){
-                            this.sensitiveList = this.initSensitiveList;
-                        }
+                    if(cnt == sensitiveList.length && filterList.length > 0){
+                        this.sensitiveList = filterList;
+                    }else if(cnt == sensitiveList.length && inputString.length == 0){
+                        this.sensitiveList = this.initSensitiveList;
                     }
-                }
-
-                setCheckSensitiveList(params){
-                    let sensitiveList = params.sensitiveList; // params.sensitiveList : sensitive list
-                    let selectedList = params.selectedList; // params.sensitive : sensitive innerText
-                    let flag = params.flag;  // params.flag : active flag
-                    let cntList = 0;
-                    for(let i=0; i<sensitiveList.length; i++){
-                        for(let j=0; j<selectedList.length; j++){
-                            if(sensitiveList[i].type == selectedList[j]){
-                                if(flag){
-                                    sensitiveList[i].checked = true;
-                                }else{
-                                    sensitiveList[i].checked = false;
-                                }
-                            }
-                        }
-                        cntList++;
-                        if(cntList == sensitiveList.length){
-                            return sensitiveList;
-                        }
-                    }//for
-                }
-
-                setSensitiveDB(dbArrayList){
-                    let sList = new Array();
-                    let cntSS= 0;
-                    for(let i=0; i<this.initSensitiveList.length; i++){
-                        let cnt1 = 0;
-                        for(let j=0; j<dbArrayList.length; j++){
-                            let dbFlag = false;
-                            cnt1++;
-                            if(dbArrayList[j] == this.initSensitiveList[i].type){
-                                let obj = new Object();
-                                obj.type = this.initSensitiveList[i].type;
-                                obj.checked = true;
-                                dbFlag = true;
-                                if(this.id.includes("Modality")){
-                                    g_resultModalityList.push(this.initSensitiveList[i].type);
-                                    let param = new Object();
-                                    let detail = new Object();
-                                    detail.modalityList = g_resultModalityList;
-                                    param.detail = detail;
-                                    this.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                }else if(this.id.includes("Bodypart")){
-                                    g_resultBodypartList.push(this.initSensitiveList[i].type);
-                                    let param = new Object();
-                                    let detail = new Object();
-                                    detail.bodypartList = g_resultBodypartList;
-                                    param.detail = detail;
-                                    this.dispatchEvent(new CustomEvent('selectedSensitive',param));
-                                }
-                                sList.push(obj);
-                                break;
-                            }
-                            if(cnt1 == dbArrayList.length&& !dbFlag){
-                                let obj = new Object();
-                                obj.type = this.initSensitiveList[i].type;
-                                obj.checked = false;
-                                sList.push(obj);
-                            }
-                        }
-                        cntSS++;
-                        if(cntSS == this.initSensitiveList.length){
-                            this.sensitiveList = sList;
-                        }
-                    }
-                }
-
-                getSensitiveList(){
-                    if(this.id.includes("Modality")){
-                        if(g_resultModalityList.length > 0){
-                            let modality = g_resultModalityList;
-                            return modality;
-                        }
-                    }
-
-                    if(this.id.includes("Bodypart")){
-                        if(g_resultBodypartList.length > 0) {
-                            let bodypart = g_resultBodypartList;
-                            return bodypart;
-                        }
-                    }
-                }
-
-                setSensitiveList(param){
-                    let sList = new Array();
-                    let cntModal = 0;
-                    for(let i=0; i<param.sensitiveList.length; i++){
-                        let obj = new Object();
-                        obj.type = param.sensitiveList[i];
-                        obj.checked = false;
-                        sList.push(obj);
-                        cntModal++;
-                        if(cntModal == param.sensitiveList.length){
-                            this.sensitiveList = sList;
-                            this.initSensitiveList = sList;
-                        }
-                    }
-                }
-
-                clickAllBtn(){
-                    this.$.allSensitiveBtn.click();
                 }
             }
 
-            window.customElements.define(HhReadingTemplateSensitive.is, HhReadingTemplateSensitive);
-        })();
+            setCheckSensitiveList(params){
+                let sensitiveList = params.sensitiveList; // params.sensitiveList : sensitive list
+                let selectedList = params.selectedList; // params.sensitive : sensitive innerText
+                let flag = params.flag;  // params.flag : active flag
+                let cntList = 0;
+                for(let i=0; i<sensitiveList.length; i++){
+                    for(let j=0; j<selectedList.length; j++){
+                        if(sensitiveList[i].type == selectedList[j]){
+                            if(flag){
+                                sensitiveList[i].checked = true;
+                            }else{
+                                sensitiveList[i].checked = false;
+                            }
+                        }
+                    }
+                    cntList++;
+                    if(cntList == sensitiveList.length){
+                        return sensitiveList;
+                    }
+                }//for
+            }
+
+            setSensitiveDB(dbArrayList){
+                let sList = new Array();
+                let cntSS= 0;
+                for(let i=0; i<this.initSensitiveList.length; i++){
+                    let cnt1 = 0;
+                    for(let j=0; j<dbArrayList.length; j++){
+                        let dbFlag = false;
+                        cnt1++;
+                        if(dbArrayList[j] == this.initSensitiveList[i].type){
+                            let obj = new Object();
+                            obj.type = this.initSensitiveList[i].type;
+                            obj.checked = true;
+                            dbFlag = true;
+                            if(this.id.includes("Modality")){
+                                this.g_resultModalityList.push(this.initSensitiveList[i].type);
+                                let param = new Object();
+                                let detail = new Object();
+                                detail.modalityList = this.g_resultModalityList;
+                                param.detail = detail;
+                                this.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                            }else if(this.id.includes("Bodypart")){
+                                this.g_resultBodypartList.push(this.initSensitiveList[i].type);
+                                let param = new Object();
+                                let detail = new Object();
+                                detail.bodypartList = this.g_resultBodypartList;
+                                param.detail = detail;
+                                this.dispatchEvent(new CustomEvent('selectedSensitive',param));
+                            }
+                            sList.push(obj);
+                            break;
+                        }
+                        if(cnt1 == dbArrayList.length&& !dbFlag){
+                            let obj = new Object();
+                            obj.type = this.initSensitiveList[i].type;
+                            obj.checked = false;
+                            sList.push(obj);
+                        }
+                    }
+                    cntSS++;
+                    if(cntSS == this.initSensitiveList.length){
+                        this.sensitiveList = sList;
+                    }
+                }
+            }
+
+            getSensitiveList(){
+                if(this.id.includes("Modality")){
+                    if(this.g_resultModalityList.length > 0){
+                        let modality = this.g_resultModalityList;
+                        return modality;
+                    }
+                }
+
+                if(this.id.includes("Bodypart")){
+                    if(this.g_resultBodypartList.length > 0) {
+                        let bodypart = this.g_resultBodypartList;
+                        return bodypart;
+                    }
+                }
+            }
+
+            setSensitiveList(param){
+                let sList = new Array();
+                let cntModal = 0;
+                for(let i=0; i<param.sensitiveList.length; i++){
+                    let obj = new Object();
+                    obj.type = param.sensitiveList[i];
+                    obj.checked = false;
+                    sList.push(obj);
+                    cntModal++;
+                    if(cntModal == param.sensitiveList.length){
+                        this.sensitiveList = sList;
+                        this.initSensitiveList = sList;
+                    }
+                }
+            }
+
+            clickAllBtn(){
+                this.$.allSensitiveBtn.click();
+            }
+        }
+
+        window.customElements.define(HhReadingTemplateSensitive.is, HhReadingTemplateSensitive);
     </script>
 </dom-module>
