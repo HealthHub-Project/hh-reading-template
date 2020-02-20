@@ -146,8 +146,7 @@
                 <div class="template-configure">
                     <div class="template-configure-sensitive">
                         <div class="class-sensitiveCheck">
-                            <iron-selector attr-for-selected="value" id="sensitive" selected-values="{{selectSensitive}}"
-                                           multi>
+                            <iron-selector attr-for-selected="value" id="sensitive" selected-values="{{selectSensitive}}" multi>
                                 <paper-checkbox value="modality" id="modalitySensitive" class="checkBox-style" noink>Modality</paper-checkbox>
                                 <paper-checkbox value="bodypart" id="bodypartSensitive" class="checkBox-style" noink>Bodypart</paper-checkbox>
                                 <paper-checkbox value="studyDescription" id="studyDescSensitive" class="checkBox-style" noink>Study description</paper-checkbox>
@@ -208,7 +207,8 @@
                 static get properties(){
                     return{
                         selectSensitive:{
-                            type: Array
+                            type: Array,
+                            value :[]
                         }
                     }
                 }
@@ -407,56 +407,37 @@
                 }
 
                 setSensitiveCheckedDefault(){
-                    let cnt = 0;
-                    this.selectSensitive = new Array();
-                    for(let i=0; i<this.$.sensitive.childElementCount; i++){
-                        this.$.sensitive.children[i].checked = false;
-                        cnt++;
-                        if(cnt == this.$.sensitive.childElementCount && (g_readingTemplateList.length > 0)){
-                            _this.gridOptions.api.setRowData(g_readingTemplateList);
-                        }
-                    }
+                    this.setSensitiveChectedExpand(this.selectSensitive);
                 }
 
-                setSensitiveChectedExpand(param){
-                    let sensitiveArr= param;
-                    if(sensitiveArr.length > 0) {
-                        this.selectSensitive = new Array();
-                        if (sensitiveArr.includes('modality')) {
-                            this.$.modalitySensitive.checked = true;
-                            this.selectSensitive.push("modality");
-                        }else if(!sensitiveArr.includes('modality') && this.$.modalitySensitive.checked){
-                            this.$.modalitySensitive.checked = false;
-                            this.selectSensitive.pop("modality");
-                        }
-                        if (sensitiveArr.includes('bodypart')) {
-                            this.$.bodypartSensitive.checked = true;
-                            this.selectSensitive.push("bodypart");
-                        }else if(!sensitiveArr.includes('bodypart') && this.$.bodypartSensitive.checked){
-                            this.$.bodypartSensitive.checked = false;
-                            this.selectSensitive.pop("bodypart");
-                        }
-                        if (sensitiveArr.includes('studyDescription')) {
-                            this.$.studyDescSensitive.checked = true;
-                            this.selectSensitive.push("studyDescription");
-                        }else if(!sensitiveArr.includes('studyDescription') && this.$.studyDescSensitive.checked){
-                            this.$.studyDescSensitive.checked = false;
-                            this.selectSensitive.pop("studyDescription");
-                        }
-                    }else {
-                        if(this.$.modalitySensitive.checked){
-                            this.$.modalitySensitive.checked = false;
-                            this.selectSensitive.pop("modality");
-                        }
-                        if(this.$.bodypartSensitive.checked){
-                            this.$.bodypartSensitive.checked = false;
-                            this.selectSensitive.pop("bodypart");
-                        }
-                        if(this.$.studyDescSensitive.checked){
-                            this.$.studyDescSensitive.checked = false;
-                            this.selectSensitive.pop("studyDescription");
-                        }
+                setSensitiveChectedExpand(param) {
+                    let detail = new Object();
+                    this.selectSensitive = param;
+
+                    if (this.selectSensitive.includes('modality')) {
+                        this.$.modalitySensitive.checked = true;
+                        detail.modality = g_SelectedRow.modality;
+                    } else if (!this.selectSensitive.includes('modality')) {
+                        this.$.modalitySensitive.checked = false;
                     }
+
+                    if (this.selectSensitive.includes('bodypart')) {
+                        this.$.bodypartSensitive.checked = true;
+                        detail.bodypart = g_SelectedRow.bodypart;
+                    } else if (!this.selectSensitive.includes('bodypart')) {
+                        this.$.bodypartSensitive.checked = false;
+                    }
+
+                    if (this.selectSensitive.includes('studyDescription')) {
+                        this.$.studyDescSensitive.checked = true;
+                        detail.studyDescription = g_SelectedRow.studyDescription;
+                    } else if (!this.selectSensitive.includes('studyDescription')) {
+                        this.$.studyDescSensitive.checked = false;
+                    }
+
+                    let params = new Object();
+                    params.detail = detail;
+                    this.dispatchEvent(new CustomEvent('getReadingTemplateListBySensitiveEvent', params));
                 }
 
                 setSensitiveForFacility(param){
