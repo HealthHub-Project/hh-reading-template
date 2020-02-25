@@ -610,12 +610,12 @@
         if (readingTemplate.category) {
             g_readingTemplate.category = readingTemplate.category;
         }
-        if (readingTemplate.modality) {
+        if (readingTemplate.modality && readingTemplate.modality.length > 0) {
             document.getElementById('hhTemplateModalitySensitive').setSensitiveDB(readingTemplate.modality);
         }else{
             document.getElementById('hhTemplateModalitySensitive').clickAllBtn();
         }
-        if (readingTemplate.bodypart) {
+        if (readingTemplate.bodypart && readingTemplate.bodypart.length > 0) {
             document.getElementById('hhTemplateBodypartSensitive').setSensitiveDB(readingTemplate.bodypart);
         }else{
             document.getElementById('hhTemplateBodypartSensitive').clickAllBtn();
