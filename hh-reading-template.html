@@ -254,27 +254,7 @@
                     });
 
                     this.$.newTemplateBtn.addEventListener('click', function (event) {
-                        if(Object.keys(g_popup).length){
-                            g_popup.close();
-                        }
-
-                        g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                        let struct = new Object();
-                        if(g_readingTemplateList){
-                            let param = new Object
-                            let data = new Object;
-                            data.g_readingTemplateList = g_readingTemplateList;
-                            param.data = data;
-                            struct = param.data;
-                            struct.facilitySensitive = g_facilitySensitive;
-                            g_popup.struct = struct;
-                        }else{
-                            struct.facilitySensitive = g_facilitySensitive;
-                            g_popup.struct = struct;
-                        }
-
-                        g_popup.focus();
+                        _this.openReadingTemplatePopup();
                     })
                     this.$.settingBtn.addEventListener('click', function (event) {
                         // console.log("setting");
@@ -345,13 +325,13 @@
                     this.gridOptions.getContextMenuItems = (params) => {
                         let result = [
                             {
-                                name: 'delete',
+                                name: 'new template',
                                 action: function () {
-                                    _this.deleteReadingTemplate(params.node.data);
+                                    _this.openReadingTemplatePopup();
                                 }
                             },
                             {
-                                name: 'update',
+                                name: 'update template',
                                 action: function () {
                                     if(g_readingTemplateList.length>0){
                                         let data = params.node.data;
@@ -382,6 +362,12 @@
                                             g_popup.focus();
                                         }
                                     }
+                                }
+                            },
+                            {
+                                name: 'delete template',
+                                action: function () {
+                                    _this.deleteReadingTemplate(params.node.data);
                                 }
                             }
                         ];
@@ -637,7 +623,29 @@
                     this.gridOptions.api.deselectAll();
                 }
 
+                openReadingTemplatePopup(){
+                    if(Object.keys(g_popup).length){
+                        g_popup.close();
+                    }
 
+                    g_popup = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                    // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                    let struct = new Object();
+                    if(g_readingTemplateList){
+                        let param = new Object
+                        let data = new Object;
+                        data.g_readingTemplateList = g_readingTemplateList;
+                        param.data = data;
+                        struct = param.data;
+                        struct.facilitySensitive = g_facilitySensitive;
+                        g_popup.struct = struct;
+                    }else{
+                        struct.facilitySensitive = g_facilitySensitive;
+                        g_popup.struct = struct;
+                    }
+
+                    g_popup.focus();
+                }
 
             }
 
