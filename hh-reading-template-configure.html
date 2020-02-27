@@ -377,7 +377,8 @@
     let g_param = new Object();
     let _url = document.location.href;
 
-    document.addEventListener("DOMContentLoaded", () => {
+    // document.addEventListener("DOMContentLoaded", () => {
+    document.addEventListener("WebComponentsReady", () => {
         document.getElementById('title').noLabelFloat = true;
         document.getElementById('shortcut').noLabelFloat = true;
 
