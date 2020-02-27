@@ -323,54 +323,66 @@
                     };
 
                     this.gridOptions.getContextMenuItems = (params) => {
-                        let result = [
-                            {
-                                name: 'new template',
-                                action: function () {
-                                    _this.openReadingTemplatePopup();
-                                }
-                            },
-                            {
-                                name: 'update template',
-                                action: function () {
-                                    if(g_readingTemplateList.length>0){
-                                        let data = params.node.data;
-                                        data.g_readingTemplateList = g_readingTemplateList;
+                        let result = new Array();
+                        if(params.node){
+                            result = [
+                                {
+                                    name: 'new template',
+                                    action: function () {
+                                        _this.openReadingTemplatePopup();
                                     }
-                                    let struct = params.node.data;
-                                    if(g_popup.window == null){
-                                        g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                        // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                        struct.facilitySensitive = g_facilitySensitive;
-                                        g_popup.struct = struct;
-                                        // console.log(g_popup)
-                                        g_popup.focus();
-                                    }else{
-                                        if(!g_popup.window.closed){
-                                            g_popup.close();
+                                },
+                                {
+                                    name: 'update template',
+                                    action: function () {
+                                        if(g_readingTemplateList.length>0){
+                                            let data = params.node.data;
+                                            data.g_readingTemplateList = g_readingTemplateList;
+                                        }
+                                        let struct = params.node.data;
+                                        if(g_popup.window == null){
                                             g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                             // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
                                             struct.facilitySensitive = g_facilitySensitive;
                                             g_popup.struct = struct;
+                                            // console.log(g_popup)
                                             g_popup.focus();
-                                            // g_popup.reload();
                                         }else{
-                                            g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                            // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
-                                            struct.facilitySensitive = g_facilitySensitive;
-                                            g_popup.struct = struct;
-                                            g_popup.focus();
+                                            if(!g_popup.window.closed){
+                                                g_popup.close();
+                                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                                // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                                struct.facilitySensitive = g_facilitySensitive;
+                                                g_popup.struct = struct;
+                                                g_popup.focus();
+                                                // g_popup.reload();
+                                            }else{
+                                                g_popup  = window.open("/bower_components/hh-reading-template/hh-reading-template-configure.html", "rt_popup", "height=777, width=888,resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                                // g_popup = window.open("/hh-reading-template-configure.html", "rt_popup", "height=777, width=1700, resizable=yes,toolbar=no,status=0,location=no,menubar=no,scrollbars=0,dependent=yes");
+                                                struct.facilitySensitive = g_facilitySensitive;
+                                                g_popup.struct = struct;
+                                                g_popup.focus();
+                                            }
                                         }
                                     }
+                                },
+                                {
+                                    name: 'delete template',
+                                    action: function () {
+                                        _this.deleteReadingTemplate(params.node.data);
+                                    }
                                 }
-                            },
-                            {
-                                name: 'delete template',
-                                action: function () {
-                                    _this.deleteReadingTemplate(params.node.data);
+                            ];
+                        }else{
+                            result = [
+                                {
+                                    name: 'new template',
+                                    action: function () {
+                                        _this.openReadingTemplatePopup();
+                                    }
                                 }
-                            }
-                        ];
+                            ];
+                        }
                         return result;
                     }
 
