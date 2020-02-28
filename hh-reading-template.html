@@ -275,10 +275,11 @@
                             _this.openToast(message);
                         }
 
-                    })
+                    });
+
                     this.$.exportBtn.addEventListener('click', function (event) {
                         _this.exportRedingTemplateToJson();
-                    })
+                    });
                 }
 
                 constructor() {
@@ -374,6 +375,7 @@
                                 }
                             ];
                         }else{
+                            this.gridOptions.api.deselectAll();
                             result = [
                                 {
                                     name: 'new template',
