@@ -371,13 +371,11 @@
     </div>
 </div>
 <script>
-    let g_tempSelected = new Array();
     let g_readingTemplate = new Object();
     let g_readingTemplateList = new Object();
     let g_param = new Object();
     let _url = document.location.href;
 
-    // document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener("WebComponentsReady", () => {
         document.getElementById('title').noLabelFloat = true;
         document.getElementById('shortcut').noLabelFloat = true;
@@ -472,44 +470,39 @@
 
         document.getElementById('hhTemplateStudyDescription').addEventListener('selectedStudDesc',function (e) {
             g_readingTemplate.studyDescription = e.detail.studyDesc;
-        })
+        });
 
-        window.onload = function(){
-            // document.getElementById('hhTemplateModalitySensitive').setCheckSensitiveList(g_param.modality);
-            // document.getElementById('hhTemplateBodypartSensitive').setCheckSensitiveList(g_param.bodypart);
+        if(window.struct && window.struct.facilitySensitive){
+            if(window.struct.facilitySensitive.modalityList && !window.struct.facilitySensitive.bodypartList){
+                let param = new Object();
+                param.modalityList = window.struct.facilitySensitive.modalityList;
+                setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+            }
+            if(!window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
+                let param = new Object();
+                param.modalityList = window.struct.facilitySensitive.modalityList;
+                param.bodypartList = window.struct.facilitySensitive.bodypartList;
+
+                setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
+            }
+            if(window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
+                let param = new Object();
+                param.modalityList = window.struct.facilitySensitive.modalityList;
+                param.bodypartList = window.struct.facilitySensitive.bodypartList;
+
+                setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
+                setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
+            }
         }
 
-        document.getElementById('hhTemplateBodypartSensitive').addEventListener('onReady', e => {
-            if(window.struct){
-                if(window.struct.facilitySensitive){
-                    if(window.struct.facilitySensitive.modalityList && !window.struct.facilitySensitive.bodypartList){
-                        let param = new Object();
-                        param.modalityList = window.struct.facilitySensitive.modalityList;
-                        setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
-                    }
-                    if(!window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
-                        let param = new Object();
-                        param.modalityList = window.struct.facilitySensitive.modalityList;
-                        param.bodypartList = window.struct.facilitySensitive.bodypartList;
-
-                        setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
-                        setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
-                    }
-                    if(window.struct.facilitySensitive.modalityList && window.struct.facilitySensitive.bodypartList){
-                        let param = new Object();
-                        param.modalityList = window.struct.facilitySensitive.modalityList;
-                        param.bodypartList = window.struct.facilitySensitive.bodypartList;
-
-                        setModalitySensitiveList(window.struct.facilitySensitive.modalityList);
-                        setBodypartSensitiveList(window.struct.facilitySensitive.bodypartList);
-                    }
-                }
-
-                if(window.struct.seqNo){
-                    setReadingTemplate(window.struct);
-                }
-            }
-        });
+        if(window.struct && window.struct.seqNo){
+            setReadingTemplate(window.struct);
+        }
+        // window.onload = function(){
+        // document.getElementById('hhTemplateModalitySensitive').setCheckSensitiveList(g_param.modality);
+        // document.getElementById('hhTemplateBodypartSensitive').setCheckSensitiveList(g_param.bodypart);
+        // }
     }); // ready
 
     function getSensitiveList(){
@@ -586,6 +579,7 @@
     }
 
     function setModalitySensitiveList(modalityList){
+        console.log(modalityList);
         let param = new Object();
         param.sensitiveList = modalityList;
         document.getElementById("hhTemplateModalitySensitive").setSensitiveList(param);
