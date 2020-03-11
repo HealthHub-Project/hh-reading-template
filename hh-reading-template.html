@@ -574,26 +574,15 @@
                     reader.readAsText(readFile[0]);
                     reader.onload = function(){
                         let result = JSON.parse(reader.result);
-                        let cnt =0;
                         for(let i=0; i<result.length; i++){
                             g_readingTemplateList.push(result[i]);
-                            cnt ++;
-                            if(cnt == result.length){
-                                let cnt2 = 0;
-                                for(let j=0; j<g_readingTemplateList.length; j++) {
-                                    g_readingTemplateList[j].seqNo = j+1;
-                                    let param = new Object();
-                                    let detail = new Object();
-                                    detail.readingTemplate = g_readingTemplateList[j];
-                                    param.detail = detail;
-                                    _this.dispatchEvent(new CustomEvent('saveReadingTemplateEvent', param));
-                                    cnt2++;
-                                    if (cnt2 == g_readingTemplateList.length) {
-                                        _this.gridOptions.api.setRowData(g_readingTemplateList);
-                                    }
-                                }
-                            }
                         }
+
+                        let param = new Object();
+                        let detail = new Object();
+                        detail.readingTemplate = g_readingTemplateList;
+                        param.detail = detail;
+                        _this.dispatchEvent(new CustomEvent('importReadingTemplateEvent', param));
                     }
                 }
 
